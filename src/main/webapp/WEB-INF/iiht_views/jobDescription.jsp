@@ -47,7 +47,7 @@
                             Tests
                         </a>
                         <a href="#" class="view-more active">
-                            LMS Admin Users <i class="fa fa-angle-down"></i>
+                            Share Job Descriptions <i class="fa fa-angle-down"></i>
                         </a>
                        <div class="more-nav">
                             <div class="more-nav">
@@ -115,6 +115,18 @@
 							<a href="showMeetings">
                                 Meetings
                             </a>
+							 <a href="recruiters">
+                                Manager Recruiters
+                            </a>
+                            <a href="jobDescriptions">
+                                Share Job Descriptions
+                            </a>
+                            <a href="profileForJobDescription">
+                                Next Steps for Job Applications 
+                            </a>
+							<a href="applicationTracking">
+                                Job Applications Tracker 
+                            </a>
                         </div>
                         </div>
                     </nav>
@@ -143,7 +155,7 @@
                         <div class="col-xs-12 col-md-6 mb-3">
                            <form action="searchRecruiter"  method="get">
                                 <div class="input-group mb-0">
-                                    <input type="text" class="form-control" placeholder="Search Recruitment" name="searchText" id="searchText" value="${param.searchText}">
+                                    <input type="text" class="form-control" placeholder="Search Descriptions" name="searchText" id="searchText" value="${param.searchText}">
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-primary" type="button" id="search"><i class="fa fa-search"></i></button>                                        
                                     </div>

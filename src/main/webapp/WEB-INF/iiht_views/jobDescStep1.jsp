@@ -69,7 +69,7 @@
                             Tests
                         </a>
                         <a href="#" class="view-more active">
-                            Campaigns <i class="fa fa-angle-down"></i>
+                            Create or Update JD Wizard<i class="fa fa-angle-down"></i>
                         </a>
                         <div class="more-nav">
                             <a href="newSkills">
@@ -129,6 +129,18 @@
                             </a>
 							<a href="showCampaigns">
                                 Campaigns
+                            </a>
+							<a href="recruiters">
+                                Manager Recruiters
+                            </a>
+                            <a href="jobDescriptions">
+                                Share Job Descriptions
+                            </a>
+                            <a href="profileForJobDescription">
+                                Next Steps for Job Applications 
+                            </a>
+							<a href="applicationTracking">
+                                Job Applications Tracker 
                             </a>
                         </div>
                     </nav>
