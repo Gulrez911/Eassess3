@@ -25,7 +25,7 @@ public class CandidateDetailsForJD extends Base {
 
 	Integer keywordCountInCV;
 
-	String relevancyToJobDesc;   //Relevancy to Job Desc in terms of percentage
+	Integer relevancyToJobDesc;   //Relevancy to Job Desc in terms of percentage
 
 	Long jobDescId;
 
@@ -134,11 +134,11 @@ public class CandidateDetailsForJD extends Base {
 		this.certifications = certifications;
 	}
 
-	public String getRelevancyToJobDesc() {
+	public Integer getRelevancyToJobDesc() {
 		return relevancyToJobDesc;
 	}
 
-	public void setRelevancyToJobDesc(String relevancyToJobDesc) {
+	public void setRelevancyToJobDesc(Integer relevancyToJobDesc) {
 		this.relevancyToJobDesc = relevancyToJobDesc;
 	}
 

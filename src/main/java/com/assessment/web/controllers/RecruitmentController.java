@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.assessment.Exceptions.AssessmentGenericException;
 import com.assessment.common.CommonUtil;
 import com.assessment.common.PropertyConfig;
 import com.assessment.common.util.NavigationConstants;
@@ -45,6 +46,7 @@ import com.assessment.repositories.RecruitCandidateProfileRepository;
 import com.assessment.services.CampaignService;
 import com.assessment.services.JobDescriptionRecruiterService;
 import com.assessment.services.JobDescriptionService;
+import com.assessment.services.RecruitCandidateProfileService;
 import com.assessment.services.UserService;
 
 @Controller
@@ -70,6 +72,11 @@ public class RecruitmentController {
 	RecruitCandidateProfileRepository recruitCandidateProfileRepository;
 	@Autowired
 	CandidateDetailsForJDRepository jdRepository;
+	
+	@Autowired
+	RecruitCandidateProfileService recruitCandidateProfileService;
+	
+	
 
 	@GetMapping("/recruiters")
 	public ModelAndView recruitment(@RequestParam(name = "page", required = false) Integer pageNumber, HttpServletRequest request, HttpServletResponse response,
@@ -307,7 +314,7 @@ public class RecruitmentController {
 //			String child = "<tr id=\"T${ID}\">	<td>		<input type=\"checkbox\" name=\"${ID}\" id=\"${ID}\" onchange=\"changeCandidateCheckbox(this, '${CAMPAIGN_NAME}')\">	</td>	<td>		${FIRSTNAME}, ${LASTNAME}	</td>	<td>		${EMAIL}	</td></tr>";
 			String child = "<tr id=\"T${ID}\">	<td>		<input type=\"radio\" name=\"campaignId\" id=\"${ID}\" onchange=\"selectCampaign(this)\">	</td>	<td>		${CAMPAIGN_NAME}	</td>	<td>		${CAMPAIGN_DESC}	</td></tr>";
 
-			child = child.replace("${CAMPAIGN_NAME}", campaign.getCampaignName());
+			child = child.replace("${CAMPAIGN_NAME}", campaign.getCampaignName() == null?"NA":campaign.getCampaignName());
 			child = child.replace("${CAMPAIGN_DESC}", campaign.getCampaignDesc() == null ? "NA" : campaign.getCampaignDesc());
 //			child = child.replace("${EMAIL}", usr.getEmail());
 			child = child.replace("${ID}", campaign.getId() + "");
@@ -360,12 +367,16 @@ public class RecruitmentController {
 		if (email != null) {
 			candidateProfile.setEmail(email);
 		}
+		else{
+			throw new AssessmentGenericException("EMAIL_MANDATORY");
+		}
 		candidateProfile.setRecruiterEmail(user.getEmail());
 		candidateProfile.setJobDescriptionId(jobId);
 		candidateProfile.setCandidateCVName(uploadFile.getOriginalFilename());
 		candidateProfile.setCandidateCVURL(propertyConfig.getFileServerWebUrl() + "Files" + File.separator + user.getRecruitmentCompanyName() + File.separator
 									+ user.getEmail() + File.separator + jobId + File.separator + uploadFile.getOriginalFilename());
-		recruitCandidateProfileRepository.save(candidateProfile);
+		recruitCandidateProfileService.saveOrUpdate(candidateProfile);
+		//recruitCandidateProfileRepository.save(candidateProfile);
 //		}
 		return "ok";
 	}
@@ -374,7 +385,8 @@ public class RecruitmentController {
 	@ResponseBody
 	public String getCandidateProfile(@RequestParam Long jobId, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
-		List<RecruitCandidateProfile> candidateProfiles = recruitCandidateProfileRepository.findByJobDescriptionIdAndRecruiterEmail(jobId, user.getEmail());
+		//List<RecruitCandidateProfile> candidateProfiles = recruitCandidateProfileRepository.findByJobDescriptionIdAndRecruiterEmail(jobId, user.getEmail());
+		List<RecruitCandidateProfile> candidateProfiles = recruitCandidateProfileRepository.findByJobDescriptionIdAndRecruiterEmailAndCompanyId(jobId, user.getEmail(), user.getCompanyId());
 
 		Page<User> users = userService.findUsersByTypeAndCompany(user.getCompanyId(), UserType.RECRUITER.getType(), PageRequest.of(0, 100));
 		String parent = "<table class=\"table\">	<thead>		<tr>  <th>				Name			</th>			<th>			Email				</th><th>		View Profile					</th>		</tr>	</thead>	<tbody>		${ROWS}			</tbody></table>";
