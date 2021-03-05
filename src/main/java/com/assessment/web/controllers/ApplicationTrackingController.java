@@ -25,6 +25,7 @@ import com.assessment.data.RecruitCandidateProfile;
 import com.assessment.data.ReviewerComment;
 import com.assessment.data.User;
 import com.assessment.repositories.JobDescriptionRepository;
+import com.assessment.repositories.RecruitCandidateProfileRepository;
 import com.assessment.services.CampaignService;
 import com.assessment.services.JobDescriptionService;
 import com.assessment.services.RecruitCandidateProfileService;
@@ -51,6 +52,9 @@ public class ApplicationTrackingController {
 	
 	@Autowired
 	ReviewerCommentService reviewCommentservice;
+	
+	@Autowired
+	RecruitCandidateProfileRepository candidatesRep;
 	
 	
 	@GetMapping("/applicationTracking")
@@ -142,6 +146,27 @@ public class ApplicationTrackingController {
 				
 			}
 			mav.addObject("dtos", dtos);
+		return mav;
+	}
+	
+	@GetMapping("/apprepository")
+	public ModelAndView apprepository(@RequestParam(name = "page", required = false) Integer pageNumber, @RequestParam(name = "search", required = false) String search, @RequestParam(name = "sort", required = false) String sort,
+								HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+		ModelAndView mav = new ModelAndView("apprepository");
+		User user = (User) request.getSession().getAttribute("user");
+		
+		if (pageNumber == null) {
+			pageNumber = 0;
+		}
+		
+		
+		Page<RecruitCandidateProfile> profiles =  candidatesRep.getAllProfiles(user.getCompanyId(), sort==null?"ASC":sort, search==null?"":search, PageRequest.of(pageNumber, 15));
+		mav.addObject("profiles", profiles.getContent());
+		CommonUtil.setCommonAttributesOfPagination(profiles, modelMap, pageNumber, "apprepository", null);
+		
+	
+		mav.addObject("user", user);
+		
 		return mav;
 	}
 }

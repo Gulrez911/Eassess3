@@ -127,6 +127,9 @@
 							<a href="applicationTracking">
                                 Job Applications Tracker 
                             </a>
+							<a href="apprepository">
+                                Candidate Repository
+                            </a>
                         </div>
                         </div>
                     </nav>

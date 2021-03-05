@@ -1,6 +1,10 @@
 package com.assessment.data;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public class RecruitCandidateProfile extends Base{
@@ -18,6 +22,26 @@ public class RecruitCandidateProfile extends Base{
 	Long jobDescriptionId;
 	
 	String recruiterEmail;
+	
+	@Transient
+	String jobDescriptionName;
+	
+	@Transient
+	String dateWhenFirstApplied;
+	
+	public RecruitCandidateProfile(){
+		
+	}
+	
+	public RecruitCandidateProfile(String firstName, String lastName, String email, String candidateCVURL, String recruiterEmail, String jobDescriptionName, Date createDate ){
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.candidateCVURL = candidateCVURL;
+		this.recruiterEmail = recruiterEmail;
+		this.jobDescriptionName = jobDescriptionName;
+		this.createDate = createDate;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -74,5 +98,29 @@ public class RecruitCandidateProfile extends Base{
 	public void setRecruiterEmail(String recruiterEmail) {
 		this.recruiterEmail = recruiterEmail;
 	}
+
+	public String getJobDescriptionName() {
+		return jobDescriptionName;
+	}
+
+	public void setJobDescriptionName(String jobDescriptionName) {
+		this.jobDescriptionName = jobDescriptionName;
+	}
+
+	public String getDateWhenFirstApplied() {
+			if(getCreateDate() != null){
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+				return dateFormat.format(getCreateDate());
+			}
+		return "NA";
+	}
+
+	public void setDateWhenFirstApplied(String dateWhenFirstApplied) {
+		this.dateWhenFirstApplied = dateWhenFirstApplied;
+	}
+
+	
+	
+	
 	
 }

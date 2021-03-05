@@ -8,7 +8,7 @@
 <%@ page import="com.assessment.data.*, java.text.*, java.util.*"%>
 <html>
     <head>
-		<title>eAssess</title>
+		<title>eAssess.</title>
        	<link href="images/E-assess_E.png" rel="shortcut icon">     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -57,7 +57,7 @@
                             Tests
                         </a>
                         <a href="#" class="view-more active">
-                            Job Applications Tracker <i class="fa fa-angle-down"></i>
+                            Candidate Repository <i class="fa fa-angle-down"></i>
                         </a>
                        <div class="more-nav">
                             <div class="more-nav">
@@ -158,51 +158,56 @@
                 <div class="container-fluid">
                     <div class="page-header mb-4" style="margin: 0px;border-bottom: none;">
                      <h1 class="my-auto">Applications for ${jobDescName}</h1>
-                        <div class="quick-actions my-auto">
-                            
-							 <button class="btn btn-outline-primary" type="button" id="Download">Download Applications Summary for ${jobDescName}</button> 
-							 <button type="button" class="btn btn-primary"  onclick="javascript:location.href='applicationTracking'">
-                                Go back
-                            </button>
-                        </div>
+                        
                     </div>
                     <div class="row">
-                       
-                       <c:forEach  items="${dtos}" var="dto" >   
-            			            <div class="col-xs-12 col-md-4 col-xl-3 mb-3">
-			                            <div class="card">
-			                                <div class="card-header">
-			                                    Profile
-			                                    <div class="actions">
-			                                       
-			                                        <div class="options" style="cursor: pointer;display:block">
-			                                            <a  class="text-warning" onclick="viewSkillProfile('${dto.profileLink}')" >
-			                                                <i class="fa fa-edit mr-2"></i> View Skill Profile 
-															
-			                                            </a>
-			                                            
-			                                        </div>
-			                                    </div>
-			                                </div>
-			                                <div class="card-body">
-											<p>
-											<a   href="${dto.profileLink}" target="_blank" >
-			                                                <i class="fa fa-edit mr-2"></i> View Candidate Profile 
-															
-			                                            </a>
-														</p>
-			                                    <h5 class="card-title">Date Uploaded:<span class="text-primary"> ${dto.profileUploadDate}  </span></h5>
+                       <div class="col-xs-12 col-md-6 mb-3">
+                           <form action="apprepository"  method="get">
+                                <div class="input-group mb-0">
+                                    <input type="text" class="form-control" placeholder="Search Profiles" name="search" id="search" >
+									<select name="sort" id="sort">
+									  <option value="ASC">Date Asc</option>
+									  <option value="DESC">Date Desc</option>
+									  
+									</select>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-primary" type="button" id="searchButton"><i class="fa fa-search"></i></button>                                        
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-12">
 
-								<p class="card-text"><span class="text-primary" style="color:black !important">${dto.candidateName}</span></p> 
-								<p class="card-text"><span class="text-primary">Interview Mode : ${dto.directInterview}</span></p>
-<p class="card-text"><span class="text-primary" style="color:red !important">Source of Profile : ${dto.sourceOfProfile}</span></p> 	
-<p class="card-text"><span class="text-primary" >Assessments : ${dto.assessments}</span></p> 	
-<p class="card-text"><span class="text-primary" style="color:red !important">Stage : ${dto.stageOfProfile}</span></p> 	
-<p class="card-text"><span class="text-primary" style="color:darkcyan !important">Feedback : ${dto.interviewerFeedback}</span></p> 							
-			                                </div>
-			                            </div>
-			                        </div>
-                                  	</c:forEach> 
+                        </div>
+						<table class="table table-bordered">
+						<thead>
+						  <tr>
+							<th>Candidate First Name</th>
+							<th>Last Name</th>
+							<th>Email</th>
+							<th>Candidate Profile</th>
+							<th>Recruiter Email</th>
+							<th>Job Description</th>
+							<th>Date of Application</th>
+						  </tr>
+						</thead>
+						<tbody>
+						 <c:forEach  items="${profiles}" var="profile" >  
+						  <tr>
+							<td>${profile.firstName}</td>
+							<td>${profile.lastName}</td>
+							<td>${profile.email}</td>
+							<td><a href="${profile.candidateCVURL}" target="_blank" > Click</a> </td>
+							<td>${profile.recruiterEmail}</td>
+							<td>${profile.jobDescriptionName}</td>
+							<td>${profile.dateWhenFirstApplied}</td>
+						  </tr>
+						 </c:forEach> 
+						</tbody>
+					  </table>
+						
+                       
+            			             
                         <div class="col-12 text-center mt-5">
                             <ul class="custom-pagination">
                                 <c:if test="${showPreviousPage}">
@@ -272,11 +277,18 @@
                 }
             });
 
-        	$('#search').on('click',function(){
-        	    var text = document.getElementById("searchText").value;
-        		if(text.length != 0){
-        		window.location="applicationTracking?searchText="+text;
-        		}
+        	$('#searchButton').on('click',function(){
+        	    var text = document.getElementById("search").value;
+				
+				var e = document.getElementById("sort");
+				var st = e.value;
+				
+					if(text.length != 0){
+					window.location="apprepository?sort="+st+"search="+text;
+					}
+					else{
+						window.location="apprepository?sort="+st;
+					}
         	    });
  
         	function viewAppTrackerForJD(id) {

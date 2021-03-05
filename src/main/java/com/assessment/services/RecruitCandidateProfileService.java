@@ -11,5 +11,7 @@ public interface RecruitCandidateProfileService {
 	public RecruitCandidateProfile saveOrUpdate(RecruitCandidateProfile candidateProfile);
 	
 	public List<RecruitCandidateProfile> findByJobDescAndCompanyId(Long jid, String companyId);
+	
+	
 
 }

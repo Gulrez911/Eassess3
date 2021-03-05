@@ -1,7 +1,10 @@
 package com.assessment.repositories;
 
 import java.util.List;
+import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +22,13 @@ public interface RecruitCandidateProfileRepository extends JpaRepository<Recruit
 	
 	
 	List<RecruitCandidateProfile> findByJobDescriptionIdAndCompanyId(Long jobDescriptionId, String companyId);
+	
+	
+	//RecruitCandidateProfile
+	
+	@Query("SELECT " +
+	           "    new com.assessment.data.RecruitCandidateProfile(r.firstName, r.lastName, r.email, r.candidateCVURL, r.recruiterEmail, j.name, r.createDate) " +
+	           "FROM " +
+	           "    RecruitCandidateProfile r, JobDescription j WHERE r.companyId=:companyId and r.jobDescriptionId=j.id  and (j.name LIKE %:search% OR r.firstName LIKE %:search% OR r.lastName LIKE %:search% OR r.email LIKE %:search% OR r.recruiterEmail LIKE %:search%) order by  :sort")
+	public Page<RecruitCandidateProfile> getAllProfiles(@Param("companyId")String companyId,  @Param("sort")String sort, @Param("search")String search, Pageable pageable);
 }
