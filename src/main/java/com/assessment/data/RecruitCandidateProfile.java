@@ -18,6 +18,16 @@ public class RecruitCandidateProfile extends Base{
 	Long jobDescriptionId;
 	
 	String recruiterEmail;
+	
+	String jobDescriptionName;
+	
+	public String getJobDescriptionName() {
+		return jobDescriptionName;
+	}
+
+	public void setJobDescriptionName(String jobDescriptionName) {
+		this.jobDescriptionName = jobDescriptionName;
+	}
 
 	public String getFirstName() {
 		return firstName;

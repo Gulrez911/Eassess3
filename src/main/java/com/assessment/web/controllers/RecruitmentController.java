@@ -2,7 +2,9 @@ package com.assessment.web.controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLDecoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,21 +30,24 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.assessment.common.CommonUtil;
 import com.assessment.common.PropertyConfig;
+import com.assessment.common.util.EmailGenericMessageThread;
 import com.assessment.common.util.NavigationConstants;
 import com.assessment.data.Campaign;
-import com.assessment.data.CampaignCandidate;
-import com.assessment.data.CandidateDetailsForJD;
+import com.assessment.data.CampaignTest;
+import com.assessment.data.CandidateCampaignSchedule;
 import com.assessment.data.JobDescription;
 import com.assessment.data.JobDescriptionRecruiter;
 import com.assessment.data.RecruitCandidateProfile;
 import com.assessment.data.User;
 import com.assessment.data.UserType;
 import com.assessment.repositories.CampaignRepository;
+import com.assessment.repositories.CandidateCampaignScheduleRepository;
 import com.assessment.repositories.CandidateDetailsForJDRepository;
 import com.assessment.repositories.JobDescriptionRecruiterRepository;
 import com.assessment.repositories.JobDescriptionRepository;
 import com.assessment.repositories.RecruitCandidateProfileRepository;
 import com.assessment.services.CampaignService;
+import com.assessment.services.CandidateCampaignScheduleService;
 import com.assessment.services.JobDescriptionRecruiterService;
 import com.assessment.services.JobDescriptionService;
 import com.assessment.services.UserService;
@@ -70,6 +75,10 @@ public class RecruitmentController {
 	RecruitCandidateProfileRepository recruitCandidateProfileRepository;
 	@Autowired
 	CandidateDetailsForJDRepository jdRepository;
+	@Autowired
+	CandidateCampaignScheduleRepository campaignScheduleRepository;
+	@Autowired
+	CandidateCampaignScheduleService campaignScheduleService;
 
 	@GetMapping("/recruiters")
 	public ModelAndView recruitment(@RequestParam(name = "page", required = false) Integer pageNumber, HttpServletRequest request, HttpServletResponse response,
@@ -89,18 +98,30 @@ public class RecruitmentController {
 
 	@PostMapping("/saveRecruiter")
 	public ModelAndView saveRecruiter(@RequestParam(name = "page", required = false) Integer pageNumber, @ModelAttribute("usr") User usr, HttpServletRequest request,
-								HttpServletResponse response, ModelMap modelMap) {
+								HttpServletResponse response, ModelMap modelMap) throws IOException {
 		ModelAndView mav = new ModelAndView("recruiters");
 		User user = (User) request.getSession().getAttribute("user");
 		usr.setCompanyId(user.getCompanyId());
 		usr.setCompanyName(user.getCompanyName());
 		usr.setUserType(UserType.RECRUITER);
 		userService.saveOrUpdateRecruiter(usr);
+		String html = FileUtils.readFileToString(new File(propertyConfig.getSendCredentialsToStudent()));
+		html = html.replace("{FULL_NAME}", usr.getFirstName() + " " + usr.getLastName());
+		html = html.replace("{BASE_URL}", propertyConfig.getBaseUrl());
+		html = html.replace("{USER}", usr.getEmail());
+		html = html.replace("{PASSWORD}", usr.getPassword());
+		EmailGenericMessageThread client = new EmailGenericMessageThread(usr.getEmail(), "Registration Credentials - " + propertyConfig.getBaseUrl(), html,
+									propertyConfig);
+		Thread thread = new Thread(client);
+		thread.start();
 		if (pageNumber == null) {
 			pageNumber = 0;
 		}
 		Page<User> users = userService.findUsersByTypeAndCompany(user.getCompanyId(), UserType.RECRUITER.getType(),
 									PageRequest.of(pageNumber, NavigationConstants.NO_RECRUITER_PAGE));
+		mav.addObject("msgtype", "Information");
+		mav.addObject("message", "Recruiter saved successfully");
+		mav.addObject("icon", "success");
 		mav.addObject("usr", usr);
 		mav.addObject("users", users.getContent());
 		CommonUtil.setCommonAttributesOfPagination(users, modelMap, pageNumber, "recruiters", null);
@@ -134,6 +155,24 @@ public class RecruitmentController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/searchJobDescriptions", method = RequestMethod.GET)
+	public ModelAndView searchJobDescriptions(@RequestParam(name = "page", required = false) Integer pageNumber, @RequestParam String searchText, HttpServletResponse response,
+								HttpServletRequest request) throws Exception {
+		User user = (User) request.getSession().getAttribute("user");
+		if (pageNumber == null) {
+			pageNumber = 0;
+		}
+		Page<JobDescription> descriptions = descriptionService.searchJobDescription(user.getCompanyId(), searchText,
+									PageRequest.of(pageNumber, NavigationConstants.NO_JOBDESCRIPTION_PAGE));
+		ModelAndView mav = new ModelAndView("jobDescription");
+		mav.addObject("descriptions", descriptions.getContent());
+		Map<String, String> queryParams = new HashMap<>();
+		CommonUtil.setCommonAttributesOfPagination(descriptions, mav.getModelMap(), pageNumber, "searchJobDescriptions", queryParams);
+		return mav;
+	}
+
+
+	
 	@GetMapping("/jobDescriptions")
 	public ModelAndView jobDescription(@RequestParam(name = "page", required = false) Integer pageNumber, @RequestParam(name = "msg", required = false) String msg,
 								HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
@@ -147,7 +186,8 @@ public class RecruitmentController {
 		if (pageNumber == null) {
 			pageNumber = 0;
 		}
-		Page<JobDescription> descriptions = descriptionService.findByCompanyId(user.getCompanyId(), PageRequest.of(pageNumber, NavigationConstants.NO_RECRUITER_PAGE));
+		Page<JobDescription> descriptions = descriptionService.findByCompanyId(user.getCompanyId(),
+									PageRequest.of(pageNumber, NavigationConstants.NO_JOBDESCRIPTION_PAGE));
 //			 mav.addObject("usr", new User());
 		mav.addObject("descriptions", descriptions.getContent());
 		CommonUtil.setCommonAttributesOfPagination(descriptions, modelMap, pageNumber, "jobDescriptions", null);
@@ -277,6 +317,7 @@ public class RecruitmentController {
 		JobDescription description2 = descriptionRepository.findByPrimaryKey(description.getName(), user.getCompanyId());
 		if (description2 != null) {
 			descriptionRecruiter.setJobDescriptionId(description2.getId());
+			descriptionRecruiter.setJobDescriptionName(description.getName());
 		}
 		descriptionRecruiterService.saveOrUpdate(descriptionRecruiter);
 //			campaignCandidateService.saveOrUpdate(campaignCandidate);
@@ -395,6 +436,38 @@ public class RecruitmentController {
 //		return map;
 	}
 
+	@RequestMapping(value = "/searchJobDescription2", method = RequestMethod.GET)
+	public ModelAndView searchJobDescription2(@RequestParam(name = "page", required = false) Integer pageNumber, @RequestParam String searchText, HttpServletResponse response,
+								HttpServletRequest request) throws Exception {
+		User user = (User) request.getSession().getAttribute("user");
+		if (pageNumber == null) {
+			pageNumber = 0;
+		}
+		Page<JobDescription> descriptions = descriptionService.searchJobDescription(user.getCompanyId(), searchText,
+									PageRequest.of(pageNumber, NavigationConstants.NO_JOBDESCRIPTION_PAGE));
+		ModelAndView mav = new ModelAndView("jobDescriptionProfile");
+		mav.addObject("descriptions", descriptions.getContent());
+		Map<String, String> queryParams = new HashMap<>();
+		CommonUtil.setCommonAttributesOfPagination(descriptions, mav.getModelMap(), pageNumber, "searchJobDescription2", queryParams);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/searchJobDescription3", method = RequestMethod.GET)
+	public ModelAndView searchJobDescription3(@RequestParam(name = "page", required = false) Integer pageNumber, @RequestParam String searchText, HttpServletResponse response,
+								HttpServletRequest request) throws Exception {
+		User user = (User) request.getSession().getAttribute("user");
+		if (pageNumber == null) {
+			pageNumber = 0;
+		}
+		Page<JobDescription> descriptions = descriptionService.searchJobDescription(user.getCompanyId(), searchText,
+									PageRequest.of(pageNumber, NavigationConstants.NO_JOBDESCRIPTION_PAGE));
+		ModelAndView mav = new ModelAndView("recruiterDashboard");
+		mav.addObject("descriptions", descriptions.getContent());
+		Map<String, String> queryParams = new HashMap<>();
+		CommonUtil.setCommonAttributesOfPagination(descriptions, mav.getModelMap(), pageNumber, "searchJobDescription3", queryParams);
+		return mav;
+	}
+	
 	@GetMapping("/profileForJobDescription")
 	public ModelAndView profileForJobDescription(@RequestParam(name = "page", required = false) Integer pageNumber, HttpServletRequest request, HttpServletResponse response,
 								ModelMap modelMap) {
@@ -403,10 +476,10 @@ public class RecruitmentController {
 		if (pageNumber == null) {
 			pageNumber = 0;
 		}
-		Page<JobDescription> descriptions = descriptionService.findByCompanyId(user.getCompanyId(), PageRequest.of(pageNumber, NavigationConstants.NO_RECRUITER_PAGE));
+		Page<JobDescription> descriptions = descriptionService.findByCompanyId(user.getCompanyId(), PageRequest.of(pageNumber, NavigationConstants.NO_JOBDESCRIPTION_PAGE));
 //			 mav.addObject("usr", new User());
 		mav.addObject("descriptions", descriptions.getContent());
-		CommonUtil.setCommonAttributesOfPagination(descriptions, modelMap, pageNumber, "jobDescriptions", null);
+		CommonUtil.setCommonAttributesOfPagination(descriptions, modelMap, pageNumber, "profileForJobDescription", null);
 		return mav;
 	}
 
@@ -414,26 +487,31 @@ public class RecruitmentController {
 	@ResponseBody
 	public String getCandidates(@RequestParam(name = "id", required = false) Long id, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
-		List<CandidateDetailsForJD> candidateDetailsForJDs = jdRepository.findByRelvancy(user.getCompanyId(), id);
-		
+//		List<CandidateDetailsForJD> candidateDetailsForJDs = jdRepository.findByRelvancy(user.getCompanyId(), id);
+
+		List<RecruitCandidateProfile> candidateProfiles = recruitCandidateProfileRepository.findByCompanyId(user.getCompanyId());
+
 		String parent = "<table class=\"table\">	<thead>	<tr><th>JD Name</th><th>Candidate</th>	<th>  View Parsing Details </th><th>   Bucket	</th><th>    No. Of relevant Years    </th><th>    Current Location   </th><th>    Source    </th><th>   Connect    </th>	<th>   Initiate Next Steps	  </th></tr>	</thead>	<tbody>		${ROWS}			</tbody></table>";
 		String childs = "";
-		for (CandidateDetailsForJD  jd : candidateDetailsForJDs) {
+//		for (CandidateDetailsForJD  jd : candidateDetailsForJDs) {
+		for (RecruitCandidateProfile jd : candidateProfiles) {
 //			String child = "<tr id=\"T${ID}\">	<td>		<input type=\"checkbox\" name=\"${ID}\" id=\"${ID}\" onchange=\"changeCandidateCheckbox(this, '${CAMPAIGN_NAME}')\">	</td>	<td>		${FIRSTNAME}, ${LASTNAME}	</td>	<td>		${EMAIL}	</td></tr>";
 			String child = "<tr>	<td>		${JDNAME}</td>	<td>		${CANDIDATE}	</td>	<td>		${PARSE}	</td><td>${BUCKET}</td><td>${RELEVANT_YEARS}</td><td>${CURRENT_LOCATION}</td><td>${SOURCE}</td><td>${CONNECT}</td><td><a href=\"javascript:openScheduleModel(${ARGS})\">Schedule</a></td></tr>";
 
-			child = child.replace("${JDNAME}", jd.getJobDescName());
-			child = child.replace("${CANDIDATE}", jd.getCandidateName());
+			child = child.replace("${JDNAME}", jd.getJobDescriptionName() == null ? "NA" : jd.getJobDescriptionName());
+			child = child.replace("${CANDIDATE}", jd.getFirstName() + " " + jd.getLastName());
 //			child = child.replace("${FIRSTNAME}", candidateProfile.getFirstName() == null ? "NA" : candidateProfile.getFirstName());
 			child = child.replace("${PARSE}", "<a href='#'>Click Here</a>");
 			child = child.replace("${BUCKET}", "NA");
-			child = child.replace("${RELEVANT_YEARS}", jd.getRelevantYears());
-			child = child.replace("${CURRENT_LOCATION}", jd.getCurrentLocation());
+//			child = child.replace("${RELEVANT_YEARS}", jd.getRelevantYears());
+			child = child.replace("${RELEVANT_YEARS}", "NA");
+//			child = child.replace("${CURRENT_LOCATION}", jd.getCurrentLocation());
+			child = child.replace("${CURRENT_LOCATION}", "NA");
 			child = child.replace("${SOURCE}", "NA");
 			child = child.replace("${CONNECT}", jd.getEmail());
 //			child = child.replace("${NEXT_STEP}", "<a href='javascript:openScheduleModel("  +jd.getJobDescName()+ '\'  ","+jd.getEmail()+")'>Schedule</a>");"
-			String args= "'" + jd.getJobDescName() + "','"+jd.getEmail() + "'";
-			  child = child.replace("${ARGS}",args);
+			String args = "'" + jd.getJobDescriptionName() + "','" + jd.getEmail() + "'";
+			child = child.replace("${ARGS}", args);
 //			child = child.replace("${CAMPAIGN_NAME}", URLEncoder.encode(campaignName));
 			childs += child;
 		}
@@ -441,4 +519,78 @@ public class RecruitmentController {
 		return parent;
 //		return map;
 	}
+
+	@GetMapping("/scheduleCampaign")
+	@ResponseBody
+	public String scheduleCampaign(@RequestParam(name = "jd", required = false) String jd, @RequestParam(name = "email", required = false) String email,
+								HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("user");
+		Map<String, Object> map = new HashMap<>();
+//		List<CandidateDetailsForJD> candidateDetailsForJDs = jdRepository.findByRelvancy(user.getCompanyId(), id);
+		RecruitCandidateProfile profile = recruitCandidateProfileRepository.findByEmailAndCompanyId(email, user.getCompanyId());
+//		map.put("email", usr.getEmail());
+//		map.put("name", usr.getFirstName()+" "+usr.getLastName());
+		JobDescription description = descriptionService.findbyPrimaryKey(jd, user.getCompanyId());
+//		map.put("campaignName", description.getCampaign().getCampaignName());
+//		map.put("skills", description.getCampaign().getSkillsForCampaign());
+//		map.put("tests", description.getCampaign().getRounds());
+		String parent = "<div class=\"col-sm-6  \">Candidate Details<br><b> Name:  </b>    ${FULL_NAME} <br><b>Email: </b><span id=\"email\">	${EMAIL}</span></div><div class=\"col-sm-6\"><b>Campaign Name: </b><span id=\"campName\"> ${CAMPAIGN_NAME}</span><br><br> <b>	Skills:</b> ${SKILLS}   <br><br><b>Tests: </b>${TESTS} <br><br>Interview  Start Date:  <input type=\"datetime-local\" class=\"form-control\" id=\"startDate\">	End Date: 	 <input type=\"datetime-local\" class=\"form-control\" id=\"endDate\"></div>";
+		parent = parent.replace("${FULL_NAME}", profile.getFirstName() + " " + profile.getLastName());
+		parent = parent.replace("${EMAIL}", profile.getEmail());
+		parent = parent.replace("${CAMPAIGN_NAME}", description.getCampaign().getCampaignName());
+//		parent = parent.replace("${CAMP_ID}", description.getCampaign().getId().toString());
+		String tests = "";
+		String skills = "";
+		for (CampaignTest round : description.getCampaign().getRounds()) {
+			tests += round.getTestName() + ", ";
+			skills += round.getTestSkills() + ", ";
+//			parent = parent.replace(	"${SKILLS}", round.getTestSkills()==null?"NA":round.getTestSkills());
+		}
+		parent = parent.replace("${SKILLS}", skills);
+		parent = parent.replace("${TESTS}", tests);
+//		parent = parent.replace("${FULL_NAME}",usr.getFirstName()+" "+usr.getLastName());
+		return parent;
+	}
+
+	@RequestMapping(value = "/shareScheduledCampaign", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> shareScheduledCampaign(@RequestParam(name = "startDate", required = false) String startDate,
+								@RequestParam(name = "endDate", required = false) String endDate,
+								@RequestParam(name = "email", required = false) String email,
+								@RequestParam(name = "campName", required = false) String campName, HttpServletRequest request,
+								HttpServletResponse response) throws Exception {
+		User user = (User) request.getSession().getAttribute("user");
+		Map<String, Object> map = new HashMap<>();
+
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		Date d1 = new Date();
+		Date d2 = new Date();
+		try {
+			d1 = dateFormat.parse(startDate);
+			d2 = dateFormat.parse(endDate);
+			if (d2.after(d1)) {
+				CandidateCampaignSchedule campaignSchedule = new CandidateCampaignSchedule();
+				campaignSchedule.setEmail(email);
+				campaignSchedule.setCompanyId(user.getCompanyId());
+				campaignSchedule.setCompanyName(user.getCompanyName());
+				campaignSchedule.setStartDate(d1);
+				campaignSchedule.setEndDate(d2);
+				campaignSchedule.setCampaignName(campName);
+				campaignScheduleService.saveOrUpdate(campaignSchedule);
+				map.put("msgType", "Information");
+				map.put("msg", "Campaign shared successfully");
+				map.put("icon", "success");
+
+			} else {
+				map.put("msgType", "Information");
+				map.put("msg", "Start date is after end date");
+				map.put("icon", "warning");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return map;
+	}
+
 }

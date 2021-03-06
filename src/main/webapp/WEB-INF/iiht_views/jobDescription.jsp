@@ -132,7 +132,7 @@
            <section class="content-section">
                 <div class="container-fluid">
                     <div class="page-header mb-4" style="margin: 0px;border-bottom: none;">
-                     <h1 class="my-auto">Recruiters</h1>
+                     <h1 class="my-auto">Job Description</h1>
                         <div class="quick-actions my-auto">
                             <button type="button" class="btn btn-primary"  onclick="javascript:location.href='createJobStep1'">
                                 Create Job Description
@@ -141,9 +141,9 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-md-6 mb-3">
-                           <form action="searchRecruiter"  method="get">
+                           <form action="searchJobDescriptions"  method="get">
                                 <div class="input-group mb-0">
-                                    <input type="text" class="form-control" placeholder="Search Recruitment" name="searchText" id="searchText" value="${param.searchText}">
+                                    <input type="text" class="form-control" placeholder="Search Job Description" name="searchText" id="searchText" value="${param.searchText}">
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-primary" type="button" id="search"><i class="fa fa-search"></i></button>                                        
                                     </div>
@@ -248,7 +248,7 @@
         	$('#search').on('click',function(){
         	    var text = document.getElementById("searchText").value;
         		if(text.length != 0){
-        		window.location="searchRecruiter?searchText="+text;
+        		window.location="searchJobDescriptions?searchText="+text;
         		}
         	    });
  
@@ -256,7 +256,12 @@
 				window.location="createJobStep1?id="+id;
 			}
 	          	
-      
+        	$('#search').on('click',function(){
+        	    var text = document.getElementById("searchText").value;
+        		if(text.length != 0){
+        		window.location="searchJobDescriptions?searchText="+text;
+        		}
+        	    });
         </script>
                 
             <c:if test="${msgtype != null}">

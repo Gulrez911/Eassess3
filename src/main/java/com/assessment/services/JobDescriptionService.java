@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.assessment.data.JobDescription;
+import com.assessment.data.User;
 
 public interface JobDescriptionService {
 	
@@ -19,5 +20,9 @@ public interface JobDescriptionService {
 	public Page<JobDescription> findByCompanyId(String companyId, Pageable pageable);
 	
 	public void deleteById(Long jid);
+	
+	Page<JobDescription> searchJobDescription( String companyId, String searchText, Pageable pageable);
+	
+	Page<JobDescription> searchJobDescriptionByRecruiter( String companyId, String recruiterEmail, String searchText, Pageable pageable);
 
 }

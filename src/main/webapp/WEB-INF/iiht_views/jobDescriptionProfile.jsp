@@ -132,13 +132,13 @@
            <section class="content-section">
                 <div class="container-fluid">
                     <div class="page-header mb-4" style="margin: 0px;border-bottom: none;">
-                     <h1 class="my-auto">Recruiters</h1>
+                     <h1 class="my-auto">Job Description</h1>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-md-6 mb-3">
-                           <form action="searchRecruiter"  method="get">
+                           <form action="searchJobDescription2"  method="get">
                                 <div class="input-group mb-0">
-                                    <input type="text" class="form-control" placeholder="Search Recruitment" name="searchText" id="searchText" value="${param.searchText}">
+                                    <input type="text" class="form-control" placeholder="Search Job Recruitment" name="searchText" id="searchText" value="${param.searchText}">
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-primary" type="button" id="search"><i class="fa fa-search"></i></button>                                        
                                     </div>
@@ -250,7 +250,7 @@
 			
 <!-- 		     <div class="modal fade bd-example-modal-lg add-candidates" tabindex="-1" role="dialog" aria-labelledby="myLargeModalCandidate" aria-hidden="true" id="exampleModalCenter"> -->
                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <form action="">
                             <div class="modal-header">
@@ -264,24 +264,12 @@
                             </div>
                             <div class="modal-body">
                                 <div class="d-flex mb-3">
-                                     <div class="row">
-									    <div class="col-sm-6  "  >
-								Candidate Details
-								
-									    </div>
-									    <div class="col-sm-6"  >
-									Campaign Name: 
-									Skills: 
-									Tests:
-									Interview
-									Start Date:  <input type="datetime-local" class="form-control" id="startDate">
-									End Date: 	 <input type="datetime-local" class="form-control" id="endDate">
-									    </div>
-									  </div>
+                                <div class="row" id="scheduleId">
+								</div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Share</button>
+                               <button type="button" class="btn btn-primary" onclick="shareCampaign()">Share</button>
                                <button type="button" class="btn btn-secondary"  data-dismiss="modal" >Close</button>
                             </div>
                         </form>
@@ -342,16 +330,60 @@
 			});
 	}
       
-      function openScheduleModel(email,jd) {
-		
-//     	  $.get(url, function(data, status){
-// 			console.log(data);
-// 			$("#candidateTableId").empty();
-// 			$("#candidateTableId").append(data);
+      function openScheduleModel(jd,email) {
+    	  url = "scheduleCampaign?jd="+jd+"&email="+email;
+  		
+    	  $.get(url, function(data, status){
+			console.log(data);
+			$("#scheduleId").empty();
+			$("#scheduleId").append(data);
 			$("#exampleModalCenter").modal('show');
-// 		});
+		});
 		
 	}
+      
+      function shareCampaign() {
+    	  var sd = document.getElementById("startDate").value;
+			var ed = document.getElementById("endDate").value;
+			var email = $("#email").text();
+			var campName = $("#campName").text();
+			if(!sd){
+				sweetAlert("Information","Enter a valid Start Date","warning");
+				return;
+			}
+		
+			if(!ed){
+				sweetAlert("Information","Enter a valid End Date","warning");
+				return;
+			}
+			
+			sd =  encodeURIComponent(sd);
+			ed =  encodeURIComponent(ed);
+    	  url = "shareScheduledCampaign?startDate="+sd+"&endDate="+ed+"&email="+email+"&campName="+campName;
+    		
+    	  $.get(url, function(data, status){
+    		  sweetAlert(data.msgType,data.msg,data.icon);
+// 			console.log(data);
+// 			$("#scheduleId").empty();
+// 			$("#scheduleId").append(data);
+// 			$("#exampleModalCenter").modal('hide');
+		});
+	}
+      
+      $('#search').on('click',function(){
+  	    var text = document.getElementById("searchText").value;
+  		if(text.length != 0){
+  		window.location="searchJobDescription2?searchText="+text;
+  		}
+  	    });
+      
+		 function sweetAlert(msgtype,message,icon){
+			  Swal.fire(
+				       msgtype,
+				       message,
+				       icon
+				    )
+			}
         </script>
                 
             <c:if test="${msgtype != null}">

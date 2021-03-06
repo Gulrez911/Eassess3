@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.assessment.data.JobDescription;
 import com.assessment.data.Question;
+import com.assessment.data.User;
 
 public interface JobDescriptionRepository extends JpaRepository<JobDescription,Long>
 {
@@ -25,9 +26,10 @@ public interface JobDescriptionRepository extends JpaRepository<JobDescription,L
 	@Query("SELECT j FROM JobDescription j WHERE j.companyId=:companyId")
 	public Page<JobDescription> findByCompanyId(@Param("companyId") String companyId, Pageable pageable);
 	
-	@Query(value="SELECT j FROM JobDescription j WHERE j.companyId=:companyId and j.name LIKE %:searchText%")
-	public Page<JobDescription> searchJobDescriptions(@Param("companyId") String companyId, @Param("searchText")  String searchText, Pageable pageable);
+//	@Query(value="SELECT j FROM JobDescription j WHERE j.companyId=:companyId and j.name LIKE %:searchText%")
+//	public Page<JobDescription> searchJobDescriptions(@Param("companyId") String companyId, @Param("searchText")  String searchText, Pageable pageable);
 
-	
+	@Query("SELECT j FROM JobDescription j WHERE j.companyId=:companyId  and ( j.name LIKE %:searchText%  OR j.testName LIKE %:searchText%  OR j.description LIKE %:searchText%)")
+	Page<JobDescription> searchJobDescriptions(@Param("companyId") String companyId, @Param("searchText")  String searchText,Pageable pageable);
 	
 }

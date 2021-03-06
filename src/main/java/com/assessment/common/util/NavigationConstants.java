@@ -26,4 +26,6 @@ public interface NavigationConstants {
 	Integer NO_LMSADMIN_PAGE = 8;
 	
 	Integer NO_RECRUITER_PAGE = 8;
+	
+	Integer NO_JOBDESCRIPTION_PAGE = 8;
 }

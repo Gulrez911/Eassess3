@@ -43,6 +43,7 @@
 		<property name="baseUrl" value="${baseUrl}"></property>
 		<property name="testLinkHtmlLocation" value="D:/templates/sendTestLink.html"></property>
 		<property name="resultLinkHtmlLocation" value="D:/templates/sendTestResultInfo.html"></property>
+		<property name="sendCredentialsToStudent" value="D:/templates/sendCredentialsToStudent.html"></property>
 		<property name="hostName" value="${hostName}"></property>
 		<property name="sendFrom" value="${sendFrom}"></property>
 		<property name="sendFromName" value="${sendFromName}"></property>

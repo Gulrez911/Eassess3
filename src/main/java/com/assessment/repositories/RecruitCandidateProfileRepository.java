@@ -9,4 +9,8 @@ import com.assessment.data.RecruitCandidateProfile;
 public interface RecruitCandidateProfileRepository extends JpaRepository<RecruitCandidateProfile, Long> {
 
 	List<RecruitCandidateProfile> findByJobDescriptionIdAndRecruiterEmail(Long jobId, String recruiterEmail);
+	
+	List<RecruitCandidateProfile> findByCompanyId(String companyId);
+	
+	RecruitCandidateProfile findByEmailAndCompanyId(String email, String companyId);
 }

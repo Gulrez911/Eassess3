@@ -62,4 +62,10 @@ public class JobDescriptionServiceImpl implements JobDescriptionService{
 		rep.deleteById(jid);
 	}
 
+	@Override
+	public Page<JobDescription> searchJobDescription(String companyId, String searchText, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return rep.searchJobDescriptions(companyId, searchText, pageable);
+	}
+
 }
