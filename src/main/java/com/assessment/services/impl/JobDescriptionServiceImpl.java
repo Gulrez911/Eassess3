@@ -68,4 +68,10 @@ public class JobDescriptionServiceImpl implements JobDescriptionService{
 		return rep.searchJobDescriptions(companyId, searchText, pageable);
 	}
 
+	@Override
+	public Page<JobDescription> searchJobDescriptionByRecruiter(String companyId, String recruiterEmail, String searchText, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
