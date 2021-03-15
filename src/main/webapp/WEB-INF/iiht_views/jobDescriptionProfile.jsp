@@ -22,6 +22,29 @@
          <link rel="stylesheet" href="resources/newrecomm/new_css/style.css">
         <script src="new/js/jquery.min.js"></script>
         <script src="new/js/bootstrap.min.js"></script>
+        
+        <style>
+        .nav-tabs>li>a {
+ 
+ margin-right: 2px;
+    line-height: 1.42857143;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+	}
+	
+	.nav>li>a {
+	position: relative;
+    display: block;
+    padding: 10px 15px;
+	}
+	.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+        </style>
     </head>
     <body>
         <div class="master-container">
@@ -276,6 +299,85 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="modal fade" id="parseModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content">
+<%--                         <form action=""> --%>
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Candidate Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" >
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                       </div>
+                                       <div class="modal-body">
+                                <div id="exTab2" class="container">	
+								<ul class="nav nav-tabs">
+											<li class="active">
+								        <a  href="#1" data-toggle="tab" >Details</a>
+											</li>
+											<li><a href="#2" data-toggle="tab">Skills</a>
+											</li>
+											<li><a href="#3" data-toggle="tab">Education/Experience</a>
+											</li>
+											<li><a href="#4" data-toggle="tab">Resume</a>
+											</li>
+										</ul>
+								
+											<div class="tab-content ">
+												<div class="tab-pane active" id="1">
+													<div class="row">
+														<div class="col-6">
+															<div class="mt-3"><b>Name:</b><span style=" margin-left: 10px;" id="pname">Gulrez Farooqui</span><br></div><div class="mt-3"> <b>Mobile:</b><span style=" margin-left: 10px;" id="pmobile">Gulrez Farooqui</span><br></div><div class="mt-3"> <b>Zip:</b><span style=" margin-left: 10px;" id="pzip">Gulrez Farooqui</span></div>
+														</div>
+														<div class="col-6">
+															<div class="mt-3"><b>Email:</b><span style=" margin-left: 10px;" id="pemail">Gulrez Farooqui</span><br></div><div class="mt-3"> <b>City: </b><span style=" margin-left: 10px;" id="pcity">Gulrez Farooqui</span><br></div><div class="mt-3"> <b>State: </b><span style=" margin-left: 10px;" id="pstate">Gulrez Farooqui</span><br></div>
+														</div>
+													</div>
+												</div>
+												<div class="tab-pane" id="2">
+													<div class="row">
+														<div class="col-6">
+															<div class="mt-3"><b>Technical Skills:</b><span style=" margin-left: 10px;" id="ptechskill">Gulrez Farooqui</span><br>  </div>
+														</div>
+														<div class="col-6">
+															<div class="mt-3"><b>Soft Skills: </b><span style=" margin-left: 10px;" id="psoftskill">Gulrez Farooqui</span><br></div> 
+														</div>
+													</div>
+												</div>
+												<div class="tab-pane" id="3">
+													<div class="row">
+														<div class="col-6">
+															<div class="mt-3"><b>Language:</b><span style=" margin-left: 10px;" id="planguage">Gulrez Farooqui</span><br></div><div class="mt-3"> <b>Education Details:</b><span style=" margin-left: 10px;" id="peducation">Gulrez Farooqui</span><br> </div><div class="mt-3"><b>Relevant Experience:</b><span style=" margin-left: 10px;" id="prexperience">Gulrez Farooqui</span></div>
+														</div>
+														<div class="col-6">
+															<div class="mt-3"><b>Total Experience: </b><span style=" margin-left: 10px;" id="ptotalExp">Gulrez Farooqui</span><br></div><div class="mt-3"> <b>Certifications: </b><span style=" margin-left: 10px;" id="pcertificate">Gulrez Farooqui</span><br> </div><div class="mt-3"><b>Current Location: </b><span style=" margin-left: 10px;" id="plocation">Gulrez Farooqui</span><br></div>
+														</div>
+													</div>
+												</div>
+												
+												<div class="tab-pane" id="4">
+													<div class="col-xs-1 text-center mt-3"><button class="btn btn-primary" onclick="getResume()">View  Resume</button>	</div>
+														 <span id="url" style="display: none;"></span>
+												</div>
+									</div>
+								  </div>
+                                
+                                </div>
+                                
+                           <div class="modal-footer">
+                               <button type="button" class="btn btn-secondary"  data-dismiss="modal" >Close</button>
+                            </div>
+<!--                             <div class="modal-footer"> -->
+<!--                                <button type="button" class="btn btn-primary" onclick="shareCampaign()">Share</button> -->
+<!--                                <button type="button" class="btn btn-secondary"  data-dismiss="modal" >Close</button> -->
+<!--                             </div> -->
+<%--                         </form> --%>
+                
+         
+            </div>
+          </div>
+       </div>
         <script>
             $('button.nav-bar, button.nav-bar-close').on('click', function () {
                 $(this).closest('.container-fluid').find('nav').toggleClass('open');
@@ -335,9 +437,9 @@
   		
     	  $.get(url, function(data, status){
 			console.log(data);
+			$("#exampleModalCenter").modal('show');
 			$("#scheduleId").empty();
 			$("#scheduleId").append(data);
-			$("#exampleModalCenter").modal('show');
 		});
 		
 	}
@@ -384,6 +486,54 @@
 				       icon
 				    )
 			}
+		 
+		 
+		 function getParse(email, name) {
+			  url = "getParsing?email="+email+"&name="+name;
+	    		
+	    	  $.get(url, function(data, status){
+// 	    		  sweetAlert(data.msgType,data.msg,data.icon);
+	 			console.log(data);
+//	 			$("#scheduleId").empty();
+//	 			$("#scheduleId").append(data);
+					$("#pname").text(data.jd.candidateName);
+					$("#pemail").text(data.jd.email);
+					$("#pmobile").text(data.jd.phoneNumber);
+					$("#pzip").text(data.jd.zipCode);
+					$("#pcity").text(data.jd.city);
+					$("#pstate").text(data.jd.state);
+					$("#ptechskill").text(data.jd.technicalSkills);
+					$("#psoftskill").text(data.jd.softSkills);
+					$("#planguage").text(data.jd.languages);
+					$("#peducation").text(data.jd.educationalDetails);
+					$("#prexperience").text(data.jd.relevantYears);
+					$("#ptotalExp").text(data.jd.totalExperience);
+					$("#pcertificate").text(data.jd.certifications);
+					$("#plocation").text(data.jd.currentLocation);
+					$("#url").text(data.url);
+	 			$("#parseModel").modal('show');
+			});
+		}
+		 
+		 function getResume() {
+			var url =$("#url").text();
+			var win = window.open(url, '_blank');
+			if (win) {
+			    win.focus();
+			} else {
+			    alert('Please allow popups for this website');
+			}
+		}
+		 function viewProfile(msg) {
+			
+			 $(function() {
+				    Swal.fire(
+			       'Information',
+			       'Profiles will be parsed in some time',
+			       'warning'
+			    )
+			});
+		}
         </script>
                 
             <c:if test="${msgtype != null}">

@@ -74,4 +74,10 @@ public class JobDescriptionServiceImpl implements JobDescriptionService{
 		return null;
 	}
 
+	@Override
+	public JobDescription findById(Long jobId) {
+		// TODO Auto-generated method stub
+		return rep.findById(jobId).get();
+	}
+
 }

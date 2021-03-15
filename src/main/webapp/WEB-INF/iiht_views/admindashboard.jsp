@@ -115,15 +115,20 @@
                                 Meetings
                             </a>
                             <a href="recruiters">
-                                Recruiters
+                                Manager Recruiters
                             </a>
                             <a href="jobDescriptions">
-                                Job Description
+                                Share Job Descriptions
                             </a>
                             <a href="profileForJobDescription">
-                                Profiles For Job Description
+                                Next Steps for Job Applications 
                             </a>
-                   
+							<a href="applicationTracking">
+                                Job Applications Tracker 
+                            </a>
+							<a href="apprepository">
+                                Candidate Repository
+                            </a>
                             
                         </div>
                     </nav>

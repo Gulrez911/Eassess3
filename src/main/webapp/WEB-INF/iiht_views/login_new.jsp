@@ -2,806 +2,614 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page session="false"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.assessment.data.*, java.text.*, java.util.*" %>
-<html class="no-js" lang="">
-   <head>
-      <meta charset="utf-8">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>eAssess</title>
-      <link href="images/E-assess_E.png" rel="shortcut icon">
-      <meta name="description" content="">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-	  <link rel="stylesheet" href="css/bootstrap_only_login_new.css">
-	  
-      <link rel="stylesheet" href="css/flexslider.css">
-	  <link rel="stylesheet" href="css/animate.css">
-	  <link rel="stylesheet" href="css/custom-styles.css">
-	  <link rel="stylesheet" href="css/custom-styles.css">
-       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-   	
-	<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700'
-	rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Muli:300,400,700'
-	rel='stylesheet' type='text/css'>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="com.assessment.data.*, java.text.*, java.util.*"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="materialize is a material design based mutipurpose responsive template">
+        <meta name="keywords" content="material design, card style, material template, portfolio, corporate, business, creative, agency">
+        <meta name="author" content="trendytheme.net">
+        <title>eAssess</title>
+        <!--  favicon -->
+        <link rel="shortcut icon" href="./resources/eAssessLogin/assets/img/ico/favicon.png">
+        <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,500,700,900' rel='stylesheet' type='text/css'>
+        <!-- Material Icons CSS -->
+        <link href="./resources/eAssessLogin/assets/fonts/iconfont/material-icons.css" rel="stylesheet">
+        <!-- owl.carousel -->
+        <link href="./resources/eAssessLogin/assets/owl.carousel.css" rel="stylesheet">
+        <link href="assets/owl.carousel/assets/owl.theme.default.min.css" rel="stylesheet">
+        <!-- FontAwesome CSS -->
+        <link href="./resources/eAssessLogin/assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <!-- materialize -->
+        <link href="./resources/eAssessLogin/assets/materialize/css/materialize.min.css" rel="stylesheet">
+        <!-- Bootstrap -->
+        <link href="./resources/eAssessLogin/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- shortcodes -->
+        <link href="./resources/eAssessLogin/assets/css/shortcodes/shortcodes.css" rel="stylesheet">
+        <link href="./resources/eAssessLogin/assets/css/shortcodes/login.css" rel="stylesheet">
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="./resources/eAssessLogin/assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="./resources/eAssessLogin/assets/materialize/js/materialize.min.js"></script>
+        <script src="./resources/eAssessLogin/assets/owl.carousel/owl.carousel.min.js"></script>
 
 
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
+        <!-- Style CSS -->
+        <link href="./resources/eAssessLogin/assets/css/style.css" rel="stylesheet">
+        <style type="text/css">
+          .slick-slide {
+              margin: 0px 20px;
+          }
 
+          .slick-slide img {
+              width: 100%;
+          }
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script type="text/javascript" src="scripts/custom.js"></script>
+          .slick-slider {
+              position: relative;
+              display: block;
+              box-sizing: border-box;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+              -webkit-touch-callout: none;
+              -khtml-user-select: none;
+              -ms-touch-action: pan-y;
+              touch-action: pan-y;
+              -webkit-tap-highlight-color: transparent;
+          }
 
-	<script type="text/javascript" src="scripts/pnotify.custom.min.js"></script>
+          .slick-list {
+              position: relative;
+              display: block;
+              overflow: hidden;
+              margin: 0;
+              padding: 0;
+          }
 
-<script type="text/javascript" src="scripts/pnotify.nonblock.js"></script>
-<script type="text/javascript" src="scripts/pnotify.buttons.js"></script>
+          .slick-list:focus {
+              outline: none;
+          }
 
-<link href="css/pnotify.custom.min.css" media="all" rel="stylesheet" type="text/css">
+          .slick-list.dragging {
+              cursor: pointer;
+              cursor: hand;
+          }
 
-<style>
-.btn-custom-brownish {
-    font-weight: 500;
-    font-size: 18px;
-    color: #FFFFFF;
-    letter-spacing: 0;
-    padding: 8px 15px;
-    background: #997300;
-    border-radius: 100px;
-}
-</style>
-</head>
-   <body>
+          .slick-slider .slick-track,
+          .slick-slider .slick-list {
+              -webkit-transform: translate3d(0, 0, 0);
+              -moz-transform: translate3d(0, 0, 0);
+              -ms-transform: translate3d(0, 0, 0);
+              -o-transform: translate3d(0, 0, 0);
+              transform: translate3d(0, 0, 0);
+          }
 
-   
-      <!-- Header -->
-      <section class="custom-header">
-         <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" href="#"><img src="images/Logo.png" alt="logo"></a>
-            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-               <span class="navbar-toggler-icon"></span>
-               </button> -->
-            <div class="nav-custom" id="navbarNav">
-               <ul class="navbar-nav ml-auto">
-                  <li class="nav-item nav-icon">
-                     <a class="nav-link" href="#about" data-toggle="tooltip" data-placement="bottom" title="Mail"><i class="fas fa-envelope"></i></a>
-                  </li>
-                  <li class="nav-item nav-icon2">
-                     <a class="nav-link mr-3" href="#" data-toggle="tooltip" data-placement="bottom" title="Contact"><i class="fas fa-phone"></i></a>
-                  </li>
-                  <li class="nav-item" id="lg-web">
-                     <a class="nav-link login-btn" href="#" data-toggle="modal" data-target="#loginPop">Login</a>
-                  </li>
-                  <li class="nav-item nav-icon" id="lg-mob">
-                     <a class="nav-link" href="#" data-toggle="modal" data-target="#loginPop"><i class="fas fa-sign-in-alt"></i></a>
-                  </li>
-               </ul>
+          .slide {
+              width: 160px;
+          }
+
+          .slick-track {
+              position: relative;
+              top: 0;
+              left: 0;
+              display: block;
+          }
+
+          .slick-track:before,
+          .slick-track:after {
+              display: table;
+              content: '';
+          }
+
+          .slick-track:after {
+              clear: both;
+          }
+
+          .slick-loading .slick-track {
+              visibility: hidden;
+          }
+
+          .slick-slide {
+              display: none;
+              float: left;
+              height: 100%;
+              min-height: 1px;
+          }
+
+          [dir='rtl'] .slick-slide {
+              float: right;
+          }
+
+          .slick-slide img {
+              display: block;
+          }
+
+          .slick-slide.slick-loading img {
+              display: none;
+          }
+
+          .slick-slide.dragging img {
+              pointer-events: none;
+          }
+
+          .slick-initialized .slick-slide {
+              display: block;
+          }
+
+          .slick-loading .slick-slide {
+              visibility: hidden;
+          }
+
+          .slick-vertical .slick-slide {
+              display: block;
+              height: auto;
+              border: 1px solid transparent;
+          }
+
+          .slick-arrow.slick-hidden {
+              display: none;
+          }
+        </style>
+    </head>
+
+    <body id="top" class="has-header-search">    
+        <!--header start-->
+        <header id="header" class="tt-nav nav-border-bottom">
+            <div class="header-sticky light-header my_header">
+                <div class="container">
+                    <div id="materialize-menu" class="menuzord">
+                        <!--logo start-->
+                        <a href="index.html" class="logo-brand">
+                            <img class="retina" src="./resources/eAssessLogin/images/Logo.png" alt=""/>
+                        </a>
+                        <!--logo end-->
+                        <div class="headerloginform">
+                         <form id="loginForm" method="post" modelAttribute="user" action="authenticate">
+							<form:input type="email" path="user.email" name="email" id="username" cssClass="form-control" required="true" placeholder="User"/>
+ <form:password path="user.password" name="password" id="password" cssClass="form-control" required="true" placeholder="Password"/>
+									<form:input  path="user.companyName" name="companyName" id="companyName" cssClass="form-control" required="true" placeholder="Company"/>					   
+                                <button type="submit">Login</button>
+                              </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-         </nav>
-         <!-- /header -->
-      </section>
-      <!-- banner -->
-      <section class="yaksha-online">
-         <div class="container-fluid">
-            <div class="row">
-               <div class="col-md-7 hide-mob">
-                  <div class="menu-dna">
-                     <div class="dna-img">
-                        <div class="action-tb">
-                           <a href="#" class="btn btn-custom-pink tab-link" data-tab="tab-2">Automated Recruitment Solutions</a>
-                           <a href="#" class="btn btn-custom-green tab-link" data-tab="tab-3">Skill Development & Evaluation</a>
-                           <a href="#" class="btn btn-custom-purple tab-link" data-tab="tab-4">Talent Acquisition</a>
-						   <a href="hackathon" class="btn btn-custom-brownish tab-link">Challenge Yourself</a>
-                        </div>
-                        <div class="dna-items">
-                           <a href="#" class="incorp-link tab-link" data-tab="tab-1">For Incorporated</a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-md-5">
-                  <div class="page-content">
-                     <div class="home">
-                        <h1 class="section-title animated fadeInDown">Eassess Online</h1>
-                        <div class="about-card mt-4 animated fadeInUp">
-                           <h4 class="card-title">Talent & Skill As A Service</h4>
-                           <p class="card-text mt-35"> Technology creates newer Disruptions &  Enterprises seek a Transition to Emerging Trends. Talent needs Job-Readiness & Workforce must become a Specialized Marketplace of Skills.
-                              Know-How needs a Show-How Acumen.
-                           </p>
-                           <p class="card-text">
-                              Whether you need Talent On Demand to Recruit (or)
-                              Employable Skill-sets, Eassess Is Online for You!
-                           </p>
-                           <a href="#" class="card-link mt-4">Get Skilled & Get Billed</a>
-                        </div>
-                     </div>
-                     <div id="tab-1" class="tab-content incorporated">
-                        <div class="section-flex">
-                           <h1 class="section-title">Incorporated</h1>
-                           <a href="#" class="body-close mr-2"><i class="fas fa-times"></i></a>
-                        </div>
-                        <div class="section-content mr-2">
-                           <div>
-                              <h4 class="content-title">Skill & Scale</h4>
-                              <p class="content-text mt-35">Use Eassess to Skill your Employees. Eventually they will Scale to meet your Business Demands</p>
-                           </div>
-                           <div class="mt-5">
-                              <h4 class="content-title">Precision & Performance </h4>
-                              <p class="content-text mt-35">Our Platform is AI Powered. A Highly Available and Resilient Cluster of Systems ensure Performance coupled with Precision</p>
-                           </div>
-                           <div class="mt-5">
-                              <h4 class="content-title">Experience & Expertise  </h4>
-                              <p class="content-text mt-35">We strive to offer Visually/Functionally a fulfilling Experience using our Expertise of Customer/Learner Centric Philosophy</p>
-                           </div>
-                           <div class="mt-5">
-                              <h4 class="content-title">Secure & Stable  </h4>
-                              <p class="content-text mt-35">E-assess is built using Saas & PaaS Data Protection & Privacy compliant Architecture. Containerized Services ensure Stable Usage Patterns</p>
-                           </div>
-                        </div>
-                     </div>
-                     <div id="tab-2" class="tab-content automated">
-                        <div class="section-flex align-items-baseline">
-                           <h1 class="section-title">Automated Recruitment Solutions</h1>
-                           <a href="#" class="body-close mr-2"><i class="fas fa-times"></i></a>
-                        </div>
-                        <div class="section-content mr-2">
-                           <div class="info-text mb-3">
-                              <div class="row">
-                                 <div class="col-md-4 pr-0">
-                                    <h1 class="into-title">80<span>%</span></h1>
-                                 </div>
-                                 <div class="col-md-8 pl-0">
-                                    <p class="content-text">of the Recruitment Processes using E-assess Online. Roll-Out offers Virtually.Plug and Play Instances for Interviewers & CandidatesUse Visually rich and engaging Dashboards to manage Talent Pool
-                                    </p>
-                                 </div>
-                              </div>
-                           </div>
-                           <div>
-                              <h4 class="content-title">Trade Craft You Need</h4>
-                              <ul class="custom-list mt-35">
-                                 <li>
-                                    <div class="collapse" id="collapseOne">
-                                       <div class="card card-body">
-                                          <div class="collapse-content">
-                                             <div class="title-flex mb-3">
-                                                <span class="icn"><img src="images/video.svg" alt="video"></span>
-                                                <span class="li-content"> Live Video Proctoring </span>
-                                             </div>
-                                             <p class="collapse-text">Plug in our platform and watch how your Candidate performs. Use uniterrupted video analysis to test the Integrity of your Candidates</p>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="collapse-flex">
-                                       <span class="li-icon li-icon1"><img src="images/video.svg" alt="video"></span>
-                                       <span class="li-content li-content1"> Live Video Proctoring </span>
-                                       <span><a class="expand expand1"  data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="false" aria-controls="collapseOne" ><img src="images/plus.svg" alt="add"></a></span>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <div class="collapse" id="collapseTwo">
-                                       <div class="card card-body">
-                                          <div class="collapse-content">
-                                             <div class="title-flex mb-3">
-                                                <span class="icn"><img src="images/gamefield.svg" alt="game"></span>
-                                                <span class="li-content"> Gamified Whiteboards </span>
-                                             </div>
-                                             <p class="collapse-text">Whiteboards for Q & A's between Panels and Candidates. Monitor live responses with a Web Proctored Secure Platform</p>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="collapse-flex">
-                                       <span class="li-icon li-icon2"><img src="images/gamefield.svg" alt="game"></span>
-                                       <span class="li-content li-content2"> Gamified Whiteboards </span>
-                                       <span><a class="expand expand2"  data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseOne" ><img src="images/plus.svg" alt="add"></a></span>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <div class="collapse" id="collapseThree">
-                                       <div class="card card-body">
-                                          <div class="collapse-content">
-                                             <div class="title-flex mb-3">
-                                                <span class="icn"><img src="images/interview.svg" alt="interview"></span>
-                                                <span class="li-content"> Automated Interview Calls </span>
-                                             </div>
-                                             <ul class="collapse-text">
-                                                <li>Schedule SME/HR/Business Head etc and Candidates for meticulous and planned interviews.</li>
-                                                <li>Block mutually inclusive Calendars at the Click of your Mouse</li>
-                                                <li>Mobile Friendly Messages, Mailers and IM Presence to coordinate seamless Interview Sessions</li>
-                                             </ul>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="collapse-flex">
-                                       <span class="li-icon li-icon3"><img src="images/interview.svg" alt="interview"></span>
-                                       <span class="li-content li-content3"> Automated Interview Calls </span>
-                                       <span><a class="expand expand3"  data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseOne" ><img src="images/plus.svg" alt="add"></a></span>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <div class="collapse" id="collapseFour">
-                                       <div class="card card-body">
-                                          <div class="collapse-content">
-                                             <div class="title-flex mb-3">
-                                                <span class="icn"><img src="images/features.svg" alt="features"></span>
-                                                <span class="li-content"> Features </span>
-                                             </div>
-                                             <ul class="collapse-text">
-                                                <li>Video Conferencing / Proctoring</li>
-                                                <li>Secure Whiteboards (To be used as Workspaces during Interviews)</li>
-                                                <li>Calendar Blocking</li>
-                                                <li>Talent Pool Oriented Business Dashboards</li>
-                                                <li>AI Powered Candidate Profiling</li>
-                                                <li>Communication Services</li>
-                                             </ul>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="collapse-flex">
-                                       <span class="li-icon li-icon4"><img src="images/features.svg" alt="features"></span>
-                                       <span class="li-content li-content4"> Features </span>
-                                       <span><a class="expand expand4"  data-toggle="collapse" href="#collapseFour" role="button" aria-expanded="false" aria-controls="collapseOne" ><img src="images/plus.svg" alt="add"></a></span>
-                                    </div>
-                                 </li>
-                              </ul>
-                              <a href="#" class="know-more" data-toggle="modal" data-target="#requestDemo" style="visibility:hidden">Know more</a>
-                           </div>
-                        </div>
-                     </div>
-                     <div id="tab-3" class="tab-content skill">
-                        <div class="section-flex align-items-baseline">
-                           <h1 class="section-title">Skill Development & Evaluation (SKIDE)</h1>
-                           <a href="#" class="body-close mr-2"><i class="fas fa-times"></i></a>
-                        </div>
-                        <div class="section-content mr-2">
-                           <div class="info-text mb-5">
-                              <p class="content-text">Cipher Nation is here!</p>
-                              <p class="content-text">Auto-grade Full Stack Applications. Reap the benefits of 60 odd Compilers. Build native CI/CD pipes, Headless Containerization and Source Code Management with E-assess App-forms
-                              </p>
-                           </div>
-                           <div>
-                              <h4 class="content-title">Problems We Solve</h4>
-                              <ul class="custom-list mt-35">
-                                 <li>
-                                    <div class="collapse" id="collapseFive">
-                                       <div class="card card-body">
-                                          <div class="collapse-content">
-                                             <div class="title-flex mb-3">
-                                                <span class="icn"><img src="images/autograde.svg" alt="autograde"></span>
-                                                <span class="li-content"> Auto-Grade Apps, Code Re-factoring </span>
-                                             </div>
-                                             <p class="collapse-text">Build Mobile Friendly / Web apps on any software architecture under the supervision of Web Proctored Systems. Get it Tested for Industry Standard Metrics. 
-                                                Prove that your code can be Logical, Functional and Compliably Efficient
-                                             </p>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="collapse-flex">
-                                       <span class="li-icon li-icon5"><img src="images/autograde.svg" alt="autograde"></span>
-                                       <span class="li-content li-content5"> Auto-Grade Apps, Code Re-factoring </span>
-                                       <span><a class="expand expand5"  data-toggle="collapse" href="#collapseFive" role="button" aria-expanded="false" aria-controls="collapseOne" ><img src="images/plus.svg" alt="add"></a></span>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <div class="collapse" id="collapseSix">
-                                       <div class="card card-body">
-                                          <div class="collapse-content">
-                                             <div class="title-flex mb-3">
-                                                <span class="icn"><img src="images/storyboard.svg" alt="storyboard"></span>
-                                                <span class="li-content"> Story Boards </span>
-                                             </div>
-                                             <p class="collapse-text">AI powered Deep Code/App Analysis. Build a Proficiency Index of a Candidate or Cohorts using our BI Tools. Customer friendly Dashboards and Format friendly Reports</p>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="collapse-flex">
-                                       <span class="li-icon li-icon6"><img src="images/storyboard.svg" alt="storyboard"></span>
-                                       <span class="li-content li-content6"> Story Boards </span>
-                                       <span><a class="expand expand6"  data-toggle="collapse" href="#collapseSix" role="button" aria-expanded="false" aria-controls="collapseOne" ><img src="images/plus.svg" alt="add"></a></span>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <div class="collapse" id="collapseSeven">
-                                       <div class="card card-body">
-                                          <div class="collapse-content">
-                                             <div class="title-flex mb-3">
-                                                <span class="icn"><img src="images/code.svg" alt="code"></span>
-                                                <span class="li-content"> code-pe diem </span>
-                                             </div>
-                                             <p class="collapse-text">Take part in Hack-Stack Coding Summits. Co-Develop Software with Peers and Leaders in the Industry. Automate App Testing using E-assess's Development Engines.
-                                                Take home our "Badge Of Honor"
-                                             </p>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="collapse-flex">
-                                       <span class="li-icon li-icon7"><img src="images/code.svg" alt="code"></span>
-                                       <span class="li-content li-content7"> code-pe diem </span>
-                                       <span><a class="expand expand7"  data-toggle="collapse" href="#collapseSeven" role="button" aria-expanded="false" aria-controls="collapseOne" ><img src="images/plus.svg" alt="add"></a></span>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <div class="collapse" id="collapseEight">
-                                       <div class="card card-body">
-                                          <div class="collapse-content">
-                                             <div class="title-flex mb-3">
-                                                <span class="icn"><img src="images/features.svg" alt="features"></span>
-                                                <span class="li-content"> Features </span>
-                                             </div>
-                                             <ul class="collapse-text">
-                                                <li>Auto Evaluation of Applications</li>
-                                                <li>Web Proctoring</li>
-                                                <li>Headless Browser Friendly IDEs</li>
-                                                <li>Dynamic Web Testing</li>
-                                                <li>Recommendation Engine Based Reports</li>
-                                                <li>Communication Services</li>
-                                                <li>Business Workflow Automation</li>
-                                                <li>Visually Rich Dashboards</li>
-                                                <li>GDPR Compliant</li>
-                                                <li>Secure Customer Tenants</li>
-                                             </ul>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="collapse-flex">
-                                       <span class="li-icon li-icon8"><img src="images/features.svg" alt="features"></span>
-                                       <span class="li-content li-content8"> Features </span>
-                                       <span><a class="expand expand8"  data-toggle="collapse" href="#collapseEight" role="button" aria-expanded="false" aria-controls="collapseOne" ><img src="images/plus.svg" alt="add"></a></span>
-                                    </div>
-                                 </li>
-                              </ul>
-                              <a href="#" class="know-more" data-toggle="modal" data-target="#requestDemo">Know more</a>
-                           </div>
-                        </div>
-                     </div>
-                     <div id="tab-4" class="tab-content talent">
-                        <div class="section-flex align-items-baseline">
-                           <h1 class="section-title">Talent Acquisition</h1>
-                           <a href="#" class="body-close mr-2"><i class="fas fa-times"></i></a>
-                        </div>
-                        <div class="section-content mr-2">
-                           <div class="info-text mb-5">
-                              <p class="content-text">Campus To Cubicle</p>
-                              <p class="content-text">Hire when you need the most. Identify Talent or Skill it on a Need-Basis. E-assess helps you roll out Assessments en-masse. Zero In on the most wanted Talent with compelling Leaderboards.
-                              </p>
-                           </div>
-                           <div>
-                              <h4 class="content-title">Solutions We Give</h4>
-                              <ul class="custom-list mt-35">
-                                 <li>
-                                    <div class="collapse" id="collapseNine">
-                                       <div class="card card-body">
-                                          <div class="collapse-content">
-                                             <div class="title-flex mb-3">
-                                                <span class="icn"><img src="images/talent.svg" alt="talent"></span>
-                                                <span class="li-content"> Talent On Demand </span>
-                                             </div>
-                                             <p class="collapse-text">Name the Input Criterias for Candidate Selection. Experience the benefits of a a World Class Integrated Platform for Graduate Skill Enhancement
-                                             </p>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="collapse-flex">
-                                       <span class="li-icon li-icon9"><img src="images/talent.svg" alt="talent"></span>
-                                       <span class="li-content li-content9"> Talent On Demand </span>
-                                       <span><a class="expand expand9"  data-toggle="collapse" href="#collapseNine" role="button" aria-expanded="false" aria-controls="collapseOne" ><img src="images/plus.svg" alt="add"></a></span>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <div class="collapse" id="collapseTen">
-                                       <div class="card card-body">
-                                          <div class="collapse-content">
-                                             <div class="title-flex mb-3">
-                                                <span class="icn"><img src="images/hire.svg" alt="hire"></span>
-                                                <span class="li-content"> Hire, Train & Deploy </span>
-                                             </div>
-                                             <ul class="collapse-text">
-                                                <li>Customer Centric Training & Commercial Methodologies.</li>
-                                                <li>Assured Learning Curve in Emerging Technologies.</li>
-                                                <li>World Class Mentoring</li>
-                                             </ul>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="collapse-flex">
-                                       <span class="li-icon li-icon10"><img src="images/hire.svg" alt="hire"></span>
-                                       <span class="li-content li-content10"> Hire, Train & Deploy </span>
-                                       <span><a class="expand expand10"  data-toggle="collapse" href="#collapseTen" role="button" aria-expanded="false" aria-controls="collapseOne" ><img src="images/plus.svg" alt="add"></a></span>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <div class="collapse" id="collapseEleven">
-                                       <div class="card card-body">
-                                          <div class="collapse-content">
-                                             <div class="title-flex mb-3">
-                                                <span class="icn"><img src="images/features.svg" alt="features"></span>
-                                                <span class="li-content"> Features </span>
-                                             </div>
-                                             <ul class="collapse-text">
-                                                <li>Mentors On Demand (Scheduled or On-The Fly)</li>
-                                                <li>Leaderboards</li>
-                                                <li>Geographical Clusters & Real Time Orientation</li>
-                                             </ul>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="collapse-flex">
-                                       <span class="li-icon li-icon11"><img src="images/features.svg" alt="features"></span>
-                                       <span class="li-content li-content11"> Features </span>
-                                       <span><a class="expand expand11"  data-toggle="collapse" href="#collapseEleven" role="button" aria-expanded="false" aria-controls="collapseOne" ><img src="images/plus.svg" alt="add"></a></span>
-                                    </div>
-                                 </li>
-                              </ul>
-                              <a href="#" class="know-more" data-toggle="modal" data-target="#requestDemo">Know more</a>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </section>
-      <!-- mobile-fab -->
-      <div class="floatingButtonWrap">
-         <div class="floatingButtonInner">
-            <a href="#" class="floatingButton">
-               <div id="nav-icon2">
-                     <span></span>
-                     <span></span>
-                     <span></span>
-                     <span></span>
-                     <span></span>
-                     <span></span>
-                   </div>
-            </a>
-            <ul class="floatingMenu">
-               <li>
-                  <a href="#" class="tab-link fb-white" data-tab="tab-1">For Incorporated</a>
-               </li>
-               <li>
-                  <a href="#" class="tab-link fb-pink" data-tab="tab-2">Automated Recruitment Solutions</a>
-               </li>
-               <li>
-                  <a href="#" class="tab-link fb-green" data-tab="tab-3">Skill Development & Evaluation</a>
-               </li>
-               <li>
-                  <a href="#" class="tab-link fb-purple" data-tab="tab-4">Talent Acquisition</a>
-               </li>
-			   
-            </ul>
-         </div>
-      </div>
-      <div class="floating-backdrop"></div>
-      <!-- modal-login -->
-      <!-- Modal -->
-      <div class="modal fade login-modal" id="loginPop" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel"><img src="images/login-logo.png" alt="lg-logo"></h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true"><i class="fas fa-times"></i></span>
-                  </button>
-               </div>
-               <div class="modal-body">
-                  <h4 class="modal-title" id="labelLogin">Login to your account</h4>
-                  <form id="loginForm" method="post" modelAttribute="user" action="authenticate">
-                     <div class="form-group mt-4">
-                     <!--   <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username"> -->    
-					  <form:input type="email" path="user.email" name="email" id="username" cssClass="form-control" required="true" placeholder="User"/>						
-                     </div>
-                     <div class="form-group" id="divPassword">
-                      <!--  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> -->
-					  <form:password path="user.password" name="password" id="password" cssClass="form-control" required="true" placeholder="Password"/>
-                     </div>
-					 
-					  <div class="form-group" id="divPassword2" style="display:none">
-                      <!--  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> -->
-					 <form:password path="user.transientPassword" name="transientPassword" id="transientPassword" cssClass="form-control" required="true"  placeholder="Repeat Password"/>
-                     </div>
-					 
-					 
-                     <div class="form-group">
-                       <!-- <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Company">  -->
-				<form:input  path="user.companyName" name="companyName" id="companyName" cssClass="form-control" required="true" placeholder="Company"/>					   
-                     </div>
-					 
-					  <div class="form-group" id="divOtp" style="display:none">
-                      <!--  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> -->
-					  <form:password path="user.otp" name="otp" id="otp" cssClass="form-control" required="true" placeholder="otp"/>
-                     </div>
-					
-					
-					
-                     <div class="form-group">
-                        <a href="#" id="login_otp" class="btn btn-secondary" onclick="javascript:loginClick();">Login</a> 
-						<a href="#" id="forgetPassword" class="btn btn-secondary" onclick="javascript:showOtp();">Forgot Password</a>  						
-                     </div>
-                    
-                  </form>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- ||modal-login -->
-	  
-	  <!-- Modal OTP-->
-   
-      <!-- ||modal-otp login -->
-      <!-- modal-request-demo -->
-      <div class="modal request-demo-modal fade" id="requestDemo" tabindex="-1" role="dialog" aria-labelledby="requestDemoLabel" aria-hidden="true">
-         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-               <div class="row">
-                  <div class="col-md-6">
-                     <div class="demo-banner"></div>
-                     <!-- <img src="images/demobanner.png" alt="demobanner"> -->
-                  </div>
-                  <div class="col-md-6">
-                     <div class="modal-header">
-                        <h5 class="modal-title" id="requestDemoLabel"></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
-                        </button>
-                     </div>
-                     <div class="modal-body pt-0">
-                        <div class="form-content">
-                           <h5 class="rd-modal-title" id="requestDemoLabel">Request a demo</h5>
-                           <p class="rd-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolorLorem ipsum dolor sit amet, consectetur </p>
-                           <form action="" class="mt-5">
-                              <div class="form-group mt-4">
-                                 <input type="text" class="form-control"  placeholder="Your name">     
-                              </div>
-                              <div class="form-group">
-                                 <input type="email" class="form-control" placeholder="Email address">     
-                              </div>
-                              <div class="form-group">
-                                 <input type="text" class="form-control" placeholder="Phone #">     
-                              </div>
-                              <div class="form-group">
-                                 <input type="text" class="form-control" placeholder="Company name">     
-                              </div>
-                              <div class="form-group">
-                                 <textarea class="form-control" rows="3" placeholder="Tell us what you want to know"></textarea>
-                              </div>
-                              <div class="form-group">
-                                 <a href="#" class="btn btn-secondary">Schedule Demo</a>   
-                              </div>
-                           </form>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- scripts -->
-	  
-      <script src="scripts_login/jquery-3.1.1.min.js"></script>
-      <script src="scripts_login/popper.min.js"></script>
-      <script src="scripts_login/bootstrap.min.js"></script>
-      <script src="scripts_login/smooth-scroll.js"></script>
-      <script src="scripts_login/wow.js"></script>
-      <script src="scripts_login/custom.js"></script>
-	  
-	   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script type="text/javascript">
-            function myFunction() {
-                var x = document.getElementById("userpassword");
-                if (x.type === "password") {
-                    x.type = "text";
-                } else {
-                    x.type = "password";
-                }
-            } 
-			
-			function loginClick(){
-				var lab = document.getElementById("login_otp").innerHTML;
-				if(lab == 'Click to send OTP'){
-				var email = document.getElementById("username").value;
-				//var password = document.getElementById("password");
-				var compName = document.getElementById("companyName").value;
-					if(!email || 0 === email.length){
-						notify("User or Email field can not be empty");
-						return;
-					}
-					
-					
-					
-					if(!compName || 0 === compName.length){
-						notify("Company Name field can not be empty");
-						return;
-					}	
-					
-					
-				
-				
-				var url = "getotp?email="+email+"&companyName="+compName;
-				console.log('here url '+url);
-				$.ajax({
-						url : url,
-						success : function(data) {
-							console.log("SUCCESS: ", data);
-							if(data == "success"){
-								notify('Check your inbox to retrieve the OTP');
-								var otp = document.getElementById("divOtp");
-								otp.style.display = "";
-								
-								document.getElementById("login_otp").innerHTML = "Enter OTP";
-							}
-							else{
-								notify(""+data+" Try with valid email and Company info");
-							}
-							
-							
-							//document.getElementById("no-"+sectionName).innerHTML = data;
-							
-						},
-						error : function(e) {
-							console.log("ERROR: ", e);
-							
-						}
-					});	
-				
-				/**
-				* Send otp ws
-				*/
-				//call ajax method to send email otp
-				}
-				else if(lab == 'Login'){
-					/**
-					* Proper login
-					*/
-					document.getElementById('loginForm').submit();
-				}
-				else if(lab == 'Enter OTP'){
-					var email = document.getElementById("username").value;
-					var compName = document.getElementById("companyName").value;
-					var otp = document.getElementById("otp").value;
-						if(!otp || 0 === otp.length){
-							notify("Enter a OTP value. Check your inbox!");
-							return;
-						}
-						var url = "validateotp?otp="+otp+"&email="+email+"&companyName="+compName;
-						console.log('here url '+url);
-						$.ajax({
-						url : url,
-						success : function(data) {
-							console.log("SUCCESS: ", data);
-							if(data == "success"){
-								document.getElementById("divPassword").style.display = "";
-								document.getElementById("divPassword2").style.display = "";
-								document.getElementById("divOtp").style.display = "none";
-								document.getElementById("transientPassword").style.display = "";
-								document.getElementById("login_otp").innerHTML = "Save New Password";
-								document.getElementById("labelLogin").innerHTML = "Enter new Password";
-							}
-							else{
-								notify("Invalid OTP Entered");
-							}
-							
-							
-							//document.getElementById("no-"+sectionName).innerHTML = data;
-							
-						},
-						error : function(e) {
-							console.log("ERROR: ", e);
-							
-						}
-					});	
-						
-					
-					
-				}
-				else if(lab == 'Save New Password' ){
-					/**
-					* Save pwd
-					*/
-					var p1 = document.getElementById("password").value;
-					console.log(p1);
-					var p2 = document.getElementById("transientPassword").value;
-					console.log(p2);
-						if(!(p1 == p2)){
-							notify('Make sure you enter same text in both the password fields');
-						}
-						else if(p1.length < 4){
-							notify('Make sure your new password is of atleast 4 characters');
-						}
-						else{
-							//call ajax method to save pwd
-							var email = document.getElementById("username").value;
-							//var password = document.getElementById("password");
-							var compName = document.getElementById("companyName").value;
-						var url = "savenewpassword?password="+p1+"&email="+email+"&companyName="+compName;
-						console.log('here url '+url);
-						$.ajax({
-						url : url,
-						success : function(data) {
-							console.log("SUCCESS: ", data);
-							if(data == "success"){
-								notify('Your new password has been saved. Try logging in with your new credentials!');
-								$("#loginPop").modal("hide");
-								reset();
-							}
-							else{
-								notify("Your password can not be saved. Contact jatin.sutaria@thev2technologies.com for further help");
-							}
-							
-							
-							//document.getElementById("no-"+sectionName).innerHTML = data;
-							
-						},
-						error : function(e) {
-							console.log("ERROR: ", e);
-							
-						}
-					});	
-							
-							
-						}
-				}
-			}
-			
-			function reset(){
-				document.getElementById("divOtp").style.display = "none";
-				document.getElementById("divPassword2").style.display = "none";
-				document.getElementById("login_otp").innerHTML = "Login";
-				document.getElementById("labelLogin").innerHTML = "Login to your account";
-			}
-			
-			function showOtp(){
-				//$("#loginPop").modal("hide");
-				var pwd = document.getElementById("divPassword");
-				//$("#loginPopOtp").modal({ keyboard: false });
-				pwd.style.display = "None";
-				//var otp = document.getElementById("divOtp");
-				//otp.style.display = "";
-				document.getElementById("login_otp").innerHTML = "Click to send OTP";
-				document.getElementById("forgetPassword").style.display = "none";
-				document.getElementById("labelLogin").innerHTML = "Forget Password - Send OTP";
-			}
-			
-			
-			function notify(text){
-				 var notification = 'Information';
-				 $(function(){
-				 	new PNotify({
-				 	title: notification,
-					 text: text,
-					 type: 'Information',
-					 width: '20%',
-					 hide: false,
-					 buttons: {
-            					closer: true,
-            					sticker: false
-       					 },
-					 history: {
-            					history: false
-        				 }
-					 });
-				 
-				 }); 	
-			}
-        </script>
+        </header>
+        <!--header end-->
         
-        <c:if test="${msgtype != null}">
-		 <script>
-	 var notification = 'Information';
-	 $(function(){
-		 new PNotify({
-	         title: notification,
-	         text: '${message}',
-	         type: '${msgtype}',
-	          width: '20%',
-		hide: false,
-		buttons: {
-            		closer: true,
-            		sticker: false
-       		},
-		 history: {
-            		history: false
-        	}
-		});
-	 }); 	 
-      </script>
-</c:if>
-   </body>
+        <section class="banner-wrapper parallax-bg banner-12   dark-5 valign-wrapper height-650" data-stellar-background-ratio="0.5">
+        </section>
+
+        <!-- <section class="section-padding gray-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5">
+                      <img class="img-responsive mb-sm-30" src="assets/img/creative/laptop.jpg" alt="">
+                    </div>
+
+                    <div class="col-md-7">
+                        <h2 class="text-uppercase text-extrabold font-30 mb-30 ">materialize is a creative html template</h2>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit</p>
+
+                        <a href="#." class="btn btn-lg waves-effect waves-light"> Buy Now</a>
+                    </div>
+
+                </div>
+            </div>
+        </section> -->
+
+        <section class="section-padding managefeatures product_features">
+            <div class="container">
+
+              <!-- <div class="text-center mb-80">
+                <h2 class="section-title text-uppercase">Product Features</h2>
+              </div> -->
+              <div class="row">
+                    <div class="col-md-5">
+                      <img class="img-responsive mb-sm-30" src="./resources/eAssessLogin/images/privatetrainer.jpg" alt="">
+                    </div>
+
+                    <div class="col-md-7">
+                        <h2 class="text-uppercase">Assessment Platform</h2>
+                        <ul>
+                          <li>Conduct MCQ/Coding/Fullstack/Video assessments for Internal/External Employees to measure effectiveness of your Learning Programs/Recruitment</li>
+                          <li>Create Highly Configurable Assessments to suit your needs</li>
+                          <li>Supports Coding assessments for - Java/DotNet/C/C++/Python up to 20  Programming languages</li>
+                          <li>Huge Content Repository - (Programming Languages/Communication/Aptitude/Reasoning/Competitive Exams/more)</li>
+                          <li>Secured Assessments - Detects attempts to move away from Test Screen, identifies suspicious video patterns</li>
+                          <li>Has an inbuild Skill Recommendation Engine</li>
+                          <li>Can Integrate with your exisitng LMS/HRMS systems</li>
+                        </ul>
+                    </div>
+              </div>
+              <div class="row">
+                    <div class="col-md-7">
+                        <h2 class="text-uppercase">Candidate Profile Scanner & Management</h2>
+                          <ul>
+                            <li>Centralized Repository of Job descriptions/Job Applications</li>
+                            <li>Manage External Recruitment Vendors</li>
+                            <li>Skill Repository for Candidates appearing for positions</li>
+                            <li>Centralized storage of Interviewer Feedback</li>
+                            <li>360 degree view of Applications right from sourcing to assessmment/interview stage.</li>
+                            <li>Multiple Stakeholders login - Talent Professional/HR/Vendor/Interviewer</li>
+                            <li>Use AI/ML to transalate Profiles to a set of objective parameters and establish relevancy to job descriptions</li>
+                          </ul>
+                    </div>
+                    <div class="col-md-5">
+                      <img class="img-responsive mb-sm-30" src="./resources/eAssessLogin/images/video_upload1.jpg" alt="">
+                    </div>
+              </div>
+              <div class="row">
+                    <div class="col-md-5">
+                      <img class="img-responsive mb-sm-30" src="./resources/eAssessLogin/images/cloud_onPremises_deployment.png" alt="">
+                    </div>
+
+                    <div class="col-md-7">
+                        <h2 class="text-uppercase">Campaign Manager</h2>
+                          <ul>
+                            <li>Orchestrate multiple rounds of assessments(MCQ/Coding) with Candidates</li>
+                            <li>Generate Skill profile for Candidates based on assessment feedback through automation</li>
+                            <li>Integrate with your Meeting platforms to conduct one-on-one meetings with candidates</li>
+                            <li>Access of Candidate's Skill Profile  with Interviewer when conducting interview</li>
+                            <li>Subjective Candidate feedback input by Interviewer for subsequent decesions</li>
+                          </ul>
+                    </div>
+
+              </div>
+              <!-- <div class="row">
+
+                  <div class="col-md-4">
+                    <div class="featured-item border-box radius-4 hover brand-hover">
+                        <div class="icon mb-30">
+                            <i class="material-icons brand-icon">?</i>
+                        </div>
+                        <div class="desc">
+                            <h2 class="text-uppercase">Candidate Profile Scanner & Management</h2>
+                            <p>Centralized Repository of Job descriptions/Job Applications</p>
+                            <p>Manage External Recruitment Vendors</p>
+                            <p>Skill Repository for Candidates appearing for positions</p>
+                            <p>Centralized storage of Interviewer Feedback</p>
+                            <p>360 degree view of Applications right from sourcing to assessmment/interview stage.</p>
+                            <p>Multiple Stakeholders login - Talent Professional/HR/Vendor/Interviewer</p>
+                            <p>Use AI/ML to transalate Profiles to a set of objective parameters and establish relevancy to job descriptions</p>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="featured-item border-box radius-4 hover brand-hover">
+                        <div class="icon mb-30">
+                            <i class="material-icons brand-icon">?</i>
+                        </div>
+                        <div class="desc">
+                            <h2 class="text-uppercase">Campaign Manager</h2>
+                            <p>Orchestrate multiple rounds of assessments(MCQ/Coding) with Candidates</p>
+                            <p>Generate Skill profile for Candidates based on assessment feedback through automation</p>
+                            <p>Integrate with your Meeting platforms to conduct one-on-one meetings with candidates</p>
+                            <p>Access of Candidate's Skill Profile  with Interviewer when conducting interview</p>
+                            <p>Subjective Candidate feedback input by Interviewer for subsequent decesions</p>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="featured-item border-box radius-4 hover brand-hover">
+                        <div class="icon mb-30">
+                            <i class="material-icons brand-icon">?</i>
+                        </div>
+                        <div class="desc">
+                            <h2 class="text-uppercase">Assessment Platform</h2>
+                            <p>Conduct MCQ/Coding/Fullstack/Video assessments for Internal/External Employees to measure effectiveness of your Learning Programs/Recruitment</p>
+                            <p>Create Highly Configurable Assessments to suit your needs</p>
+                            <p>Supports Coding assessments for - Java/DotNet/C/C++/Python up to 20  Programming languages</p>
+                            <p>Huge Content Repository - (Programming Languages/Communication/Aptitude/Reasoning/Competitive Exams/more)</p>
+                            <p>Secured Assessments - Detects attempts to move away from Test Screen, identifies suspicious video patterns</p>
+                            <p>Has an inbuild Skill Recommendation Engine</p>
+                            <p>Can Integrate with your exisitng LMS/HRMS systems</p>
+                        </div>
+                    </div>
+                  </div>
+              </div> -->
+            </div>
+        </section>
+
+        <section id="features" class="section-padding productfeatures">
+            <div class="container">
+
+              <div class="text-center mb-80 wow fadeInUp">
+                  <h2 class="section-title text-uppercase">Product Features</h2>
+              </div>
+
+              <div class="row equal-height-row">
+                  <div class="col-md-4 mb-30">
+                      <div class="featured-item hover-outline brand-hover radius-4 equal-height-column">
+                          <div class="icon">
+                              <i class="material-icons colored brand-icon">&#xE0B7;</i>
+                          </div>
+                          <div class="desc">
+                              <h2>rParser</h2>
+                              <p>Parse Job Descriptions</p>
+                              <p>Parse Candidate Profiles</p>
+                              <p>Establish Relevancy to Job Description</p>
+                              <p>Integrate with Campaign Manager & Assessment Engine</p>
+                              <p>Integrate with your HRMS systems</p>
+                          </div>
+                      </div><!-- /.featured-item -->
+                  </div><!-- /.col-md-4 -->
+
+                  <div class="col-md-4 mb-30">
+                      <div class="featured-item hover-outline brand-hover radius-4 equal-height-column">
+                          <div class="icon">
+                              <i class="material-icons colored brand-icon">&#xE912;</i>
+                          </div>
+                          <div class="desc">
+                              <h2>Highly Configurable Assessments</h2>
+                              <p>Attempts/Pass Threshold/Dispatching of Results to select people/etc</p>
+                              <p>Weighted Scoring Model</p>
+                              <p>Randomization</p>
+                              <p>Recommndations</p>
+                              <p>Show Quesions Justifications</p>
+                          </div>
+                      </div><!-- /.featured-item -->
+                  </div><!-- /.col-md-4 -->
+
+                  <div class="col-md-4 mb-30">
+                      <div class="featured-item hover-outline brand-hover radius-4 equal-height-column">
+                          <div class="icon">
+                              <i class="material-icons colored brand-icon">&#xE8B8;</i>
+                          </div>
+                          <div class="desc">
+                              <h2>Enterprise Integrations</h2>
+                              <p>SSO</p>
+                              <p>Can integrate with your LMS/HRMS/Meeting platforms</p>
+                              <p>Role based Access Control</p>
+                              <p>Access for Internal / External Users</p>
+                              <p>Easy Candidate Onboarding</p>
+                          </div>
+                      </div><!-- /.featured-item -->
+                  </div><!-- /.col-md-4 -->
+
+                  <div class="col-md-4">
+                      <div class="featured-item hover-outline brand-hover radius-4 equal-height-column">
+                          <div class="icon">
+                              <i class="material-icons colored brand-icon">&#xE323;</i>
+                          </div>
+                          <div class="desc algorithms">
+                              <h2>Coding Assessments (Algorithms)</h2>
+                              <p>Java</p>
+                              <p>C</p>
+                              <p>C++</p>
+                              <p>Dot Net</p>
+                              <p>C#</p>
+                              <p>PHP</p>
+                              <p>Python</p>
+                              <p>JavaScript</p>
+                              <p>Clojure</p>
+                              <p>GO</p>
+                              <p>Bash</p>
+                              <p>Objective C</p>
+                              <p>Perl</p>
+                              <p>More</p>
+                          </div>
+                      </div><!-- /.featured-item -->
+                  </div><!-- /.col-md-4 -->
+
+                  <div class="col-md-4">
+                      <div class="featured-item hover-outline brand-hover radius-4 equal-height-column">
+                          <div class="icon">
+                              <i class="material-icons colored brand-icon">&#xE412;</i>
+                          </div>
+                          <div class="desc">
+                              <h2>Fullstack Assessments (Framework/DB Support)</h2>
+                              <p>Java</p>
+                              <p>DotNet</p>
+                              <p>Python</p>
+                              <p>PHP</p>
+                              <p>Angular JS/React JS</p>
+                              <p>NoSQL (MongoDB/Cassandra/etc)</p>
+                              <p>More</p>
+                          </div>
+                      </div><!-- /.featured-item -->
+                  </div><!-- /.col-md-4 -->
+
+                  <div class="col-md-4">
+                      <div class="featured-item hover-outline brand-hover radius-4 equal-height-column">
+                          <div class="icon">
+                              <i class="material-icons colored brand-icon">&#xE02C;</i>
+                          </div>
+                          <div class="desc">
+                              <h2>Assessment Content</h2>
+                              <p>MCQ/Coding/Fullstack - Programming Languages</p>
+                              <p>Communications</p>
+                              <p>Behaviour</p>
+                              <p>Aptitude</p>
+                              <p>Mock Entrance (JEE/NEET/MRNAT/CLAT/etc)</p>
+                          </div>
+                      </div><!-- /.featured-item -->
+                  </div><!-- /.col-md-4 -->
+              </div><!-- /.row -->
+
+            </div><!-- /.container -->
+        </section>
+
+        <!-- <section class="padding-top-50 padding-bottom-50 brand-bg">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                  <div class="quote-carousel text-center">
+
+                      <div class="carousel-item">
+                          <div class="content">
+                              <h2 class="white-text line-height-40">"My favorite things in life don't cost any money. It's really clear that the most precious resource we all have is time."</h2>
+
+                              <div class="testimonial-meta font-20 text-extrabold white-text">
+                                  Steve Jobes
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="carousel-item">
+                          <div class="content">
+                              <h2 class="white-text line-height-40">"My favorite things in life don't cost any money. It's really clear that the most precious resource we all have is time."</h2>
+
+                              <div class="testimonial-meta font-20 text-extrabold white-text">
+                                  Steve Jobes
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="carousel-item">
+                          <div class="content">
+                              <h2 class="white-text line-height-40">"My favorite things in life don't cost any money. It's really clear that the most precious resource we all have is time."</h2>
+
+                              <div class="testimonial-meta font-20 text-extrabold white-text">
+                                  Steve Jobes
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </section> -->
+
+        <section class="whocanuse gray-bg" >
+          <div class="container">
+            <div class="text-center mt-50">
+              <h2 class="section-title">Meet Our Clients</h2>
+              <hr class="line">
+            </div>
+            
+          </div>
+        </section>
+        <section class="waystouse section-padding gray-bg">
+          
+          <div class="container gray-bg">
+            <div class="row">
+              <div class="customer-logos">
+                <div class="slide"><img src="./resources/eAssessLogin/images/logo-abm2.png" style="height: 90px;"></div>
+                <div class="slide"><img src="./resources/eAssessLogin/images/LTI.png" style="height: 110px;"></div>
+                <div class="slide"><img src="./resources/eAssessLogin/images/cognizant.png" style="height: 100px;"></div>
+                <div class="slide"><img src="./resources/eAssessLogin/images/panorma.png" style="height: 100px;"></div>
+                <div class="slide"><img src="./resources/eAssessLogin/images/Pearson-Institute.png" style="height: 100px;"></div>
+                <div class="slide"><img src="./resources/eAssessLogin/images/AIE.png" style="height: 90px;"></div>
+                <div class="slide"><img src="./resources/eAssessLogin/images/Infrasoft copy.png" style="height: 150px;"></div>
+              </div></div></div>
+        </section>
+
+        <footer>
+          <div class="myfooter">
+            <div class="container">
+              <div class="row"> 
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <a href="index.html" class="ftrlogo">
+                      <img class="retina" src="./resources/eAssessLogin/images/Logo.png" alt="">
+                  </a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <div class="footer-inner">
+                    <p>Contact Us</p>
+                    <h6><a href="tel:+91 9768 36294"><i class="fa fa-phone" aria-hidden="true"></i>+91 9768 36294</a></h6>
+                    <h6><a href="mailto:contact@eassess.in"><i class="fa fa-envelope" aria-hidden="true"></i>contact@eassess.in</a></h6>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <a href="https://eassess.in/prospect." target="_blank" class="btn info">Request For Demo</a>
+                  <ul>
+                    <li><a href="https://www.youtube.com/channel/UCViRq-7wQyjgU2eGSoQwfiQ" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                    <li><a href="https://www.linkedin.com/company/cygone-tech" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="myfooterlast">
+            <p>Copyright &copy; 2021 Cygone Tech Private Limited 2020</p>
+          </div>
+        </footer>
+
+		</div>
+
+        <!-- jQuery -->
+       
+        <script>
+          if ($('.quote-carousel').length > 0) {
+
+            $('.quote-carousel').owlCarousel({
+                loop:true,
+                autoHeight : true,
+                responsive:{
+                    0:{
+                        items:1
+                    },
+                    600:{
+                        items:1
+                    },
+                    1000:{
+                        items:1
+                    }
+                }
+            });
+          }
+        </script>
+          <script>
+
+        $(document).ready(function(){
+      $('.customer-logos').slick({
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 1000,
+        arrows: false,
+        dots: false,
+          pauseOnHover: false,
+          responsive: [{
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 3
+          }
+        }, {
+          breakpoint: 520,
+          settings: {
+            slidesToShow: 2
+          }
+        }]
+      });
+    });
+
+            if ($('.quote-carousel').length > 0) {
+
+            $('.quote-carousel').owlCarousel({
+                loop:true,
+                autoHeight : true,
+                responsive:{
+                    0:{
+                        items:1
+                    },
+                    600:{
+                        items:1
+                    },
+                    1000:{
+                        items:1
+                    }
+                }
+            });
+        }
+        
+        </script>
+
+  </body>
+  
 </html>

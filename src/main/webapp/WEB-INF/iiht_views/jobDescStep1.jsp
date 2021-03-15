@@ -42,6 +42,48 @@
 		padding: 6px;
 		border-bottom:none;
 	}
+	
+	.theme-button.minimal-border {
+    background: 0 0;
+    color: #888;
+    border: 1px solid #e8e8e8;
+    border-radius: 0;
+}
+
+
+.theme-button, .color-button, input[type=submit], button, .button, .added_to_cart {
+    display: inline-block;
+    background-color: #2c87f0;
+/*     color: #fff; */
+    padding: .538em 1.077em;
+    font-family: inherit;
+    font-size: .923em;
+    font-weight: 400;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    line-height: 1.65;
+    -webkit-appearance: none;
+    -webkit-font-smoothing: inherit;
+    text-decoration: none!important;
+    max-width: 100%;
+    transition: .15s all ease;
+    border-radius: 3px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.theme-button{
+    color: blue !important;
+}
+
+ul.vcex-filter-links {
+    list-style: none;
+    margin: 0 0 20px;
+}
+li{
+ display: inline-block;
+     margin-right: 11px;
+}
 	 
 	 </style>
     </head>
@@ -69,7 +111,7 @@
                             Tests
                         </a>
                         <a href="#" class="view-more active">
-                            Campaigns <i class="fa fa-angle-down"></i>
+                            Create or Update JD Wizard<i class="fa fa-angle-down"></i>
                         </a>
                         <div class="more-nav">
                             <a href="newSkills">
@@ -129,6 +171,21 @@
                             </a>
 							<a href="showCampaigns">
                                 Campaigns
+                            </a>
+							<a href="recruiters">
+                                Manager Recruiters
+                            </a>
+                            <a href="jobDescriptions">
+                                Share Job Descriptions
+                            </a>
+                            <a href="profileForJobDescription">
+                                Next Steps for Job Applications 
+                            </a>
+							<a href="applicationTracking">
+                                Job Applications Tracker 
+                            </a>
+							<a href="apprepository">
+                                Candidate Repository
                             </a>
                         </div>
                     </nav>
@@ -226,22 +283,35 @@
                                        <!-- <button class="btn btn-primary" type="button" data-toggle="modal" data-target=".bd-example-modal-lg" onClick="openCampaignTestsDialog()">
                                             Add Test
                                         </button> -->
-										Primary Skill
-										<input type="text" value="Java" />
-										<input type="text" value="Oops" />
-										<input type="text" value="Core Java" />
-										<input type="text" value="List" />
-										<input type="text" value="ArrayList" />
-									<br>
-									<br>
-										<input type="text" name="primaryweight" />
-										Secondary Skill
-										<input type="text" value="Java" />
-										<input type="text" value="Oops" />
-										<input type="text" value="Core Java" />
-										<input type="text" value="List" />
-										<input type="text" value="ArrayList" />
-										<input type="text" name="secondaryweight" />
+									
+<!-- 										Primary Skill -->
+<!-- 										<input type="text" value="Java" /> -->
+<!-- 										<input type="text" value="Oops" /> -->
+<!-- 										<input type="text" value="Core Java" /> -->
+<!-- 										<input type="text" value="List" /> -->
+<!-- 										<input type="text" value="ArrayList" /> -->
+<!-- 									<br> -->
+									
+									<ul class="vcex-portfolio-filter vcex-filter-links clr">
+										Primary Skills: &nbsp&nbsp
+													<li class="active"><a class="theme-button minimal-border">Java</a></li>
+													<li ><a class="theme-button minimal-border">Oops</a></li>
+													<li ><a class="theme-button minimal-border">Core Java</a></li>													
+													<li ><a class="theme-button minimal-border">List</a></li>
+													<li ><a class="theme-button minimal-border">ArrayList</a></li>
+<!-- 													<li ><a class="theme-button minimal-border" href="https://colorlib.com/wp/templates/">All</a></li> -->
+									</ul>
+									
+									
+<!-- 									<br> -->
+<!-- 										<input type="text" name="primaryweight" /> -->
+<!-- 										Secondary Skill -->
+<!-- 										<input type="text" value="Java" /> -->
+<!-- 										<input type="text" value="Oops" /> -->
+<!-- 										<input type="text" value="Core Java" /> -->
+<!-- 										<input type="text" value="List" /> -->
+<!-- 										<input type="text" value="ArrayList" /> -->
+<!-- 										<input type="text" name="secondaryweight" /> -->
 <!-- 										<button class="btn btn-primary" type="button" onClick="openCampaignTestsDialog()"> -->
 <!--                                           Skill List -->
 <!--                                         </button> -->

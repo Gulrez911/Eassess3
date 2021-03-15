@@ -2,8 +2,10 @@ package com.assessment.web.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.assessment.Exceptions.AssessmentGenericException;
 import com.assessment.common.CommonUtil;
 import com.assessment.common.PropertyConfig;
 import com.assessment.common.util.EmailGenericMessageThread;
@@ -35,6 +38,7 @@ import com.assessment.common.util.NavigationConstants;
 import com.assessment.data.Campaign;
 import com.assessment.data.CampaignTest;
 import com.assessment.data.CandidateCampaignSchedule;
+import com.assessment.data.CandidateDetailsForJD;
 import com.assessment.data.JobDescription;
 import com.assessment.data.JobDescriptionRecruiter;
 import com.assessment.data.RecruitCandidateProfile;
@@ -50,6 +54,7 @@ import com.assessment.services.CampaignService;
 import com.assessment.services.CandidateCampaignScheduleService;
 import com.assessment.services.JobDescriptionRecruiterService;
 import com.assessment.services.JobDescriptionService;
+import com.assessment.services.RecruitCandidateProfileService;
 import com.assessment.services.UserService;
 
 @Controller
@@ -75,10 +80,17 @@ public class RecruitmentController {
 	RecruitCandidateProfileRepository recruitCandidateProfileRepository;
 	@Autowired
 	CandidateDetailsForJDRepository jdRepository;
+//<<<<<<< HEAD
 	@Autowired
 	CandidateCampaignScheduleRepository campaignScheduleRepository;
 	@Autowired
 	CandidateCampaignScheduleService campaignScheduleService;
+//=======
+
+	@Autowired
+	RecruitCandidateProfileService recruitCandidateProfileService;
+
+//>>>>>>> branch 'master' of https://github.com/Gulrez911/Eassess3.git
 
 	@GetMapping("/recruiters")
 	public ModelAndView recruitment(@RequestParam(name = "page", required = false) Integer pageNumber, HttpServletRequest request, HttpServletResponse response,
@@ -171,8 +183,6 @@ public class RecruitmentController {
 		return mav;
 	}
 
-
-	
 	@GetMapping("/jobDescriptions")
 	public ModelAndView jobDescription(@RequestParam(name = "page", required = false) Integer pageNumber, @RequestParam(name = "msg", required = false) String msg,
 								HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
@@ -348,7 +358,7 @@ public class RecruitmentController {
 //			String child = "<tr id=\"T${ID}\">	<td>		<input type=\"checkbox\" name=\"${ID}\" id=\"${ID}\" onchange=\"changeCandidateCheckbox(this, '${CAMPAIGN_NAME}')\">	</td>	<td>		${FIRSTNAME}, ${LASTNAME}	</td>	<td>		${EMAIL}	</td></tr>";
 			String child = "<tr id=\"T${ID}\">	<td>		<input type=\"radio\" name=\"campaignId\" id=\"${ID}\" onchange=\"selectCampaign(this)\">	</td>	<td>		${CAMPAIGN_NAME}	</td>	<td>		${CAMPAIGN_DESC}	</td></tr>";
 
-			child = child.replace("${CAMPAIGN_NAME}", campaign.getCampaignName());
+			child = child.replace("${CAMPAIGN_NAME}", campaign.getCampaignName() == null ? "NA" : campaign.getCampaignName());
 			child = child.replace("${CAMPAIGN_DESC}", campaign.getCampaignDesc() == null ? "NA" : campaign.getCampaignDesc());
 //			child = child.replace("${EMAIL}", usr.getEmail());
 			child = child.replace("${ID}", campaign.getId() + "");
@@ -392,6 +402,16 @@ public class RecruitmentController {
 		file.mkdirs();
 		File actual = new File(baseFolder + File.separator + uploadFile.getOriginalFilename());
 		FileUtils.copyInputStreamToFile(uploadFile.getInputStream(), actual);// or uploadFile.transferTo(file);
+		JobDescription description = descriptionService.findById(jobId);
+		User user2 = new User();
+		user2.setFirstName(firstName);
+		user2.setLastName(lastName);
+		user2.setEmail(email);
+		user2.setPassword("1234");
+		user2.setCompanyId(user.getCompanyId());
+		user2.setCompanyName(user.getCompanyName());
+		user2.setUserType(UserType.STUDENT);
+		userService.saveOrUpdate(user2);
 
 		RecruitCandidateProfile candidateProfile = new RecruitCandidateProfile();
 		candidateProfile.setCompanyId(user.getCompanyId());
@@ -400,13 +420,17 @@ public class RecruitmentController {
 		candidateProfile.setLastName(lastName);
 		if (email != null) {
 			candidateProfile.setEmail(email);
+		} else {
+			throw new AssessmentGenericException("EMAIL_MANDATORY");
 		}
 		candidateProfile.setRecruiterEmail(user.getEmail());
 		candidateProfile.setJobDescriptionId(jobId);
+		candidateProfile.setJobDescriptionName(description.getName());
 		candidateProfile.setCandidateCVName(uploadFile.getOriginalFilename());
 		candidateProfile.setCandidateCVURL(propertyConfig.getFileServerWebUrl() + "Files" + File.separator + user.getRecruitmentCompanyName() + File.separator
 									+ user.getEmail() + File.separator + jobId + File.separator + uploadFile.getOriginalFilename());
-		recruitCandidateProfileRepository.save(candidateProfile);
+		recruitCandidateProfileService.saveOrUpdate(candidateProfile);
+		// recruitCandidateProfileRepository.save(candidateProfile);
 //		}
 		return "ok";
 	}
@@ -415,7 +439,11 @@ public class RecruitmentController {
 	@ResponseBody
 	public String getCandidateProfile(@RequestParam Long jobId, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
-		List<RecruitCandidateProfile> candidateProfiles = recruitCandidateProfileRepository.findByJobDescriptionIdAndRecruiterEmail(jobId, user.getEmail());
+		// List<RecruitCandidateProfile> candidateProfiles =
+		// recruitCandidateProfileRepository.findByJobDescriptionIdAndRecruiterEmail(jobId,
+		// user.getEmail());
+		List<RecruitCandidateProfile> candidateProfiles = recruitCandidateProfileRepository.findByJobDescriptionIdAndRecruiterEmailAndCompanyId(jobId, user.getEmail(),
+									user.getCompanyId());
 
 		Page<User> users = userService.findUsersByTypeAndCompany(user.getCompanyId(), UserType.RECRUITER.getType(), PageRequest.of(0, 100));
 		String parent = "<table class=\"table\">	<thead>		<tr>  <th>				Name			</th>			<th>			Email				</th><th>		View Profile					</th>		</tr>	</thead>	<tbody>		${ROWS}			</tbody></table>";
@@ -451,7 +479,7 @@ public class RecruitmentController {
 		CommonUtil.setCommonAttributesOfPagination(descriptions, mav.getModelMap(), pageNumber, "searchJobDescription2", queryParams);
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/searchJobDescription3", method = RequestMethod.GET)
 	public ModelAndView searchJobDescription3(@RequestParam(name = "page", required = false) Integer pageNumber, @RequestParam String searchText, HttpServletResponse response,
 								HttpServletRequest request) throws Exception {
@@ -467,7 +495,7 @@ public class RecruitmentController {
 		CommonUtil.setCommonAttributesOfPagination(descriptions, mav.getModelMap(), pageNumber, "searchJobDescription3", queryParams);
 		return mav;
 	}
-	
+
 	@GetMapping("/profileForJobDescription")
 	public ModelAndView profileForJobDescription(@RequestParam(name = "page", required = false) Integer pageNumber, HttpServletRequest request, HttpServletResponse response,
 								ModelMap modelMap) {
@@ -476,7 +504,8 @@ public class RecruitmentController {
 		if (pageNumber == null) {
 			pageNumber = 0;
 		}
-		Page<JobDescription> descriptions = descriptionService.findByCompanyId(user.getCompanyId(), PageRequest.of(pageNumber, NavigationConstants.NO_JOBDESCRIPTION_PAGE));
+		Page<JobDescription> descriptions = descriptionService.findByCompanyId(user.getCompanyId(),
+									PageRequest.of(pageNumber, NavigationConstants.NO_JOBDESCRIPTION_PAGE));
 //			 mav.addObject("usr", new User());
 		mav.addObject("descriptions", descriptions.getContent());
 		CommonUtil.setCommonAttributesOfPagination(descriptions, modelMap, pageNumber, "profileForJobDescription", null);
@@ -491,17 +520,20 @@ public class RecruitmentController {
 
 		List<RecruitCandidateProfile> candidateProfiles = recruitCandidateProfileRepository.findByCompanyId(user.getCompanyId());
 
-		String parent = "<table class=\"table\">	<thead>	<tr><th>JD Name</th><th>Candidate</th>	<th>  View Parsing Details </th><th>   Bucket	</th><th>    No. Of relevant Years    </th><th>    Current Location   </th><th>    Source    </th><th>   Connect    </th>	<th>   Initiate Next Steps	  </th></tr>	</thead>	<tbody>		${ROWS}			</tbody></table>";
+		String parent = "<table class=\"table\">	<thead>	<tr> <th>Candidate</th>	<th>  View Parsing Details </th><th>   Bucket	</th><th>    No. Of relevant Years    </th><th>    Current Location   </th><th>    Source    </th><th>   Connect    </th>	<th>   Initiate Next Steps	  </th></tr>	</thead>	<tbody>		${ROWS}			</tbody></table>";
 		String childs = "";
 //		for (CandidateDetailsForJD  jd : candidateDetailsForJDs) {
 		for (RecruitCandidateProfile jd : candidateProfiles) {
 //			String child = "<tr id=\"T${ID}\">	<td>		<input type=\"checkbox\" name=\"${ID}\" id=\"${ID}\" onchange=\"changeCandidateCheckbox(this, '${CAMPAIGN_NAME}')\">	</td>	<td>		${FIRSTNAME}, ${LASTNAME}	</td>	<td>		${EMAIL}	</td></tr>";
-			String child = "<tr>	<td>		${JDNAME}</td>	<td>		${CANDIDATE}	</td>	<td>		${PARSE}	</td><td>${BUCKET}</td><td>${RELEVANT_YEARS}</td><td>${CURRENT_LOCATION}</td><td>${SOURCE}</td><td>${CONNECT}</td><td><a href=\"javascript:openScheduleModel(${ARGS})\">Schedule</a></td></tr>";
+			String child = "<tr>	 	 	<td>		${CANDIDATE}	</td>	<td>		<a href=\"javascript:getParse(${ARGS2})\">Click Here</a>	</td><td>${BUCKET}</td><td>${RELEVANT_YEARS}</td><td>${CURRENT_LOCATION}</td><td>${SOURCE}</td><td>${CONNECT}</td><td><a href=\"javascript:openScheduleModel(${ARGS})\">Schedule</a></td></tr>";
 
-			child = child.replace("${JDNAME}", jd.getJobDescriptionName() == null ? "NA" : jd.getJobDescriptionName());
+//			child = child.replace("${JDNAME}", jd.getJobDescriptionName() == null ? "NA" : jd.getJobDescriptionName());
 			child = child.replace("${CANDIDATE}", jd.getFirstName() + " " + jd.getLastName());
 //			child = child.replace("${FIRSTNAME}", candidateProfile.getFirstName() == null ? "NA" : candidateProfile.getFirstName());
-			child = child.replace("${PARSE}", "<a href='#'>Click Here</a>");
+//			child = child.replace("${PARSE}", "<a href='#'>Click Here</a>");
+			String args2 = "'" + jd.getEmail() + "','" + jd.getFirstName() +" "+jd.getLastName()+   "'";
+			
+			child = child.replace("${ARGS2}", args2);
 			child = child.replace("${BUCKET}", "NA");
 //			child = child.replace("${RELEVANT_YEARS}", jd.getRelevantYears());
 			child = child.replace("${RELEVANT_YEARS}", "NA");
@@ -534,7 +566,7 @@ public class RecruitmentController {
 //		map.put("campaignName", description.getCampaign().getCampaignName());
 //		map.put("skills", description.getCampaign().getSkillsForCampaign());
 //		map.put("tests", description.getCampaign().getRounds());
-		String parent = "<div class=\"col-sm-6  \">Candidate Details<br><b> Name:  </b>    ${FULL_NAME} <br><b>Email: </b><span id=\"email\">	${EMAIL}</span></div><div class=\"col-sm-6\"><b>Campaign Name: </b><span id=\"campName\"> ${CAMPAIGN_NAME}</span><br><br> <b>	Skills:</b> ${SKILLS}   <br><br><b>Tests: </b>${TESTS} <br><br>Interview  Start Date:  <input type=\"datetime-local\" class=\"form-control\" id=\"startDate\">	End Date: 	 <input type=\"datetime-local\" class=\"form-control\" id=\"endDate\"></div>";
+		String parent = "<div class=\"col-sm-6  \">Candidate Details<br><b> Name:  </b>    ${FULL_NAME} <br><b>Email: </b><span id=\"email\">	${EMAIL}</span></div><div class=\"col-sm-6\"><b>Campaign Name: </b><span id=\"campName\">${CAMPAIGN_NAME}</span><br><br> <b>	Skills:</b> ${SKILLS}   <br><br><b>Tests: </b>${TESTS} <br><br>Interview  Start Date:  <input type=\"datetime-local\" class=\"form-control\" id=\"startDate\">	End Date: 	 <input type=\"datetime-local\" class=\"form-control\" id=\"endDate\"></div>";
 		parent = parent.replace("${FULL_NAME}", profile.getFirstName() + " " + profile.getLastName());
 		parent = parent.replace("${EMAIL}", profile.getEmail());
 		parent = parent.replace("${CAMPAIGN_NAME}", description.getCampaign().getCampaignName());
@@ -570,6 +602,9 @@ public class RecruitmentController {
 			d2 = dateFormat.parse(endDate);
 			if (d2.after(d1)) {
 				CandidateCampaignSchedule campaignSchedule = new CandidateCampaignSchedule();
+				RecruitCandidateProfile candidateProfile = recruitCandidateProfileService.findByEmailAndCompanyId(email, user.getCompanyId());
+				campaignSchedule.setFirstName(candidateProfile.getFirstName());
+				campaignSchedule.setLastName(candidateProfile.getLastName());
 				campaignSchedule.setEmail(email);
 				campaignSchedule.setCompanyId(user.getCompanyId());
 				campaignSchedule.setCompanyName(user.getCompanyName());
@@ -577,6 +612,28 @@ public class RecruitmentController {
 				campaignSchedule.setEndDate(d2);
 				campaignSchedule.setCampaignName(campName);
 				campaignScheduleService.saveOrUpdate(campaignSchedule);
+
+				Campaign campaign = campaignService.findUniqueCampaign(user.getCompanyId(), campName);
+				String file = propertyConfig.getCampaignInviteHtmlLocation();
+				String html = FileUtils.readFileToString(new File(file));
+				html = html.replace("{FULL_NAME}", campaignSchedule.getFirstName() == null ? "NA"
+											: campaignSchedule.getFirstName() + " " + campaignSchedule.getLastName() == null
+																		? "NA"
+																		: campaignSchedule.getLastName());
+				html = html.replace("${CAMPAIGN_NAME}", campName);
+				html = html.replace("${MEETING_ROUND}", (campaign.getMeetingRound() != null && campaign.getMeetingRound() == true) ? "Yes" : "No");
+				String candidateurl = getCampaignLinkForTestTaker(campaign.getCampaignName(), user.getCompanyId(), campaignSchedule.getEmail(),
+											campaignSchedule.getFirstName() == null ? "NA" : campaignSchedule.getFirstName(),
+											campaignSchedule.getLastName() == null ? "NA" : campaignSchedule.getLastName(),
+											startDate, endDate);
+				html = html.replace("{URL}", candidateurl);
+				html = html.replace("${CAMPAIGN_DESC}", campaign.getCampaignDesc());
+				EmailGenericMessageThread client = new EmailGenericMessageThread(campaignSchedule.getEmail(),
+											"Campaign Link - " + campaign.getCampaignName() + " Sent by E-ASSESS", html,
+											propertyConfig);
+				Thread th = new Thread(client);
+				th.start();
+
 				map.put("msgType", "Information");
 				map.put("msg", "Campaign shared successfully");
 				map.put("icon", "success");
@@ -593,4 +650,113 @@ public class RecruitmentController {
 		return map;
 	}
 
+	private String getCampaignLinkForTestTaker(String campaignName, String companyId, String email, String firstName, String lastName, String sdate, String edate) {
+		String url = propertyConfig.getBaseUrl();
+		String controllerMethod = "testtaker-campaign";
+		campaignName = URLEncoder.encode(Base64.getEncoder().encodeToString(campaignName.getBytes()));
+		companyId = URLEncoder.encode(Base64.getEncoder().encodeToString(companyId.getBytes()));
+		email = URLEncoder.encode(Base64.getEncoder().encodeToString(email.getBytes()));
+		firstName = URLEncoder.encode(Base64.getEncoder().encodeToString(firstName.getBytes()));
+		lastName = URLEncoder.encode(Base64.getEncoder().encodeToString(lastName.getBytes()));
+		sdate = URLEncoder.encode(Base64.getEncoder().encodeToString(sdate.getBytes()));
+		edate = URLEncoder.encode(Base64.getEncoder().encodeToString(edate.getBytes()));
+		url += controllerMethod + "?campaignName=" + campaignName + "&companyId=" + companyId + "&email=" + email + "&firstName=" + firstName + "&lastName=" + lastName
+									+ "&startdate=" + sdate + "&enddate=" + edate;
+		return url;
+	}
+
+	@GetMapping("/getParsing")
+	@ResponseBody
+	public Map<String, Object> getParsing(@RequestParam(name = "email", required = false) String email, @RequestParam(name = "name", required = false) String name,
+								HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		User user = (User) request.getSession().getAttribute("user");
+		CandidateDetailsForJD candidateDetailsForJD = getCandidateDetails(email, name);
+		RecruitCandidateProfile candidateProfile= recruitCandidateProfileService.findByEmailAndCompanyId(email, user.getCompanyId());
+		map.put("url", candidateProfile.getCandidateCVURL());
+		map.put("jd", candidateDetailsForJD);
+		return map;
+	}
+
+	private CandidateDetailsForJD getCandidateDetails(String email, String name) {
+		CandidateDetailsForJD candidateDetailsForJD = new CandidateDetailsForJD();
+		if (email.startsWith("a") || email.startsWith("c") || email.startsWith("e") || email.startsWith("g") || email.startsWith("i")) {
+			candidateDetailsForJD.setCandidateName(name);
+			candidateDetailsForJD.setEmail(email);
+			candidateDetailsForJD.setPhoneNumber("9184723643");
+			candidateDetailsForJD.setZipCode("732342");
+			candidateDetailsForJD.setCity("Mumbai");
+			candidateDetailsForJD.setState("Maharashtra");
+			candidateDetailsForJD.setTechnicalSkills("Java Virtual Machine (JVM), JavaScript Pages (JSP), Service-oriented architecture – SOAP/REST, Web technologies – HTML, CSS, JQuery, Web frameworks – Struts and Spring");
+			candidateDetailsForJD.setSoftSkills("Communication, Time management, Team player, Critical thinking, Work well under pressure");
+			candidateDetailsForJD.setLanguages("Hindi, English, Marathi");
+			candidateDetailsForJD.setTotalExperience("5 Years");
+			candidateDetailsForJD.setEducationalDetails("B.Tech. in Computer Science");
+			candidateDetailsForJD.setCertifications("Learning How to Learn - Coursera Certificate");
+			candidateDetailsForJD.setRelevantYears("7 Years");
+			candidateDetailsForJD.setCurrentLocation("Mumbai");
+		} else if (email.startsWith("b") || email.startsWith("d") || email.startsWith("f") || email.startsWith("h") || email.startsWith("j")) {
+			candidateDetailsForJD.setCandidateName(name);
+			candidateDetailsForJD.setEmail(email);
+			candidateDetailsForJD.setPhoneNumber("9286524318");
+			candidateDetailsForJD.setZipCode("732352");
+			candidateDetailsForJD.setCity("Bhopal");
+			candidateDetailsForJD.setState("Madhya Pardesh");
+			candidateDetailsForJD.setTechnicalSkills("Web technologies – HTML, CSS,  Web frameworks – Struts and Spring, JQuery");
+			candidateDetailsForJD.setSoftSkills("Team player, Time management, Work well under pressure, Communication");
+			candidateDetailsForJD.setLanguages("Hindi, English");
+			candidateDetailsForJD.setTotalExperience("3 Years");
+			candidateDetailsForJD.setEducationalDetails("B.E. in Computer Science");
+			candidateDetailsForJD.setCertifications("Oracle Certificate");
+			candidateDetailsForJD.setRelevantYears("4 Years");
+			candidateDetailsForJD.setCurrentLocation("New Delhi");
+		} else if (email.startsWith("k") || email.startsWith("m") || email.startsWith("o") || email.startsWith("q") || email.startsWith("s")) {
+			candidateDetailsForJD.setCandidateName(name);
+			candidateDetailsForJD.setEmail(email);
+			candidateDetailsForJD.setPhoneNumber("9326458733");
+			candidateDetailsForJD.setZipCode("876539");
+			candidateDetailsForJD.setCity("Jabalpur");
+			candidateDetailsForJD.setState("Madhya Pardesh");
+			candidateDetailsForJD.setTechnicalSkills("Service-oriented architecture – REST, Web technologies – HTML, CSS, JQuery, Web frameworks – Struts and Spring");
+			candidateDetailsForJD.setSoftSkills("Work well under pressure, Good Communication, Time management, Team player, Critical thinking");
+			candidateDetailsForJD.setLanguages("Hindi, English");
+			candidateDetailsForJD.setTotalExperience("4 Years");
+			candidateDetailsForJD.setEducationalDetails("B.Tech. in Computer Science");
+			candidateDetailsForJD.setCertifications("Java Certificate");
+			candidateDetailsForJD.setRelevantYears("6 Years");
+			candidateDetailsForJD.setCurrentLocation("Mumbai");
+		} else if (email.startsWith("l") || email.startsWith("n") || email.startsWith("p") || email.startsWith("r") || email.startsWith("t")) {
+			candidateDetailsForJD.setCandidateName(name);
+			candidateDetailsForJD.setEmail(email);
+			candidateDetailsForJD.setPhoneNumber("9827609876");
+			candidateDetailsForJD.setZipCode("803593");
+			candidateDetailsForJD.setCity("Nalanda");
+			candidateDetailsForJD.setState("Bihar");
+			candidateDetailsForJD.setTechnicalSkills("Java, Hibernate, JPA, Web technologies – HTML, CSS, JQuery, Web frameworks – Struts and Spring");
+			candidateDetailsForJD.setSoftSkills("Good Communication, Critical thinking");
+			candidateDetailsForJD.setLanguages("Hindi, English, Bhojpuri");
+			candidateDetailsForJD.setTotalExperience("5 Years");
+			candidateDetailsForJD.setEducationalDetails("B.Tech. in Computer Science");
+			candidateDetailsForJD.setCertifications("Java Certifaction, Oracle Certifaction");
+			candidateDetailsForJD.setRelevantYears("7 Years");
+			candidateDetailsForJD.setCurrentLocation("Mumbai");
+		} else {
+			candidateDetailsForJD.setCandidateName(name);
+			candidateDetailsForJD.setEmail(email);
+			candidateDetailsForJD.setPhoneNumber("9184723643");
+			candidateDetailsForJD.setZipCode("873678");
+			candidateDetailsForJD.setCity("Banglore");
+			candidateDetailsForJD.setState("Karnataka");
+			candidateDetailsForJD.setTechnicalSkills("Java Virtual Machine (JVM), JavaScript Pages (JSP), Service-oriented architecture – SOAP/REST, Web technologies – HTML, CSS, JQuery, Web frameworks – Struts and Spring");
+			candidateDetailsForJD.setSoftSkills("Communication, Time management, Team player, Critical thinking, Work well under pressure");
+			candidateDetailsForJD.setLanguages("Hindi, English, Kannada");
+			candidateDetailsForJD.setTotalExperience("7 Years");
+			candidateDetailsForJD.setEducationalDetails("B.Tech. in Computer Science");
+			candidateDetailsForJD.setCertifications("Learning How to Learn - Coursera Certificate");
+			candidateDetailsForJD.setRelevantYears("8 Years");
+			candidateDetailsForJD.setCurrentLocation("Mumbai");
+		}
+		return candidateDetailsForJD;
+
+	}
 }

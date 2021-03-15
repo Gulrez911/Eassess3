@@ -3,6 +3,7 @@ package com.assessment.data;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -17,6 +18,7 @@ public class CandidateCampaignSchedule extends Base {
 
 	String email;
 
+	@Column(length=500)
 	String campaignName;
 
 	Date startDate;

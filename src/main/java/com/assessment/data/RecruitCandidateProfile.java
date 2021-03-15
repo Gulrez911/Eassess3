@@ -1,6 +1,10 @@
 package com.assessment.data;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public class RecruitCandidateProfile extends Base{
@@ -19,14 +23,46 @@ public class RecruitCandidateProfile extends Base{
 	
 	String recruiterEmail;
 	
+//<<<<<<< HEAD
+//	String jobDescriptionName;
+//	
+//	public String getJobDescriptionName() {
+//		return jobDescriptionName;
+//	}
+//
+//	public void setJobDescriptionName(String jobDescriptionName) {
+//		this.jobDescriptionName = jobDescriptionName;
+//=======
+//	@Transient
 	String jobDescriptionName;
 	
-	public String getJobDescriptionName() {
-		return jobDescriptionName;
+	@Transient
+	String dateWhenFirstApplied;
+	
+	@Transient
+	String candidateProfileUrl;
+	
+	public String getCandidateProfileUrl() {
+		return candidateProfileUrl;
 	}
 
-	public void setJobDescriptionName(String jobDescriptionName) {
+	public void setCandidateProfileUrl(String candidateProfileUrl) {
+		this.candidateProfileUrl = candidateProfileUrl;
+	}
+
+	public RecruitCandidateProfile(){
+		
+	}
+	
+	public RecruitCandidateProfile(String firstName, String lastName, String email, String candidateCVURL, String recruiterEmail, String jobDescriptionName, Date createDate ){
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.candidateCVURL = candidateCVURL;
+		this.recruiterEmail = recruiterEmail;
 		this.jobDescriptionName = jobDescriptionName;
+		this.createDate = createDate;
+//>>>>>>> branch 'master' of https://github.com/Gulrez911/Eassess3.git
 	}
 
 	public String getFirstName() {
@@ -84,5 +120,29 @@ public class RecruitCandidateProfile extends Base{
 	public void setRecruiterEmail(String recruiterEmail) {
 		this.recruiterEmail = recruiterEmail;
 	}
+
+	public String getJobDescriptionName() {
+		return jobDescriptionName;
+	}
+
+	public void setJobDescriptionName(String jobDescriptionName) {
+		this.jobDescriptionName = jobDescriptionName;
+	}
+
+	public String getDateWhenFirstApplied() {
+			if(getCreateDate() != null){
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+				return dateFormat.format(getCreateDate());
+			}
+		return "NA";
+	}
+
+	public void setDateWhenFirstApplied(String dateWhenFirstApplied) {
+		this.dateWhenFirstApplied = dateWhenFirstApplied;
+	}
+
+	
+	
+	
 	
 }

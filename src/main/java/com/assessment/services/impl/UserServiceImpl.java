@@ -200,6 +200,7 @@ public class UserServiceImpl implements UserService{
 		User user2= findByPrimaryKey(user.getEmail(), user.getCompanyId());
 		if( user2 != null) {
 			user.setUpdateDate(new Date());
+			user.setCreateDate(user2.getCreateDate());
 			user.setId(user2.getId());
 			Mapper mapper = new DozerBeanMapper();
 			mapper.map(user, user2);

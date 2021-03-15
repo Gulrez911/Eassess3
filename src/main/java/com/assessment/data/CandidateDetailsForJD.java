@@ -25,7 +25,7 @@ public class CandidateDetailsForJD extends Base {
 
 	Integer keywordCountInCV;
 
-	String relevancyToJobDesc;   //Relevancy to Job Desc in terms of percentage
+	Integer relevancyToJobDesc;   //Relevancy to Job Desc in terms of percentage
 
 	Long jobDescId;
 
@@ -37,6 +37,55 @@ public class CandidateDetailsForJD extends Base {
 	
 	String currentLocation;
 	
+	String street;
+	
+	String zipCode;
+	
+	String city;
+	
+	String state;
+
+	String languages;
+	
+	public String getLanguages() {
+		return languages;
+	}
+
+	public void setLanguages(String languages) {
+		this.languages = languages;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 
 	public String getCurrentLocation() {
 		return currentLocation;
@@ -134,11 +183,11 @@ public class CandidateDetailsForJD extends Base {
 		this.certifications = certifications;
 	}
 
-	public String getRelevancyToJobDesc() {
+	public Integer getRelevancyToJobDesc() {
 		return relevancyToJobDesc;
 	}
 
-	public void setRelevancyToJobDesc(String relevancyToJobDesc) {
+	public void setRelevancyToJobDesc(Integer relevancyToJobDesc) {
 		this.relevancyToJobDesc = relevancyToJobDesc;
 	}
 

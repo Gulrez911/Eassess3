@@ -15,11 +15,11 @@ import com.assessment.services.CandidateCampaignScheduleService;
 
 @Service
 @Transactional
-public class CandidateCampaignScheduleServiceImpl implements CandidateCampaignScheduleService{
+public class CandidateCampaignScheduleServiceImpl implements CandidateCampaignScheduleService {
 
 	@Autowired
 	CandidateCampaignScheduleRepository campaignScheduleRepository;
-	
+
 	@Override
 	public CandidateCampaignSchedule findByEmail(String companyId, String email) {
 		// TODO Auto-generated method stub
@@ -29,14 +29,14 @@ public class CandidateCampaignScheduleServiceImpl implements CandidateCampaignSc
 	@Override
 	public CandidateCampaignSchedule saveOrUpdate(CandidateCampaignSchedule campaignSchedule) {
 		// TODO Auto-generated method stub
-		CandidateCampaignSchedule campaignSchedule2 = campaignScheduleRepository.findByEmailAndCampaignNameAndCompanyId(campaignSchedule.getEmail(), campaignSchedule.getCampaignName(), campaignSchedule.getCompanyId());
-		if(campaignSchedule2 == null){
+		CandidateCampaignSchedule campaignSchedule2 = campaignScheduleRepository.findByEmailAndCampaignNameAndCompanyId(campaignSchedule.getEmail(),
+									campaignSchedule.getCampaignName(), campaignSchedule.getCompanyId());
+		if (campaignSchedule2 == null) {
 //			campaignReviewer.setCreateDate(new Date());
 			campaignScheduleRepository.save(campaignSchedule);
 			return campaignSchedule;
-		}
-		else{
-			//update
+		} else {
+			// update
 			Mapper mapper = new DozerBeanMapper();
 			campaignSchedule.setId(campaignSchedule2.getId());
 			mapper.map(campaignSchedule, campaignSchedule2);
@@ -49,6 +49,12 @@ public class CandidateCampaignScheduleServiceImpl implements CandidateCampaignSc
 	public CandidateCampaignSchedule getById(Long id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public CandidateCampaignSchedule findByEmailAndCampaignName(String email, String campName, String companyId) {
+		// TODO Auto-generated method stub
+		return campaignScheduleRepository.findByEmailAndCampaignNameAndCompanyId(email, campName, companyId);
 	}
 
 }

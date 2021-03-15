@@ -22,6 +22,8 @@ public interface JobDescriptionRepository extends JpaRepository<JobDescription,L
 	@Query("SELECT j FROM JobDescription j WHERE j.companyId=:companyId")
 	List<JobDescription> findByCompanyId(@Param("companyId") String companyId);
 	
+
+	
 	
 	@Query("SELECT j FROM JobDescription j WHERE j.companyId=:companyId")
 	public Page<JobDescription> findByCompanyId(@Param("companyId") String companyId, Pageable pageable);

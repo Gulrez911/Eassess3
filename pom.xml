@@ -433,7 +433,7 @@
 
 	<build>
 	
-		<finalName>Eassess3</finalName>
+		<finalName>assessment</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>

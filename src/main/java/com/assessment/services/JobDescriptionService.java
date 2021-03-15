@@ -25,4 +25,5 @@ public interface JobDescriptionService {
 	
 	Page<JobDescription> searchJobDescriptionByRecruiter( String companyId, String recruiterEmail, String searchText, Pageable pageable);
 
+	public JobDescription findById(Long jobId);
 }
