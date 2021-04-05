@@ -24,9 +24,13 @@
 <body class="pre-login">
 	<header>
 		<div class="container">
+<!-- 					  <div class="text-left"> -->
+<!-- 			        Language:<a href="javascript:changeLang('eng')">Eng</a> -->
+<!-- 			        <a href="javascript:changeLang('arabic')">العربية</a> -->
+<!-- 			    	</div> -->
 			<h1 class="text-center">
-				<img src="images_new/yaksha.png" width="210px" alt="Yaksha Online"> is ready to ask <br>
-				<span>what you already know best!</span>
+				<img src="images_new/yaksha.png" width="210px" alt="Yaksha Online"> ${publicTestUTF.isReadyTOask } <br>
+				<span>${publicTestUTF.eAssessQuotes }</span>
 			</h1>
 			<h2>
 				${testUserData.testName}
@@ -44,28 +48,28 @@
 					<form:hidden path="testUserData.endTime" value="${endTime}" />
 					<ul>
 						<li>
-							<label for="userName">Username/ Email</label>
+							<label for="userName">${publicTestUTF.email}</label>
 							<form:input  type="email" path="testUserData.user.email" name="email" id="userName" required="true" style="width: 210px;"/>
 							<div class="error-msg col-red mt-2 d-none">
-								Enter Valid Email ID
+							${publicTestUTF.enterValidEmail}
 							</div>
 						</li>
 						<li>
-							<label for="firstName">First Name</label>
+							<label for="firstName">${publicTestUTF.firstName}</label>
 							<form:input path="testUserData.user.firstName" name="firstName" id="firstName" required="true" style="width: 210px;"/>
 							<div class="error-msg col-red mt-2 d-none">
-								Enter Valid Firstname
+							${publicTestUTF.enterValidFirstName}
 							</div>
 						</li>
 						<li>
-							<label for="lastName">Last Name</label>
+							<label for="lastName">${publicTestUTF.lastName}</label>
 							<form:input path="testUserData.user.lastName" name="lastName" id="lastName" required="true" style="width: 210px;"/>
 							<div class="error-msg col-red mt-2 d-none">
-								Enter Valid Lastname
+									${publicTestUTF.enterValidLastName}
 							</div>
 						</li>
 						<li>
-							<label for="lastName">(Optional)Candidate Id</label>
+							<label for="lastName">(${publicTestUTF.optional})${publicTestUTF.candidateId}</label>
 							<form:input path="testUserData.user.candidateId" name="candidateId" id="candidateId" required="true" style="width: 210px;"/>
 							<div class="error-msg col-red mt-2 d-none">
 								Enter Valid Lastname
@@ -73,20 +77,26 @@
 						</li>
 						
 							</ul>
-						 
-						 <ul >
-						<li style="width: 14%">
-							<label for="lastName">(Optional) Degree</label>
+						 <div class="mt-3">
+						</div>
+						 <ul>
+						<li  >
+							<label for="lastName">(${publicTestUTF.optional}) ${publicTestUTF.degree}</label>
 							<form:input  type="email" path="testUserData.user.degree" name="degree" id="degree"  style="width: 210px;"/>
 						</li>
-						<li style="width: 14%">
-							<label for="firstName">(Optional)Passing Year</label>
+						<li  >
+							<label for="firstName">(${publicTestUTF.optional})${publicTestUTF.passingYear}</label>
 							<form:input path="testUserData.user.passingYear" name="passingYear" id="passingYear"  style="width: 210px;"/>
 						</li>
-						<li style="width: 14%">
-							<label for="lastName">(Optional) Mobile</label>
+						<li  >
+							<label for="lastName">(${publicTestUTF.optional}) ${publicTestUTF.mobile}</label>
 							<form:input path="testUserData.user.mobileNumber" name="mobileNumber" id="mobileNumber"   style="width: 210px;"/>
 						</li>
+						<li style="width: 18%">
+						 </li>
+						<li style="width: 14%">
+						 	</li>
+
 						
 							</ul>
 							
@@ -94,7 +104,7 @@
 				
 					<div class="mt-3 text-right">
 						<button id="submitFormButton" type="button" class="btn btn-primary" style="margin:0 auto;display:block;">
-							SIGN IN
+						${publicTestUTF.signIn}
 						</button>
 				
 						<button id="login_otp" type="button" class="btn btn-secondary" onclick="clickform()" style="display:none">
@@ -147,33 +157,41 @@
 			<ul>
 				<li class="mb-3">
 					<h3 class="mb-2">
-						instructions
+					${footerUTF.instructions}
+<!-- 						instructions -->
 					</h3>
 					<ul>
 						<li class="mb-2">
-							Test Results will be sent to you on Completion
+						${footerUTF.instruct1}
+<!-- 							Test Results will be sent to you on Completion -->
 						</li>
 						<li class="mb-2">
-							Click Submit for Submission of your Test
+						${footerUTF.instruct2}
+<!-- 							Click Submit for Submission of your Test -->
 						</li>
 						<li class="mb-2">
-							System will auto Submit Test if Timer Expires
+						${footerUTF.instruct3}
+<!-- 							System will auto Submit Test if Timer Expires -->
 						</li>
 					</ul>
 				</li>
 				<li class="mb-3">
 					<h3 class="mb-2">
-						web proctoring
+					${footerUTF.webProctoring}
+<!-- 						web proctoring -->
 					</h3>
 					<ul>
 						<li class="mb-2">
-							Do not move mouse pointer to a different tab
+						${footerUTF.webProctor1}
+<!-- 							Do not move mouse pointer to a different tab -->
 						</li>
 						<li class="mb-2">
-							Use F11 windows for Test if required
+						${footerUTF.webProctor2}
+<!-- 							Use F11 windows for Test if required -->
 						</li>
 						<li class="mb-2">
-							Non Compliance can result in your Test Declared Invalid
+						${footerUTF.webProctor3}
+<!-- 							Non Compliance can result in your Test Declared Invalid -->
 						</li>
 					</ul>
 				</li>
@@ -181,17 +199,21 @@
 			<ul>
 				<li class="mb-3">
 					<h3 class="mb-2">
-						tenants
+					${footerUTF.tenants}
+<!-- 						tenants -->
 					</h3>
 					<ul>
 						<li class="mb-2">
-							Domain specific Users are advise to login using Corporate Credentials
+						${footerUTF.tenants1}
+<!-- 							Domain specific Users are advise to login using Corporate Credentials -->
 						</li>
 						<li class="mb-2">
-							Every User is directed to provide Login data for Individual Reporting
+						${footerUTF.tenants2}
+<!-- 							Every User is directed to provide Login data for Individual Reporting -->
 						</li>
 						<li class="mb-2">
-							Tenant Admin will see Tenant specfic data only
+						${footerUTF.tenants3}
+<!-- 							Tenant Admin will see Tenant specfic data only -->
 						</li>
 					</ul>
 				</li>
@@ -201,13 +223,16 @@
 					</h3>
 					<ul>
 						<li class="mb-2">
-							Multi Technology Assessments
+						${footerUTF.eassess1}
+<!-- 							Multi Technology Assessments -->
 						</li>
 						<li class="mb-2">
-							Test Cases Based Evaluation
+						${footerUTF.eassess2}
+<!-- 							Test Cases Based Evaluation -->
 						</li>
 						<li class="mb-2">
-							Weighted Adaptive Assessments
+						${footerUTF.eassess3}
+<!-- 							Weighted Adaptive Assessments -->
 						</li>
 					</ul>
 				</li>
@@ -220,10 +245,12 @@
 				&copy; Copyright 2020 :: eAssess :: Powered by eAssess
 			</span>
 			<a href="javascript:void(0)" class="mr-5">
-				Terms and Conditions
+			${footerUTF.termsAndConditions}
+<!-- 				Terms and Conditions -->
 			</a>
 			<a href="javascript:void(0)">
-				Privacy Policy
+			${footerUTF.privacyPolicy}
+<!-- 				Privacy Policy -->
 			</a>
 		</div>
 	</footer>
@@ -407,7 +434,14 @@
 			});
 		}); 	
 	}
-	
+	function changeLang(lang){
+		var url = new URL(window.location.href);
+		url.searchParams.set('lang',lang);
+		var new_url = url.toString();
+		window.location = new_url
+// 		var search_params = url.searchParams;
+// 		alert(new_url);
+	}
 	function fullScreen(){
 		console.log('iner fullscreen called');
 	}

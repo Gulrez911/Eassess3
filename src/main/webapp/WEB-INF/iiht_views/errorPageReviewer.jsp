@@ -37,7 +37,7 @@
                         <i class="fa fa-bars"></i>
                     </button>
                     <a href="#" class="yaksha-logo my-auto">
-                        YAK<span>SHA</span>
+                        E<span>ASSESS</span>
                     </a>
                     
                 </div>

@@ -20,7 +20,9 @@ public interface UserService {
 	public User authenticate(String user, String password, String company) ;
 	
 	public void saveOrUpdate(User user);
-	
+//	new 
+	public void saveOrUpdateUser(User user);
+//	
 	public List<User> findByCompany(  String companyId);
 	
 	public User findById(Long id);

@@ -10,7 +10,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>eAssess</title>
-      	<link href="images/E-assess_E.png" rel="shortcut icon">   
+      	<link href="./resources/images/E-assess_E.png" rel="shortcut icon">   
         <link href="https://fonts.googleapis.com/css?family=Segoe+UI" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
         <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
@@ -100,8 +100,8 @@
                                         </div>
 
                                         <div class="filter">
-                                            <a href="javascript:notify('Information', 'Feature coming soon')"><img src="images/ic_sort.png">Sort</a>
-                                            <a href="javascript:notify('Information', 'Feature coming soon')"><img src="images/ic_filter.png">Filter</a>
+                                            <a href="javascript:notify('Information', 'Feature coming soon')"><img src="./resources/images/ic_sort.png">Sort</a>
+                                            <a href="javascript:notify('Information', 'Feature coming soon')"><img src="./resources/images/ic_filter.png">Filter</a>
 											 &nbsp; <a href="question_list" title="Click to view all Question Categories"><i class="fa fa-mail-reply-all"></i> </a>
                                         </div>
 

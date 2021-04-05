@@ -17,8 +17,8 @@ public interface JobDescriptionRecruiterRepository extends JpaRepository<JobDesc
 	@Query("SELECT j FROM JobDescriptionRecruiter j WHERE j.jobDescriptionName=:jobDescriptionName and j.companyId=:companyId")
 	JobDescriptionRecruiter findByPrimaryKey(@Param("jobDescriptionName") String jobDescriptionName, @Param("companyId") String companyId);
 	
-	@Query(value="SELECT q FROM JobDescriptionRecruiter q WHERE q.companyId=:companyId and q.jobDescriptionName=:jobDescriptionName  and q.email=:email")
-	public JobDescriptionRecruiter findUniqueJobDescriptionRecruiter(@Param("companyId") String companyId, @Param("jobDescriptionName") String jobDescriptionName, @Param("email") String email);
+	@Query(value="SELECT q FROM JobDescriptionRecruiter q WHERE q.companyId=:companyId and q.jobDescriptionId=:jobDescriptionId  and q.email=:email")
+	public JobDescriptionRecruiter findUniqueJobDescriptionRecruiter(@Param("companyId") String companyId, @Param("jobDescriptionId") Long jobDescriptionId, @Param("email") String email);
 	
 	@Query("SELECT j FROM JobDescriptionRecruiter j WHERE j.email=:email and j.companyId=:companyId")
 	List<JobDescriptionRecruiter> findByEmailAndCompanyId(@Param("email") String email, @Param("companyId") String companyId);

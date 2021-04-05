@@ -291,7 +291,7 @@ QuestionInstanceDto dto = (QuestionInstanceDto)request.getAttribute("currentQues
 					</div>
 				</h1>
 				<div class="timing">
-					<span class="my-auto">Time Remaining</span>
+					<span class="my-auto">	${journeyUTF.timeRemaining}</span>
 					<div>
 						<input type="text" class="text-center mr-1" id="hours" disabled maxlength="2" value="00">
 						<input type="text" class="text-center mr-1" id="min" disabled maxlength="2" value="00">
@@ -314,7 +314,8 @@ QuestionInstanceDto dto = (QuestionInstanceDto)request.getAttribute("currentQues
 				<div class="question my-auto mb-2">
 					<span class="mr-2">${currentQuestion.position}</span>
 					<div style="text-align: right;color:red">
-					For image/audio/video based Qs, please click the arrow on the right
+					${journeyUTF.forImageInstruction}
+<!-- 					For image/audio/video based Qs, please click the arrow on the right -->
 					</div>
 					<div>
 						${currentQuestion.questionMapperInstance.questionMapper.question.questionText}
@@ -453,27 +454,27 @@ QuestionInstanceDto dto = (QuestionInstanceDto)request.getAttribute("currentQues
 							</div>
 							<div class="code-run mb-2">
 								<button type="button" class="btn btn-primary" onClick="runCodeSystemTestCase()">
-									run system test case
+									${journeyUTF.runSystemTestCase}
 								</button>
 								<button type="button" class="btn btn-primary" onClick="runCode()">
-									run code
+									${journeyUTF.runCode}
 								</button>
 							</div>
 							<div class="headings mb-2">
-								Code
+									${journeyUTF.code}
 							</div>
 							<div class="mb-2">
 								<form:textarea id="editor" path="code" wrap="physical" />
 								<form:hidden path="code" id="codeOfEditor" wrap="physical"/>
 							</div>
 							<div class="headings mb-2">
-								Input
+								${journeyUTF.input}
 							</div>
 							<div class="mb-2">
 								<form:textarea path="input" id="input" class="input" placeholder="Enter input"/>
 							</div>
 							<div class="headings mb-2">
-								Output
+									${journeyUTF.output}
 							</div>
 							<div class="mb-2">
 								<form:textarea path="output" id="output" disabled="true"/>
@@ -579,26 +580,26 @@ QuestionInstanceDto dto = (QuestionInstanceDto)request.getAttribute("currentQues
 						<div class="progress mb-2">
 							<div class="progress-bar progress-bar-striped" role="progressbar" style="width: ${percentage}%" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100"></div>
 						</div>
-						${noAnswered} / ${totalQuestions} Question Completed
+						${noAnswered} / ${totalQuestions} ${journeyUTF.questionCompleted}
 					</div>
 					<div class="mb-2 text-right">
 						<c:choose>
 							<c:when test="${currentSection.first==true}"></c:when>
 							<c:otherwise>
 								<button type="button" class="btn btn-secondary float-left" onClick="prev()">
-									previous
+								${journeyUTF.prev}
 								</button>
 							</c:otherwise>
 						</c:choose>
 						<c:choose>
 							<c:when test="${currentSection.last==true}">
 								<button id="next" type="button" class="btn btn-primary" onClick="submitTestCheckNoAnswer();" >
-									submit test
+								${journeyUTF.submit}
 								</button>
 							</c:when>
 							<c:otherwise>
 								<button id="next" type="button" class="btn btn-primary" onClick="eerrtt()">
-									next
+								${journeyUTF.next}
 								</button>
 							</c:otherwise>
 						</c:choose>		
@@ -612,9 +613,17 @@ QuestionInstanceDto dto = (QuestionInstanceDto)request.getAttribute("currentQues
 					</i>
 				</button>
 				<div class="description-content">
-					<h3>Description</h3>
-					<p>${(currentQuestion.questionMapperInstance.questionMapper.question.instructionsIfAny==null || currentQuestion.questionMapperInstance.questionMapper.question.instructionsIfAny.trim().length()== 0)?"<p>&#8226; Do not move mouse pointer to a different tab  </p><p>&#8226; Use F11 windows for Test if required   </p><p>&#8226; Non Compliance can result in your Test Declared Invalid   </p>":currentQuestion.questionMapperInstance.questionMapper.question.instructionsIfAny}</p>
-					
+					<h3>${journeyUTF.discription}</h3>
+					<p>
+<%-- 					${(currentQuestion.questionMapperInstance.questionMapper.question.instructionsIfAny==null || currentQuestion.questionMapperInstance.questionMapper.question.instructionsIfAny.trim().length()== 0)?"<p>&#8226; Do not move mouse pointer to a different tab  </p><p>&#8226; ${journeyUTF.discription2}   </p><p>&#8226; ${journeyUTF.discription3}   </p>":currentQuestion.questionMapperInstance.questionMapper.question.instructionsIfAny}</p> --%>
+					<c:choose>
+					<c:when test="${(currentQuestion.questionMapperInstance.questionMapper.question.instructionsIfAny==null || currentQuestion.questionMapperInstance.questionMapper.question.instructionsIfAny.trim().length()== 0)}">
+						<p>&#8226; ${journeyUTF.discription1}   </p><p>&#8226; ${journeyUTF.discription2}   </p><p>&#8226; ${journeyUTF.discription3}   </p>
+					</c:when>
+					<c:otherwise>
+							${currentQuestion.questionMapperInstance.questionMapper.question.instructionsIfAny}
+					</c:otherwise>
+					</c:choose>
 					<c:if test="${currentQuestion.questionMapperInstance.questionMapper.question.imageUrl != null && currentQuestion.questionMapperInstance.questionMapper.question.imageUrl.trim().length() > 0}">
 						<img src="${currentQuestion.questionMapperInstance.questionMapper.question.imageUrl}">
 					</c:if>

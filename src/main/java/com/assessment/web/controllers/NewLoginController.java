@@ -294,6 +294,7 @@ public class NewLoginController {
 		if(msg!=null) {
 			mav.addObject("message", "Question Save Success");// later put it as label
 			mav.addObject("msgtype", "Success");
+			mav.addObject("icon", "success");
 		}
 		if(filterkey==null) {
 			Page<com.assessment.data.Question> questions = questionRep.findQuestionsByCompanyId(user.getCompanyId(), PageRequest.of(pageNumber, NavigationConstants.NO_QUESTIONS_PAGE));

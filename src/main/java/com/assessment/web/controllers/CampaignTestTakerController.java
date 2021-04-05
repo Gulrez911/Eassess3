@@ -24,10 +24,15 @@ import com.assessment.common.PropertyConfig;
 import com.assessment.data.Campaign;
 import com.assessment.data.CampaignMeetingForCandidate;
 import com.assessment.data.CampaignTest;
+import com.assessment.data.CampaignTestUTF;
+import com.assessment.data.FooterUTF;
+import com.assessment.data.PublicTestUTF;
 import com.assessment.data.Test;
 import com.assessment.data.User;
 import com.assessment.data.UserTestSession;
 import com.assessment.repositories.CampaignRepository;
+import com.assessment.repositories.CampaignTestUTFRepository;
+import com.assessment.repositories.FooterUTFRepository;
 import com.assessment.repositories.QuestionMapperRepository;
 import com.assessment.services.CampaignCandidateService;
 import com.assessment.services.CampaignMeetingForCandidateService;
@@ -79,10 +84,24 @@ public class CampaignTestTakerController {
 	@Autowired
 	CampaignMeetingForCandidateService meetingService;
 	
+	@Autowired
+	CampaignTestUTFRepository campaignTestUTFRepository;
+	
+	@Autowired
+	FooterUTFRepository footerUTFRepository;
+	
 	@RequestMapping(value = "/testtaker-campaign", method = RequestMethod.GET)
-	public ModelAndView showClusters(@RequestParam String campaignName, @RequestParam String companyId, @RequestParam String email, @RequestParam String firstName,@RequestParam String lastName,@RequestParam String startdate, @RequestParam String enddate,HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView showClusters(@RequestParam(required = false) String lang, @RequestParam String campaignName, @RequestParam String companyId, @RequestParam String email, @RequestParam String firstName,@RequestParam String lastName,@RequestParam String startdate, @RequestParam String enddate,HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("testtaker-campaign");
 		
+//		   if(lang==null) {
+//			    lang="eng";        
+//		    }
+//		    request.getSession().setAttribute("lang", lang);
+		    CampaignTestUTF  campaignTestUTF= campaignTestUTFRepository.findByLanguage(lang);
+		    mav.addObject("campaignTestUTF", campaignTestUTF);
+		 FooterUTF  footerUTF=  footerUTFRepository.findByLanguage(lang);
+		   mav.addObject("footerUTF", footerUTF);
 		campaignName = new URLDecoder().decode(new String(Base64.getDecoder().decode(campaignName.getBytes())));
 		companyId = new URLDecoder().decode(new String(Base64.getDecoder().decode(companyId.getBytes())));
 		

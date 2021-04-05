@@ -71,27 +71,36 @@ public class CodeMetrics extends Base{
 	@Transient
 	String sts;
 	
-	@Column(length=3000)
+//	@Column(length=3000)
+	@Column(columnDefinition = "TEXT")
 	String functionalComplianceComments;
 	
-	@Column(length=3000)
+//	@Column(length=3000)
+	@Column(columnDefinition = "TEXT")
 	String performanceComments;
 	
-	@Column(length=3000)
+//	@Column(length=3000)
+	@Column(columnDefinition = "TEXT")
 	String scalabilityComments;
 	
-	@Column(length=3000)
+//	@Column(length=3000)
+	@Column(columnDefinition = "TEXT")
 	String securityComments;
 	
-	@Column(length=3000)
+//	@Column(length=3000)
+	@Column(columnDefinition = "TEXT")
 	String flexibilityComments;
 	
-	@Column(length=3000)
+//	@Column(length=3000)
+	@Column(columnDefinition = "TEXT")
 	String adaptibilityComments;
 	
-	@Column(length=3000)
+//	@Column(length=3000)
+	@Column(columnDefinition = "TEXT")
 	String testCasesComments;
-	@Column(length=3000)
+	
+//	@Column(length=3000)
+	@Column(columnDefinition = "TEXT")
 	String overAll;
 	
 	@Enumerated(EnumType.STRING)

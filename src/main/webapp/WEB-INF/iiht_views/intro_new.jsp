@@ -24,9 +24,13 @@
 <body class="pre-login">
     <header>
         <div class="container">
+<!--         <div class="text-left"> -->
+<!-- 			        Language:<a href="javascript:changeLang('eng')">Eng</a> -->
+<!-- 			        <a href="javascript:changeLang('arabic')">العربية</a> -->
+<!-- 			    	</div> -->
             <h1 class="text-center">
-                <img src="images_new/yaksha.png" width="250px" alt="EAssess Online"> is ready to ask <br>
-                <span>what you already know best!</span>
+                <img src="images_new/yaksha.png" width="250px" alt="EAssess Online">${testIntro.isReadyTOask } <br>
+                <span>${testIntro.eAssessQuotes }</span>
             </h1>
             <h2>
                 ${studentTestForm.testName}
@@ -38,7 +42,8 @@
                 <form:form id="studentIntro" method="POST" action="preStudentJourney"  modelAttribute="studentTestForm">
                     <ul>
                         <li>
-                            Total No. of questions :
+                         ${testIntro.totalNoOfQuestion } :
+<!--                             Total No. of questions : -->
                         </li>
                         <li>
                             ${studentTestForm.totalQuestions}
@@ -46,15 +51,17 @@
                     </ul>
                     <ul>
                         <li>
-                            Duration :
+                            ${testIntro.duration } :
+<!--                             Duration : -->
                         </li>
                         <li>
-                            ${studentTestForm.duration} Minutes
+                            ${studentTestForm.duration}  ${testIntro.minutes }
                         </li>
                     </ul>
                     <ul>
                         <li>
-                            Published On :
+                            ${testIntro.publishedOn } :
+<!--                             Published On : -->
                         </li>
                         <li>
                             ${studentTestForm.formattedPublishedDate}
@@ -74,7 +81,8 @@
 									noOfAttempts = noOfAttempts + 1;
 								}
 						%>
-                            Current Attempt : 
+					        ${testIntro.currentAttempt } : 
+<!--                             Current Attempt :  -->
                         </li>
                         <li>
                            <%= noOfAttempts %> 
@@ -82,10 +90,11 @@
                     </ul>
                     <ul>
                         <li>
-                            Should be completed Within :
+                         ${testIntro.shouldBeCompletedWithin } :
+<!--                             Should be completed Within : -->
                         </li>
                         <li>
-                            ${studentTestForm.noOfAttemptsAvailable} attempt(s)
+                            ${studentTestForm.noOfAttemptsAvailable} ${testIntro.attempt }
                         </li>
                     </ul>
                     <div class="mt-2 mb-3 user-actions">
@@ -93,7 +102,8 @@
                             <i class="material-icons">
                                 warning
                             </i>
-                            <span>Read the instructions bellow before starting the assessment</span>
+<!--                             <span>Read the instructions bellow before starting the assessment</span> -->
+                                   <span> ${testIntro.instruction }</span>
                         </div>
                         <div class="start">
 							<c:choose>
@@ -106,7 +116,7 @@
 									<br />
 								</c:when>    
 								<c:otherwise>
-									 <button type="button" class="btn btn-primary" onClick="start2()" id="sss">Start Assessment</button>
+									 <button type="button" class="btn btn-primary" onClick="start2()" id="sss">${testIntro.startAssessment }</button>
 									<br />
 								</c:otherwise>
 							</c:choose>
@@ -127,33 +137,41 @@
 			<ul>
 				<li class="mb-3">
 					<h3 class="mb-2">
-						instructions
+					${footerUTF.instructions}
+<!-- 						instructions -->
 					</h3>
 					<ul>
 						<li class="mb-2">
-							Test Results will be sent to you on Completion
+						${footerUTF.instruct1}
+<!-- 							Test Results will be sent to you on Completion -->
 						</li>
 						<li class="mb-2">
-							Click Submit for Submission of your Test
+						${footerUTF.instruct2}
+<!-- 							Click Submit for Submission of your Test -->
 						</li>
 						<li class="mb-2">
-							System will auto Submit Test if Timer Expires
+						${footerUTF.instruct3}
+<!-- 							System will auto Submit Test if Timer Expires -->
 						</li>
 					</ul>
 				</li>
 				<li class="mb-3">
 					<h3 class="mb-2">
-						web proctoring
+					${footerUTF.webProctoring}
+<!-- 						web proctoring -->
 					</h3>
 					<ul>
 						<li class="mb-2">
-							Do not move mouse pointer to a different tab
+						${footerUTF.webProctor1}
+<!-- 							Do not move mouse pointer to a different tab -->
 						</li>
 						<li class="mb-2">
-							Use F11 windows for Test if required
+						${footerUTF.webProctor2}
+<!-- 							Use F11 windows for Test if required -->
 						</li>
 						<li class="mb-2">
-							Non Compliance can result in your Test Declared Invalid
+						${footerUTF.webProctor3}
+<!-- 							Non Compliance can result in your Test Declared Invalid -->
 						</li>
 					</ul>
 				</li>
@@ -161,33 +179,40 @@
 			<ul>
 				<li class="mb-3">
 					<h3 class="mb-2">
-						tenants
+					${footerUTF.tenants}
+<!-- 						tenants -->
 					</h3>
 					<ul>
 						<li class="mb-2">
-							Domain specific Users are advise to login using Corporate Credentials
+						${footerUTF.tenants1}
+<!-- 							Domain specific Users are advise to login using Corporate Credentials -->
 						</li>
 						<li class="mb-2">
-							Every User is directed to provide Login data for Individual Reporting
+						${footerUTF.tenants2}
+<!-- 							Every User is directed to provide Login data for Individual Reporting -->
 						</li>
 						<li class="mb-2">
-							Tenant Admin will see Tenant specfic data only
+						${footerUTF.tenants3}
+<!-- 							Tenant Admin will see Tenant specfic data only -->
 						</li>
 					</ul>
 				</li>
 				<li class="mb-3">
 					<h3 class="mb-2">
-						eAssess
+						EASSESS
 					</h3>
 					<ul>
 						<li class="mb-2">
-							Multi Technology Assessments
+						${footerUTF.eassess1}
+<!-- 							Multi Technology Assessments -->
 						</li>
 						<li class="mb-2">
-							Test Cases Based Evaluation
+						${footerUTF.eassess2}
+<!-- 							Test Cases Based Evaluation -->
 						</li>
 						<li class="mb-2">
-							Weighted Adaptive Assessments
+						${footerUTF.eassess3}
+<!-- 							Weighted Adaptive Assessments -->
 						</li>
 					</ul>
 				</li>
@@ -200,10 +225,12 @@
 				&copy; Copyright 2020 :: eAssess :: Powered by eAssess
 			</span>
 			<a href="javascript:void(0)" class="mr-5">
-				Terms and Conditions
+			${footerUTF.termsAndConditions}
+<!-- 				Terms and Conditions -->
 			</a>
 			<a href="javascript:void(0)">
-				Privacy Policy
+			${footerUTF.privacyPolicy}
+<!-- 				Privacy Policy -->
 			</a>
 		</div>
 	</footer>
@@ -264,6 +291,15 @@
         }
     } 
     
+	function changeLang(lang){
+		var url = new URL(window.location.href);
+		url.searchParams.set('lang',lang);
+		var new_url = url.toString();
+		window.location = new_url
+// 		var search_params = url.searchParams;
+// 		alert(new_url);
+	}
+	
     function sweetAlert(msgtype,message,icon){
 		  Swal.fire(
 			       msgtype,

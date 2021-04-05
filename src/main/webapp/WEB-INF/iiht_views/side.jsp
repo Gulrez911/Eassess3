@@ -8,11 +8,11 @@
 		
 <div class="column col-sm-2 col-xs-1 sidebar-offcanvas" id="sidebar" style="overflow-y: scroll;">
 	<ul class="nav" id="menu">
-	    <li class="logolight"><a href="http://www.eassess.com" data-toggle="offcanvas"><i class="fa fa-bars fa-2x"></i><span class="collapse in hidden-xs"><img src="images/logoiiht.png" alt="logo"></span></a></li>
-	    <li class="active"><a href="javascript:notify('Information', 'We will release the feature pretty soon! Pease wait for our next release');"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Dashboard</span></a></li>
-	    <li><a href="question_list"><img src="images/question_icon.png" alt="logo"> <span class="collapse in hidden-xs">Question Bank</span></a></li>
-	    <li><a href="testlist"><img src="images/test_icon.png" alt="logo"> <span class="collapse in hidden-xs">Tests</span></a></li>
-		<li><a href="skills"><img src="images/test_icon.png" alt="logo"> <span class="collapse in hidden-xs">Skills</span></a></li>
+	    <li class="logolight"><a href="http://www.eassess.com" data-toggle="offcanvas"><i class="fa fa-bars fa-2x"></i><span class="collapse in hidden-xs"><img src="./resources/images/logoiiht.png" alt="logo"></span></a></li>
+	    <li class="active"><a href="javascript:notify('Information', 'We will release the feature pretty soon! Pease wait for our next release');"><img src="./resources/images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Dashboard</span></a></li>
+	    <li><a href="question_list"><img src="./resources/images/question_icon.png" alt="logo"> <span class="collapse in hidden-xs">Question Bank</span></a></li>
+	    <li><a href="testlist"><img src="./resources/images/test_icon.png" alt="logo"> <span class="collapse in hidden-xs">Tests</span></a></li>
+		<li><a href="skills"><img src="./resources/images/test_icon.png" alt="logo"> <span class="collapse in hidden-xs">Skills</span></a></li>
 		<%
 		User user = (User) request.getSession().getAttribute("user");
 		System.out.println("user is "+user.getEmail() );
@@ -28,34 +28,34 @@
 				
 		%>
 		
-		<li><a href="showClusters"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Cluster Management</span></a></li>
-		<li><a href="showAllResultsforMFA"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Multi File Tests Results</span></a></li>
+		<li><a href="showClusters"><img src="./resources/images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Cluster Management</span></a></li>
+		<li><a href="showAllResultsforMFA"><img src="./resources/images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Multi File Tests Results</span></a></li>
 		
 		
 		
-		<li><a href="showAllResultsforMFALocal"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Local Multi File Tests Results</span></a></li>
-		<li><a href="showLocalMultifileRecordsWithProblem"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Local Multi File Problem Records</span></a></li>
-		<li><a href="findAllFullStackLocalQuestionMapperInstancesWithDuplicateRecords"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Local Multi Duplicate Git  Records</span></a></li>
+		<li><a href="showAllResultsforMFALocal"><img src="./resources/images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Local Multi File Tests Results</span></a></li>
+		<li><a href="showLocalMultifileRecordsWithProblem"><img src="./resources/images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Local Multi File Problem Records</span></a></li>
+		<li><a href="findAllFullStackLocalQuestionMapperInstancesWithDuplicateRecords"><img src="./resources/images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Local Multi Duplicate Git  Records</span></a></li>
 		
 		
-		 <li><a href="domainReport"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Domain based Results</span></a></li>
-		 <li><a href="modules"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Modules Management</span></a></li>
+		 <li><a href="domainReport"><img src="./resources/images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Domain based Results</span></a></li>
+		 <li><a href="modules"><img src="./resources/images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Modules Management</span></a></li>
 		 
-		 <li><a href="licenses"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">License Management</span></a></li>
+		 <li><a href="licenses"><img src="./resources/images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">License Management</span></a></li>
 		 
-	    <li><a href="showReports"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Results</span></a></li>
+	    <li><a href="showReports"><img src="./resources/images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Results</span></a></li>
 		 
-	    <li><a href="codingSessions"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Code Analysis Reports</span></a></li>
-		<li><a href="showSkillTags"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Skill based Reports</span></a></li>
-		<li><a href="showProfileParams"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Recomm Setting</span></a></li>
+	    <li><a href="codingSessions"><img src="./resources/images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Code Analysis Reports</span></a></li>
+		<li><a href="showSkillTags"><img src="./resources/images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Skill based Reports</span></a></li>
+		<li><a href="showProfileParams"><img src="./resources/images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Recomm Setting</span></a></li>
 		
 		<%
 			}
 		%>
 		
-		<li><a href="singleFileSessions"><img src="images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Single File Test Reports</span></a></li>
+		<li><a href="singleFileSessions"><img src="./resources/images/results_icon.png" alt="logo"> <span class="collapse in hidden-xs">Single File Test Reports</span></a></li>
 		
-		<li><a href="listTestLinks"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Test Links Management</span></a></li>
+		<li><a href="listTestLinks"><img src="./resources/images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Test Links Management</span></a></li>
 		<
 		
 		
@@ -63,20 +63,20 @@
 			if(admin){
 				
 		%>
-		<li><a href="lmsAdmins"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">LMS Admin Users</span></a></li>
+		<li><a href="lmsAdmins"><img src="./resources/images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">LMS Admin Users</span></a></li>
 		
-		<li><a href="showjobDescriptions"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Job description Management</span></a></li>
+		<li><a href="showjobDescriptions"><img src="./resources/images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Job description Management</span></a></li>
 		
 		
-		<li><a href="listDomainMappings"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Test Domain Attempts Management</span></a></li>
+		<li><a href="listDomainMappings"><img src="./resources/images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Test Domain Attempts Management</span></a></li>
 		
 		<%
 		
 			}
 		%>
 		
-		<li><a href="showAllSchedules"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Schedule Management</span></a></li>
-		<li><a href="verification"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Verify Data</span></a></li>
+		<li><a href="showAllSchedules"><img src="./resources/images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Schedule Management</span></a></li>
+		<li><a href="verification"><img src="./resources/images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Verify Data</span></a></li>
 	    <%
 		
 		Boolean showTenantAdmin = false;
@@ -84,17 +84,17 @@
 			showTenantAdmin = true;
 			System.out.println("Admin true");
 	  %>
-		<li><a href="listTenants"><img src="images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Tenant Management</span></a></li>
+		<li><a href="listTenants"><img src="./resources/images/dashboard_icon.png" alt="logo"> <span class="collapse in hidden-xs">Tenant Management</span></a></li>
 	   <%	  
 		}
 	    %>
 		   
 			    
-	  <li><a href="listLMSUsers"><img src="images/candidates_icon.png" alt="logo">  <span class="collapse in hidden-xs">Dashboard Enabled Users</span></a></li>  
+	  <li><a href="listLMSUsers"><img src="./resources/images/candidates_icon.png" alt="logo">  <span class="collapse in hidden-xs">Dashboard Enabled Users</span></a></li>  
 	    
-	 <li><a href="listUsers"><img src="images/candidates_icon.png" alt="logo">  <span class="collapse in hidden-xs">Users</span></a></li>
+	 <li><a href="listUsers"><img src="./resources/images/candidates_icon.png" alt="logo">  <span class="collapse in hidden-xs">Users</span></a></li>
 	 
-	 <li><a href="instructorDashboard"><img src="images/candidates_icon.png" alt="logo">  <span class="collapse in hidden-xs">Instructor Dashboard</span></a></li>
+	 <li><a href="instructorDashboard"><img src="./resources/images/candidates_icon.png" alt="logo">  <span class="collapse in hidden-xs">Instructor Dashboard</span></a></li>
 	 
 	    <!--    <li><a href="javascript:callUpload();" id="uploadLink"><img src="images/candidates_icon.png" alt="logo"> <span class="collapse in hidden-xs">Candidates</span></a></li>
 	    <form id="fileForm" method="POST" enctype="multipart/form-data" >

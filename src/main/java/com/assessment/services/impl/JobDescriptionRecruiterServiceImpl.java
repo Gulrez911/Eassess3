@@ -20,15 +20,15 @@ public class JobDescriptionRecruiterServiceImpl implements JobDescriptionRecruit
 	JobDescriptionRecruiterRepository descriptionRecruiterRepository;
 	
 	@Override
-	public JobDescriptionRecruiter findUniqueJobDescriptionRecruiter(String companyId, String jobDescriptionName, String email) {
+	public JobDescriptionRecruiter findUniqueJobDescriptionRecruiter(String companyId, Long jobDescriptionId, String email) {
 		// TODO Auto-generated method stub
-		return descriptionRecruiterRepository.findUniqueJobDescriptionRecruiter(companyId, jobDescriptionName, email);
+		return descriptionRecruiterRepository.findUniqueJobDescriptionRecruiter(companyId, jobDescriptionId, email);
 	}
 	
 	@Override
 	public void saveOrUpdate(JobDescriptionRecruiter descriptionRecruiter) {
 //		JobDescriptionRecruiter jobDescriptionRecruiter = descriptionRecruiterRepository.findByPrimaryKey(descriptionRecruiter.getJobDescriptionName(), descriptionRecruiter.getCompanyId());
-		JobDescriptionRecruiter jobDescriptionRecruiter = findUniqueJobDescriptionRecruiter(descriptionRecruiter.getCompanyId(),descriptionRecruiter.getJobDescriptionName(),descriptionRecruiter.getEmail());
+		JobDescriptionRecruiter jobDescriptionRecruiter = findUniqueJobDescriptionRecruiter(descriptionRecruiter.getCompanyId(),descriptionRecruiter.getId(),descriptionRecruiter.getEmail());
 		
 		if(jobDescriptionRecruiter == null){
 			descriptionRecruiter.setCreateDate(new Date());

@@ -140,7 +140,7 @@ public class RecruitmentController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/editRecruiter", method = RequestMethod.GET)
+	@RequestMapping(value = "/editRecruiter", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> editRecruiter(HttpServletResponse response, HttpServletRequest request, @RequestParam String email) throws Exception {
 		Map<String, Object> map = new HashMap<>();
@@ -225,7 +225,7 @@ public class RecruitmentController {
 		return mav;
 	}
 
-	@PostMapping("/goToJobStep2")
+	@PostMapping(value = "/goToJobStep2", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String goToJobStep2(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "file", required = false) MultipartFile uploadFile,
 								HttpServletRequest request) throws IOException {
@@ -250,7 +250,7 @@ public class RecruitmentController {
 		return "ok";
 	}
 
-	@GetMapping("/showRecruiters")
+	@GetMapping(value = "/showRecruiters", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String showRecruiters(HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
@@ -263,7 +263,7 @@ public class RecruitmentController {
 
 		String childs = "";
 		for (JobDescriptionRecruiter recruiter : descriptionRecruiters) {
-			String child = "<li style=\"border-bottom:none\">	<b>${FIRST}, ${LAST}	</b>&nbsp;&nbsp;	(<small>  ${EMAIL}</small>)</li>\n";
+			String child = "<li style=\"border-bottom:none\">	<b>${FIRST} ${LAST}	</b>&nbsp;&nbsp;	(<small>  ${EMAIL}</small>)</li>\n";
 			child = child.replace("${FIRST}", recruiter.getFirstName() == null ? "NA" : recruiter.getFirstName());
 			child = child.replace("${LAST}", recruiter.getLastName() == null ? "NA" : recruiter.getLastName());
 			child = child.replace("${EMAIL}", recruiter.getEmail());
@@ -273,9 +273,9 @@ public class RecruitmentController {
 		return parent;
 	}
 
-	@GetMapping("/showCampaign")
+	@GetMapping(value = "/showCampaign", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String showCampaign(HttpServletRequest request) {
+	public String showCampaign(@RequestParam(required = false) String search, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
 		JobDescription description = (JobDescription) request.getSession().getAttribute("description");
 
@@ -288,16 +288,21 @@ public class RecruitmentController {
 		return parent;
 	}
 
-	@GetMapping("/searchAndPopulaterRecruitersTable")
+	@GetMapping(value = "/searchAndPopulaterRecruitersTable", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String searchAndPopulaterRecruitersTable(HttpServletRequest request) {
+	public String searchAndPopulaterRecruitersTable(@RequestParam(required = false, name = "search") String search, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
-		Page<User> users = userService.findUsersByTypeAndCompany(user.getCompanyId(), UserType.RECRUITER.getType(), PageRequest.of(0, 100));
+		Page<User> users;
+		if (search == null) {
+			users = userService.findUsersByTypeAndCompany(user.getCompanyId(), UserType.RECRUITER.getType(), PageRequest.of(0, 100));
+		} else {
+			 users = userService.searchRecruiters(user.getCompanyId(), search, PageRequest.of(0, 100));
+		}
 		String parent = "<table class=\"table\">	<thead>		<tr>			<th>				<input type=\"checkbox\" name=\"\" >			</th>			<th>				Name			</th>			<th>				Email			</th>		</tr>	</thead>	<tbody>		${ROWS}			</tbody></table>";
 		String childs = "";
 		for (User usr : users.getContent()) {
 //			String child = "<tr id=\"T${ID}\">	<td>		<input type=\"checkbox\" name=\"${ID}\" id=\"${ID}\" onchange=\"changeCandidateCheckbox(this, '${CAMPAIGN_NAME}')\">	</td>	<td>		${FIRSTNAME}, ${LASTNAME}	</td>	<td>		${EMAIL}	</td></tr>";
-			String child = "<tr id=\"T${ID}\">	<td>		<input type=\"checkbox\" name=\"${ID}\" id=\"${ID}\" onchange=\"changeRecruiterCheckbox(this)\">	</td>	<td>		${FIRSTNAME}, ${LASTNAME}	</td>	<td>		${EMAIL}	</td></tr>";
+			String child = "<tr id=\"T${ID}\">	<td>		<input type=\"checkbox\" name=\"${ID}\" id=\"${ID}\" onchange=\"changeRecruiterCheckbox(this)\">	</td>	<td>		${FIRSTNAME} ${LASTNAME}	</td>	<td>		${EMAIL}	</td></tr>";
 
 			child = child.replace("${FIRSTNAME}", usr.getFirstName() == null ? "NA" : usr.getFirstName());
 			child = child.replace("${LASTNAME}", usr.getLastName() == null ? "NA" : usr.getLastName());
@@ -311,7 +316,7 @@ public class RecruitmentController {
 //		return map;
 	}
 
-	@RequestMapping(value = "/selectRecruiterForJob", method = RequestMethod.GET)
+	@RequestMapping(value = "/selectRecruiterForJob", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public @ResponseBody String selectCandidateForCampaign(@RequestParam(required = true, name = "cid") Long cid, HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) request.getSession().getAttribute("user");
 		User can = userService.findById(cid);
@@ -334,19 +339,19 @@ public class RecruitmentController {
 		return "ok";
 	}
 
-	@RequestMapping(value = "/unselectRecruiterForJob", method = RequestMethod.GET)
+	@RequestMapping(value = "/unselectRecruiterForJob", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public @ResponseBody String unselectCandidateForCampaign(@RequestParam(required = true, name = "cid") Long cid, HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) request.getSession().getAttribute("user");
 		JobDescription description = (JobDescription) request.getSession().getAttribute("description");
 		User can = userService.findById(cid);
-		JobDescriptionRecruiter descriptionRecruiter = descriptionRecruiterService.findUniqueJobDescriptionRecruiter(user.getCompanyId(), description.getName(),
+		JobDescriptionRecruiter descriptionRecruiter = descriptionRecruiterService.findUniqueJobDescriptionRecruiter(user.getCompanyId(), description.getId(),
 									can.getEmail());
 //		
 		descriptionRecruiterRepository.deleteById(descriptionRecruiter.getId());
 		return "ok";
 	}
 
-	@GetMapping("/searchAndPopulaterCampaignTable")
+	@GetMapping(value = "/searchAndPopulaterCampaignTable", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String searchAndPopulaterCampaignTable(HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
@@ -370,7 +375,7 @@ public class RecruitmentController {
 //		return map;
 	}
 
-	@RequestMapping(value = "/selectCampaignForJob", method = RequestMethod.GET)
+	@RequestMapping(value = "/selectCampaignForJob", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public @ResponseBody String selectCampaignForJob(@RequestParam(required = true, name = "cid") Long cid, HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) request.getSession().getAttribute("user");
 		JobDescription description = (JobDescription) request.getSession().getAttribute("description");
@@ -388,7 +393,7 @@ public class RecruitmentController {
 		return new ModelAndView("redirect:/jobDescriptions?msg=" + msg);
 	}
 
-	@PostMapping("/uploadProfile")
+	@PostMapping(value = "/uploadProfile", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String uploadProfile(@RequestParam Long jobId, @RequestParam String firstName, @RequestParam String lastName, @RequestParam(required = false) String email,
 								@RequestParam(name = "file", required = false) MultipartFile uploadFile, HttpServletRequest request)
@@ -435,7 +440,7 @@ public class RecruitmentController {
 		return "ok";
 	}
 
-	@GetMapping("/getCandidateProfile")
+	@GetMapping(value = "/getCandidateProfile", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String getCandidateProfile(@RequestParam Long jobId, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
@@ -449,7 +454,7 @@ public class RecruitmentController {
 		String parent = "<table class=\"table\">	<thead>		<tr>  <th>				Name			</th>			<th>			Email				</th><th>		View Profile					</th>		</tr>	</thead>	<tbody>		${ROWS}			</tbody></table>";
 		String childs = "";
 		for (RecruitCandidateProfile candidateProfile : candidateProfiles) {
-			String child = "<tr>		<td>		${FIRSTNAME}, ${LASTNAME}	</td>	<td>		${EMAIL}	</td><td>	<a href='${URL}' target='_blank'>View Profile</a>		</td></tr>";
+			String child = "<tr>		<td>		${FIRSTNAME} ${LASTNAME}	</td>	<td>		${EMAIL}	</td><td>	<a href='${URL}' target='_blank'>View Profile</a>		</td></tr>";
 
 			child = child.replace("${FIRSTNAME}", candidateProfile.getFirstName() == null ? "NA" : candidateProfile.getFirstName());
 			child = child.replace("${LASTNAME}", candidateProfile.getLastName() == null ? "NA" : candidateProfile.getLastName());
@@ -512,7 +517,7 @@ public class RecruitmentController {
 		return mav;
 	}
 
-	@GetMapping("/getCandidates")
+	@GetMapping(value = "/getCandidates", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String getCandidates(@RequestParam(name = "id", required = false) Long id, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
@@ -531,8 +536,8 @@ public class RecruitmentController {
 			child = child.replace("${CANDIDATE}", jd.getFirstName() + " " + jd.getLastName());
 //			child = child.replace("${FIRSTNAME}", candidateProfile.getFirstName() == null ? "NA" : candidateProfile.getFirstName());
 //			child = child.replace("${PARSE}", "<a href='#'>Click Here</a>");
-			String args2 = "'" + jd.getEmail() + "','" + jd.getFirstName() +" "+jd.getLastName()+   "'";
-			
+			String args2 = "'" + jd.getEmail() + "','" + jd.getFirstName() + " " + jd.getLastName() + "'";
+
 			child = child.replace("${ARGS2}", args2);
 			child = child.replace("${BUCKET}", "NA");
 //			child = child.replace("${RELEVANT_YEARS}", jd.getRelevantYears());
@@ -552,7 +557,7 @@ public class RecruitmentController {
 //		return map;
 	}
 
-	@GetMapping("/scheduleCampaign")
+	@GetMapping(value = "/scheduleCampaign", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String scheduleCampaign(@RequestParam(name = "jd", required = false) String jd, @RequestParam(name = "email", required = false) String email,
 								HttpServletRequest request) {
@@ -584,7 +589,7 @@ public class RecruitmentController {
 		return parent;
 	}
 
-	@RequestMapping(value = "/shareScheduledCampaign", method = RequestMethod.GET)
+	@RequestMapping(value = "/shareScheduledCampaign", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> shareScheduledCampaign(@RequestParam(name = "startDate", required = false) String startDate,
 								@RequestParam(name = "endDate", required = false) String endDate,
@@ -665,14 +670,14 @@ public class RecruitmentController {
 		return url;
 	}
 
-	@GetMapping("/getParsing")
+	@GetMapping(value = "/getParsing")
 	@ResponseBody
 	public Map<String, Object> getParsing(@RequestParam(name = "email", required = false) String email, @RequestParam(name = "name", required = false) String name,
 								HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		User user = (User) request.getSession().getAttribute("user");
 		CandidateDetailsForJD candidateDetailsForJD = getCandidateDetails(email, name);
-		RecruitCandidateProfile candidateProfile= recruitCandidateProfileService.findByEmailAndCompanyId(email, user.getCompanyId());
+		RecruitCandidateProfile candidateProfile = recruitCandidateProfileService.findByEmailAndCompanyId(email, user.getCompanyId());
 		map.put("url", candidateProfile.getCandidateCVURL());
 		map.put("jd", candidateDetailsForJD);
 		return map;

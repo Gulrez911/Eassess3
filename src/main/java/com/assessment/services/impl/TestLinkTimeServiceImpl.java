@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.assessment.common.PropertyConfig;
+import com.assessment.data.Test;
 import com.assessment.data.TestLinkTime;
 import com.assessment.repositories.TestLinkTimeRepository;
 import com.assessment.services.TestLinkTimeService;
+import com.assessment.services.TestService;
 @Service
 @Transactional
 public class TestLinkTimeServiceImpl implements TestLinkTimeService {
@@ -25,17 +27,22 @@ public class TestLinkTimeServiceImpl implements TestLinkTimeService {
 	@Autowired
 	PropertyConfig propertyConfig;
 	
+	@Autowired
+	TestService testService;
+	
 	private String getPublicUrlForTest(Long testId, String companyId, String startTime, String endTime) {
 		// String after = "&testId="+URLEncoder.encode(Base64.getEncoder().encodeToString(testId.toString().getBytes())+"&companyId="+URLEncoder.encode(Base64.getEncoder().encodeToString(companyId.getBytes())));
-		  String after = "&testId="+URLEncoder.encode(testId.toString())+"&companyId="+URLEncoder.encode(companyId);
-			 String url = propertyConfig.getBaseUrl()+"publicTest?"+after+"&startTime="+startTime+"&endTime="+endTime;
+		Test test=testService.findTestById(testId);
+		String after = "&testId="+URLEncoder.encode(testId.toString())+"&companyId="+URLEncoder.encode(companyId);
+			 String url = propertyConfig.getBaseUrl()+"publicTest?"+after+"&startTime="+startTime+"&endTime="+endTime+"&lang="+test.getTestLanguage();
 			 return url;
 	  }
 	
 	private String getPublicUrlForTestWithWebProctorFlag(Long testId, String companyId, String startTime, String endTime) {
 		// String after = "&testId="+URLEncoder.encode(Base64.getEncoder().encodeToString(testId.toString().getBytes())+"&companyId="+URLEncoder.encode(Base64.getEncoder().encodeToString(companyId.getBytes())));
-		  String after = "&testId="+URLEncoder.encode(testId.toString())+"&companyId="+URLEncoder.encode(companyId);
-			 String url = propertyConfig.getBaseUrl()+"publicTest?"+after+"&startTime="+startTime+"&endTime="+endTime+"&webProctorFlag=yes";
+		Test test=testService.findTestById(testId);
+		String after = "&testId="+URLEncoder.encode(testId.toString())+"&companyId="+URLEncoder.encode(companyId);
+			 String url = propertyConfig.getBaseUrl()+"publicTest?"+after+"&startTime="+startTime+"&endTime="+endTime+"&webProctorFlag=yes&lang="+test.getTestLanguage();
 			 return url;
 	  }
 	

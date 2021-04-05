@@ -134,12 +134,21 @@
                 <div class="container-fluid">
                     <div class="page-header mb-4">
                         <h1 class="my-auto">Users</h1>
-                        <div class="quick-actions my-auto">
-<!--                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"> -->
-                               <button type="button" class="btn btn-primary" onclick="openModel()">
-                                Add New User
-                            </button>
-                        </div>
+			                            	 <form id="fileFormUsers" method="POST" enctype="multipart/form-data" >
+											<input type="file" name="fileFromUserForm" id="fileFromUserForm" style="display:none" />
+											</form>
+                			  	<div class="row" >
+                                    <div style="padding-right: 15px">
+				                            <button type="button" class="btn btn-primary" onclick="showFileDialog()">
+				                            		Upload Users
+				                            </button>
+		                              </div>
+		                              <div style="padding-right: 17px">
+		 		                             <button type="button" class="btn btn-primary" onclick="openModel()">
+				                                			Add New User
+				                            	</button>
+                              		</div>
+                        	</div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-md-6 mb-3">
@@ -387,6 +396,52 @@
 					})
                 }
         
+        function showFileDialog(){
+        	$("#fileFromUserForm").click();
+        	}
+        
+   	 var isXlsx = function(name) {
+ 	    return name.match(/xlsx$/i)
+ 	    };
+ 	    
+   	 $(document).ready(function() {
+ 	    
+ 	    var file = $('[name="fileFromUserForm"]');
+ 	var fileU = document.getElementById('fileFromUserForm');
+ 	fileU.addEventListener("change", function () {
+ 		  if (fileU.files.length > 0) {
+ 		   var filename = $.trim(file.val());
+ 		
+ 		if (!(isXlsx(filename) )) {
+ 			sweetAlert('Information', 'Please select an xlsx file to upload',"error");
+ 		    return;
+ 		}
+ 		
+ 		$.ajax({
+ 		   xhr: function() {
+ 		    var xhr = new window.XMLHttpRequest();
+
+ 		    return xhr;
+ 		  },
+ 		   url: 'uploadUsers',
+ 		    type: "POST",
+ 		    data: new FormData(document.getElementById("fileFormUsers")),
+ 		    enctype: 'multipart/form-data',
+ 		    processData: false,
+ 		    contentType: false
+ 		  }) .done(function(data) {
+ 		    sweetAlert('Information', 'File Upload Successful',"success");
+ 		  }).fail(function(jqXHR, textStatus) {
+ 			 sweetAlert('Information', 'File Upload Failed. Please contact Administrator',"failure");
+ 		  });
+ 		  document.getElementById('fileFromUserForm').value = null;
+ 		    return;
+ 		  }
+ 		 
+ 		});
+ 	
+ 	 });
+        	
             $('#search').on('click',function(){
         	    var text = document.getElementById("searchText").value;
         		if(text.length != 0){

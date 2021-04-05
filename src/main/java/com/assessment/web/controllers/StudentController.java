@@ -47,6 +47,7 @@ import com.assessment.common.QuestionSequence;
 import com.assessment.common.SectionSequence;
 import com.assessment.common.util.EmailGenericMessageThread;
 import com.assessment.common.util.FullStackWorkspaceJsonTemplate;
+import com.assessment.data.FooterUTF;
 import com.assessment.data.FullStackOptions;
 import com.assessment.data.ProgrammingLanguage;
 import com.assessment.data.Question;
@@ -55,8 +56,11 @@ import com.assessment.data.QuestionMapperInstance;
 import com.assessment.data.QuestionType;
 import com.assessment.data.Section;
 import com.assessment.data.SectionInstance;
+import com.assessment.data.StudentJourneyUTF;
 import com.assessment.data.Test;
+import com.assessment.data.TestCompletionUTF;
 import com.assessment.data.TestDomainMapping;
+import com.assessment.data.TestIntroUTF;
 import com.assessment.data.User;
 import com.assessment.data.UserNonCompliance;
 import com.assessment.data.UserTestSession;
@@ -64,8 +68,12 @@ import com.assessment.data.UserTestTimeCounter;
 import com.assessment.eclipseche.config.response.WorkspaceResponse;
 import com.assessment.eclipseche.services.EclipseCheService;
 import com.assessment.reports.manager.UserTrait;
+import com.assessment.repositories.FooterUTFRepository;
 import com.assessment.repositories.QuestionMapperInstanceRepository;
 import com.assessment.repositories.QuestionMapperRepository;
+import com.assessment.repositories.StudentJourneyUTFRepository;
+import com.assessment.repositories.TestCompletionUTFRepository;
+import com.assessment.repositories.TestIntroUTFRepository;
 import com.assessment.repositories.UserTestSessionRepository;
 import com.assessment.services.CheService;
 import com.assessment.services.CompanyService;
@@ -164,6 +172,17 @@ public class StudentController {
 	@Autowired
 	TestController testController;
 	
+	@Autowired
+	TestIntroUTFRepository introUTFRepository;
+	
+	@Autowired
+	TestCompletionUTFRepository completionUTFRepository;
+	
+	@Autowired
+	StudentJourneyUTFRepository journeyUTFRepository;
+	
+	@Autowired
+	FooterUTFRepository footerUTFRepository;
 	
 	Logger logger = LoggerFactory.getLogger(StudentController.class);
 	
@@ -230,11 +249,13 @@ public class StudentController {
 //    }
 	
 	 @RequestMapping(value = "/startTestSession", method = RequestMethod.GET)
-	  public ModelAndView studentHome2(@RequestParam(required=false) Boolean practice,@RequestParam String startDate, @RequestParam String endDate, @RequestParam(required=false) String sharedDirect,@RequestParam(required=false) String inviteSent, @RequestParam String userId, @RequestParam String companyId, @RequestParam String testId, HttpServletRequest request, HttpServletResponse response) {
+	  public ModelAndView studentHome2(@RequestParam(required=false) Boolean practice,@RequestParam String startDate, @RequestParam String endDate, @RequestParam(required=false) String sharedDirect,@RequestParam(required=false) String inviteSent, @RequestParam String userId, @RequestParam String companyId, @RequestParam String testId, HttpServletRequest request, HttpServletResponse response,@RequestParam(required=false) String lang) {
 		 /**
 		  * Add code begin for test link time verification
 		  */
 		 ModelAndView mav;
+		
+		 
 		 
 		    if(startDate == null || endDate == null){
 		    	mav = new ModelAndView("testLinkNotEnabled");
@@ -295,6 +316,24 @@ public class StudentController {
 		 companyId=(String)request.getParameter("companyId");
 		// ModelAndView model= new ModelAndView("intro");
 		 ModelAndView model= new ModelAndView("intro_new");
+//		 if(lang==null) {
+//			 lang="eng";
+//		 }
+		 Test testDetails=testService.findTestById(Long.parseLong(testId),companyId);
+//		testDetails.getTestLanguage()
+		 String lang2 =(String)request.getSession().getAttribute("lang");
+		 if(lang2!=null&&lang==null) {
+			 lang=lang2;
+		 }else if(lang2==null&&lang==null){
+//			 lang="eng";
+			 lang=testDetails.getTestLanguage();
+		 }
+		 
+		 TestIntroUTF introUTF= introUTFRepository. findByLanguage(lang);
+		 model.addObject("testIntro", introUTF);
+		 FooterUTF footerUTF= footerUTFRepository.findByLanguage(lang);
+		 model.addObject("footerUTF", footerUTF);
+		 
 		 SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
 	     String time = localDateFormat.format(new Date());
 	     studentTest.setCurrentTime(time);
@@ -313,9 +352,9 @@ public class StudentController {
 	     	  // User userDetails=userService.findUserById(Long.parseLong(userId),companyId);
 	     	
      	
+//	     	Test testDetails=testService.findTestById(Long.parseLong(testId),companyId);
      	if(userDetails!=null)
 		{
-			Test testDetails=testService.findTestById(Long.parseLong(testId),companyId);
 				if(testDetails.getNewUi() != null && testDetails.getNewUi()){
 					String append = "";
 			    	if(inviteSent != null) {
@@ -498,7 +537,7 @@ public class StudentController {
 	 
 	 @RequestMapping(value = "/startTestSession", method = RequestMethod.POST)
 	  @CrossOrigin
-	 public ModelAndView studentHome2PostString(@RequestParam(required=false) Boolean practice,@RequestParam String startDate, @RequestParam String endDate, @RequestParam(required=false) String sharedDirect,@RequestParam(required=false) String inviteSent, @RequestParam String userId, @RequestParam String companyId, @RequestParam String testId, HttpServletRequest request, HttpServletResponse response, @ModelAttribute CustomArgsWrapper wrapper) {
+	 public ModelAndView studentHome2PostString(@RequestParam(required=false) Boolean practice,@RequestParam String startDate, @RequestParam String endDate, @RequestParam(required=false) String sharedDirect,@RequestParam(required=false) String inviteSent, @RequestParam String userId, @RequestParam String companyId, @RequestParam String testId, HttpServletRequest request, HttpServletResponse response, @ModelAttribute CustomArgsWrapper wrapper,@RequestParam(required=false) String lang) {
 		 try {
 			ObjectMapper mapper = new ObjectMapper();
 			 CustomArgs args = mapper.readValue(wrapper.getCustomArgs(), CustomArgs.class);
@@ -509,7 +548,7 @@ public class StudentController {
 		             request.getRequestURI() +
 		            (request.getQueryString() != null ? "?" + request.getQueryString() : "");
 			 request.getSession().setAttribute("startUrl", uri);
-			 return studentHome2(practice, startDate, endDate, sharedDirect, inviteSent, userId, companyId, testId, request, response);
+			 return studentHome2(practice, startDate, endDate, sharedDirect, inviteSent, userId, companyId, testId, request, response,lang);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -587,7 +626,7 @@ public class StudentController {
 	 
 	 
 	 @RequestMapping(value = "/studentJourney", method = RequestMethod.POST)
-	 public ModelAndView studentStartExam(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("studentTestForm") StudentTestForm studentForm) throws Exception {
+	 public ModelAndView studentStartExam(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("studentTestForm") StudentTestForm studentForm, @RequestParam(required = false) String lang) throws Exception {
 		// ModelAndView model= new ModelAndView("test_cognizant");
 		 System.out.println("new changes");
 		 ModelAndView model;
@@ -614,6 +653,16 @@ public class StudentController {
 		 	else{
 		 		//model= new ModelAndView("test_cognizant");
 		 		model = new ModelAndView("test_new");
+		 		
+//		 		String lang2 =(String)request.getSession().getAttribute("lang");
+//		 		if(lang2!=null&&lang==null) {
+//		 			lang=lang2;
+//		 		}else if(lang2==null&&lang==null){
+//		 			lang="eng";
+//		 		}
+		 		lang=test.getTestLanguage();
+		 		StudentJourneyUTF journeyUTF= journeyUTFRepository. findByLanguage(lang);
+		 		model.addObject("journeyUTF", journeyUTF);
 		 	}
 		 request.getSession().setAttribute("testStartDate", new Date());
 		 List<Section> sections = sectionService.getSectionsForTest(test.getTestName(),test.getCompanyId());
@@ -944,7 +993,7 @@ public class StudentController {
 	 
 	 
 	 @RequestMapping(value = "/changeSection", method = RequestMethod.GET)
-	  public ModelAndView changeSection(@RequestParam String sectionName, @RequestParam String timeCounter, HttpServletRequest request, HttpServletResponse response,@ModelAttribute("studentTestForm") StudentTestForm studentForm) {
+	  public ModelAndView changeSection(@RequestParam String sectionName, @RequestParam String timeCounter, HttpServletRequest request, HttpServletResponse response,@ModelAttribute("studentTestForm") StudentTestForm studentForm, @RequestParam(required = false) String lang) {
 		// ModelAndView model= new ModelAndView("test_cognizant");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
@@ -956,6 +1005,18 @@ public class StudentController {
 		 	else{
 		 		//model= new ModelAndView("test_cognizant");
 		 		model= new ModelAndView("test_new");
+		 		
+
+//		 		String lang2 =(String)request.getSession().getAttribute("lang");
+//		 		if(lang2!=null&&lang==null) {
+//		 			lang=lang2;
+//		 		}else if(lang2==null&&lang==null){
+//		 			lang="eng";
+//		 		}
+		 		lang=test.getTestLanguage();
+		 		StudentJourneyUTF journeyUTF= journeyUTFRepository. findByLanguage(lang);
+		 		model.addObject("journeyUTF", journeyUTF);
+
 		 	}
 		 
 		 List<SectionInstanceDto> sectionInstanceDtos = (List<SectionInstanceDto>) request.getSession().getAttribute("sectionInstanceDtos");
@@ -1845,7 +1906,7 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 	 }
 	 
 	 @RequestMapping(value = "/nextQuestion", method = RequestMethod.POST)
-	  public ModelAndView nextQuestion(@RequestParam(name="imageVideoData", required=false) MultipartFile imageVideoData, @RequestParam String questionId, @RequestParam String timeCounter,HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) throws Exception {
+	  public ModelAndView nextQuestion(@RequestParam(name="imageVideoData", required=false) MultipartFile imageVideoData, @RequestParam String questionId, @RequestParam String timeCounter,HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion,@RequestParam(required = false) String lang) throws Exception {
 		// ModelAndView model= new ModelAndView("test_cognizant");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
@@ -1856,8 +1917,21 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 		 	}
 		 	else{
 		 		//model= new ModelAndView("test_cognizant");
+		 		
 		 		model= new ModelAndView("test_new");
+
+//		 		String lang2 =(String)request.getSession().getAttribute("lang");
+//		 		if(lang2!=null&&lang==null) {
+//		 			lang=lang2;
+//		 		}else if(lang2==null&&lang==null){
+//		 			lang="eng";
+//		 		}
+		 		lang=test.getTestLanguage();
+		 		StudentJourneyUTF journeyUTF= journeyUTFRepository. findByLanguage(lang);
+		 		model.addObject("journeyUTF", journeyUTF);
+		 		
 		 	}
+		 
 		 
 		 if(imageVideoData != null &&  imageVideoData.getSize() != 0){
 			 String baseFolder = "";
@@ -2381,7 +2455,7 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 	 
 	 
 	 @RequestMapping(value = "/prevQuestion", method = RequestMethod.POST)
-	  public ModelAndView prevQuestion(@RequestParam(name="imageVideoData", required=false) MultipartFile imageVideoData,@RequestParam String questionId, @RequestParam String timeCounter,HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) throws Exception {
+	  public ModelAndView prevQuestion(@RequestParam(name="imageVideoData", required=false) MultipartFile imageVideoData,@RequestParam String questionId, @RequestParam String timeCounter,HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion, @RequestParam(required = false) String lang) throws Exception {
 		 //ModelAndView model= new ModelAndView("test_cognizant");
 		 User user = (User) request.getSession().getAttribute("user");
 		 Test test = (Test) request.getSession().getAttribute("test");
@@ -2393,6 +2467,18 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 		 	else{
 		 		//model= new ModelAndView("test_cognizant");
 		 		model= new ModelAndView("test_new");
+		 		
+
+//		 		String lang2 =(String)request.getSession().getAttribute("lang");
+//		 		if(lang2!=null&&lang==null) {
+//		 			lang=lang2;
+//		 		}else if(lang2==null&&lang==null){
+//		 			lang="eng";
+//		 		}
+		 		lang=test.getTestLanguage();
+		 		StudentJourneyUTF journeyUTF= journeyUTFRepository. findByLanguage(lang);
+		 		model.addObject("journeyUTF", journeyUTF);
+
 		 	}
 		 
 		 if(imageVideoData != null &&  imageVideoData.getSize() != 0){
@@ -2506,6 +2592,7 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 				//Save test and generate result
 				//model= new ModelAndView("intro");
 				model= new ModelAndView("intro_new");
+				
 				putMiscellaneousInfoInModel(model, request);
 				return model;
 			}
@@ -2563,7 +2650,7 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 	 }
 	 
 	 @RequestMapping(value = "/submitTest", method = RequestMethod.POST)
-	  public ModelAndView submitTest(@RequestParam(name="imageVideoData", required=false) MultipartFile imageVideoData, @RequestParam String questionId, @RequestParam String timeCounter, HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion) throws IOException {
+	  public ModelAndView submitTest(@RequestParam(name="imageVideoData", required=false) MultipartFile imageVideoData, @RequestParam String questionId, @RequestParam String timeCounter, HttpServletRequest request, HttpServletResponse response,@ModelAttribute("currentQuestion") QuestionInstanceDto currentQuestion,@RequestParam(required = false) String lang) throws IOException {
 //		 Boolean submitted = (Boolean) request.getSession().getAttribute("submitted");
 //		 	if(submitted != null && (submitted)){
 //		 		request.getSession().invalidate();
@@ -2773,6 +2860,18 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 			sendResultsEmail(request, userTestSession);
 			String rows = compileRows(request);
 			model= new ModelAndView("studentTestCompletion");
+			 String lang2 =(String)request.getSession().getAttribute("lang");
+			 
+//			 if(lang2!=null&&lang==null) {
+//				 lang=lang2;
+//			 }else if(lang2==null&&lang==null){
+//				 lang="eng";
+//			 }
+
+			 lang=test.getTestLanguage();
+			 TestCompletionUTF completionUTF= completionUTFRepository. findByLanguage(lang);
+			 model.addObject("completionUTF", completionUTF);
+			 
 			model.addObject("rows", rows);
 //			model.addObject("showResults", test.getSentToStudent());
 			model.addObject("showResults", test.getDisplayResultToStudent());
@@ -2786,7 +2885,13 @@ questionInstanceDto.getQuestionMapperInstance().setTestCaseInvalidData(questionI
 				int per = Math.round(userTestSession.getPercentageMarksRecieved());
 				model.addObject("RESULT_PERCENTAGE_WITHOUT_FRACTION", new Integer(per));
 			//	model.addObject("STATUS", test.getPassPercent() > userTestSession.getPercentageMarksRecieved()?"Fail":"Success");
-				model.addObject("STATUS", test.getPassPercent() > (userTestSession.getWeightedScorePercentage()==null?0:userTestSession.getWeightedScorePercentage())?"Fail":"Success");
+				if(test.getTestLanguage().equals("eng")) {
+					model.addObject("STATUS", test.getPassPercent() > (userTestSession.getWeightedScorePercentage()==null?0:userTestSession.getWeightedScorePercentage())?"Fail":"Success");
+				}
+				else if(test.getTestLanguage().equals("arabic")) {
+					model.addObject("STATUS", test.getPassPercent() > (userTestSession.getWeightedScorePercentage()==null?0:userTestSession.getWeightedScorePercentage())?"يفشل":"نجاح");
+				}
+				
 				model.addObject("codingAssignments", codingAssignments);
 				model = getTraitsForUserForTest(user.getEmail(), test.getCompanyId(), test.getTestName(), model);
 				/**

@@ -199,6 +199,17 @@
                                         <label for="">Campaign Name</label>
                                         <input id="campaignName" type="text" class="form-control" value="${campaign.campaignName}" ${disabled == false?'':'disabled'}>
                                     </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="">Campaign Language</label>
+                                        <form:select path="campaign.language" class="form-control"   id="campaignLanguage" >
+										<form:options items="${langs}" />
+											</form:select> 
+<%--                                         <input id="campaignName" type="text" class="form-control" value="${campaign.campaignName}" ${disabled == false?'':'disabled'}> --%>
+                                    </div>
+                                    
+                                    
+                                    
                                     <div class="form-group mt-3">
                                         <label for="">Campaign Description</label>
                                         <textarea  id="campaignDesc" class="form-control" >${campaign.campaignDesc}</textarea>
@@ -495,99 +506,7 @@
                                                     <h2>Send Invitation</h2>
                                                 </div>
                                             </div>
-                                            <div class="col-12 pl-4 pr-4">
-                                                <h3>Test Title</h3>
-                                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi tempore rem omnis molestias eos natus facilis consequuntur praesentium qui velit ab neque quasi ullam voluptatem repudiandae suscipit, temporibus dolorem excepturi.</p>
-                                                <div class="d-flex justify-content-between">
-                                                    .
-                                                </div>
-                                            </div>
-                                            <div class="col-12 mb-3">
-                                                <div id="accordion" class="test-overview">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <div class="card">
-                                                                <div class="card-header" id="headingOne">
-                                                                    <h5 class="mb-0">
-                                                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                                            Details
-                                                                        </button>
-                                                                    </h5>
-                                                                </div>
-                                                                <div class="card-body collapse" id="collapseOne" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                    <div class="row">
-                                                                        <div class="col-xs-12 col-md-6">
-                                                                            <h3 class="mb-3">Tests</h3>
-                                                                            <div class="block mb-2">
-                                                                                <h5>MCQ Test</h5>
-                                                                                <p>45 Question</p>
-                                                                                <p class="mb-0"><i class="fa fa-clock-o mr-2"></i>90 Mins</p>
-                                                                            </div>
-                                                                            <div class="block mb-2">
-                                                                                <h5>MCQ Test</h5>
-                                                                                <p>45 Question</p>
-                                                                                <p class="mb-0"><i class="fa fa-clock-o mr-2"></i>90 Mins</p>
-                                                                            </div>
-                                                                            <div class="block mb-2">
-                                                                                <h5>MCQ Test</h5>
-                                                                                <p>45 Question</p>
-                                                                                <p class="mb-0"><i class="fa fa-clock-o mr-2"></i>90 Mins</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-xs-12 col-md-6">
-                                                                            <h3 class="mb-3">Candidates</h3>
-                                                                            <div class="block mb-2">
-                                                                                <h5>Firstname Lastname</h5>
-                                                                                <p class="mb-0">username@email.com</p>
-                                                                            </div>
-                                                                            <div class="block mb-2">
-                                                                                <h5>Firstname Lastname</h5>
-                                                                                <p class="mb-0">username@email.com</p>
-                                                                            </div>
-                                                                            <div class="block mb-2">
-                                                                                <h5>Firstname Lastname</h5>
-                                                                                <p class="mb-0">username@email.com</p>
-                                                                            </div>
-                                                                            <div class="block mb-2">
-                                                                                <h5>Firstname Lastname</h5>
-                                                                                <p class="mb-0">username@email.com</p>
-                                                                            </div>
-                                                                            <div class="block mb-2">
-                                                                                <h5>Firstname Lastname</h5>
-                                                                                <p class="mb-0">username@email.com</p>
-                                                                            </div>
-                                                                            <div class="block mb-2">
-                                                                                <h5>Firstname Lastname</h5>
-                                                                                <p class="mb-0">username@email.com</p>
-                                                                            </div>
-                                                                            <div class="block mb-2">
-                                                                                <h5>Firstname Lastname</h5>
-                                                                                <p class="mb-0">username@email.com</p>
-                                                                            </div>
-                                                                            <div class="block mb-2">
-                                                                                <h5>Firstname Lastname</h5>
-                                                                                <p class="mb-0">username@email.com</p>
-                                                                            </div>
-                                                                            <div class="block mb-2">
-                                                                                <h5>Firstname Lastname</h5>
-                                                                                <p class="mb-0">username@email.com</p>
-                                                                            </div>
-
-                                                                            <div class="block mb-2">
-                                                                                <h5>Firstname Lastname</h5>
-                                                                                <p class="mb-0">username@email.com</p>
-                                                                            </div><div class="block mb-2">
-                                                                                <h5>Firstname Lastname</h5>
-                                                                                <p class="mb-0">username@email.com</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                             
                                             
                                         </div>
                                     </div>
@@ -898,6 +817,8 @@
 			}
 			
 			function step2(){
+				
+				var campaignLanguage = document.getElementById("campaignLanguage").value;
 				var campaignName = document.getElementById("campaignName").value;
 				var campaignDesc = document.getElementById("campaignDesc").value;
 				if(campaignName){
@@ -919,7 +840,7 @@
 					// return "fail";
 				// }
 				
-				$.get("goToStep2?campaignName="+campaignName+"&campaignDesc="+campaignDesc, function(data, status){
+				$.get("goToStep2?campaignName="+campaignName+"&campaignDesc="+campaignDesc+"&campaignLanguage="+campaignLanguage, function(data, status){
 				   console.log(data);
 					$("#campaignTests").empty();
 					$("#campaignTests").append(data);

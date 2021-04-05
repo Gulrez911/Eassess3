@@ -477,9 +477,8 @@
 		    enctype: 'multipart/form-data',
 		    processData: false,
 		    contentType: false
-		  }).done(function(data) {
+		  }) .done(function(data) {
 		    notify('Success', 'File Upload Successful');
-		   
 		  }).fail(function(jqXHR, textStatus) {
 		      notify('Failure', 'File Upload Failed. Please contact Administrator');
 		  });
@@ -488,46 +487,11 @@
 		  }
 		 
 		});
+	
+	 });
 	  
 	
 	
-	<!-- For licensed users -- >
-	var fileL = $('[name="fileFromUserFormLicense"]');
-	var fileLicense = document.getElementById('fileFromUserFormLicense');
-	fileLicense.addEventListener("change", function () {
-		  if (fileLicense.files.length > 0) {
-		   var filename = $.trim(fileL.val());
-		
-			if (!(isXlsx(filename) )) {
-				notify('Error', 'Please select an xlsx file to upload');
-				return;
-			}
-		
-		$.ajax({
-		   xhr: function() {
-		    var xhr = new window.XMLHttpRequest();
-
-		    return xhr;
-		  },
-		   url: 'uploadUsersWithLicenses',
-		    type: "POST",
-		    data: new FormData(document.getElementById("fileFormUsersLicense")),
-		    enctype: 'multipart/form-data',
-		    processData: false,
-		    contentType: false
-		  }).done(function(data) {
-		    notify('Success', 'File Upload Successful');
-		   
-		  }).fail(function(jqXHR, textStatus) {
-		      notify('Failure', 'File Upload Failed. Please contact Administrator');
-		  });
-		  document.getElementById('fileFromUserFormLicense').value = null;
-		    return;
-		  }
-		 
-		});
-	  
-	});
 	
 	<!-- end for licensed users -->
 	

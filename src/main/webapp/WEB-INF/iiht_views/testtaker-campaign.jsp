@@ -43,9 +43,9 @@
                     <div class="page-header mb-4 user-login">
                         <h1 class="text-center">
                             <a href="#" class="yaksha-logo">
-                                YAK<span>SHA</span>
+                                 E<span>ASSESS</span>
                             </a>
-                             <span>is ready to ask what you already know best.</span>
+                             <span>${campaignTestUTF.isReadyToAsk}</span>
                         </h1>
                     </div>
                     <div class="container">
@@ -61,14 +61,14 @@
                                 
                             </div>
                             <div class="col-12 text-center mb-2">
-                                Published on: ${campaign.publishedDate}
+                                ${campaignTestUTF.publishedOn} : ${campaign.publishedDate}
                             </div>
                             <div class="col-12 text-center mb-2">
                                 <i class="fa fa-info mr-2"></i>
-                                Skills Associated With the Campaign: ${campaign.skillsConcatenated}
+                                ${campaignTestUTF.skillAssociated} : ${campaign.skillsConcatenated}
                             </div>
                             <div class="col-12 text-center mb-4 text-danger">
-                                Campaign Link Expires in <strong>${expireDays} Days</strong>
+                               ${campaignTestUTF.campaignLinkExpire} <strong>${expireDays} ${campaignTestUTF.days}</strong>
                             </div>
                         </div>
                         <div class="row mb-5">
@@ -79,7 +79,7 @@
                                         ${test.testName} 
                                     </div>
                                     <div class="card-body" style="background-color:${test.meeting == true?'lightblue':''}">
-                                      ${test.testType.equals("")?"Meeting":test.testType}  -   ${test.noOfMCQQuestions + test.noOfCodingQuestions + test.noOfFullStackQuestions} Questions
+                                      ${test.testType.equals("")?"Meeting":test.testType}  -   ${test.noOfMCQQuestions + test.noOfCodingQuestions + test.noOfFullStackQuestions} 	${campaignTestUTF.questions}
                                     </div>
 									<c:choose>
 											<c:when test="${test.complete==false}">
@@ -94,10 +94,10 @@
                                             <i class="fa fa-clock-o mr-1"></i>
 											<c:choose>
 												<c:when test="${test.meeting == true}">
-													Meeting Start - ${test.meetingStartTime}
+													${campaignTestUTF.minutes} - ${test.meetingStartTime}
 												</c:when>
 												<c:otherwise>
-													 ${test.testDuration} Mins
+													 ${test.testDuration} ${campaignTestUTF.minutes}
 												</c:otherwise>
 											</c:choose>
                                             
@@ -107,16 +107,16 @@
 										<c:choose>
 											<c:when test="${test.complete==false && test.meeting == false}">
 												<button class="btn btn-primary" type="button" onClick="startAssessment('${test.url}')" >
-												  Start Assessment
+												  ${campaignTestUTF.startAssessment}
 												</button>
 											</c:when> 
 											<c:when test="${test.complete==false && test.meeting == true}">
 												<button class="btn btn-primary" type="button" onClick="startMeeting('${test.url}')" >
-												  Start Meeting
+												 ${campaignTestUTF.startMeeting}
 												</button>
 											</c:when> 
 											<c:otherwise>
-												Completed this Round. 
+												${campaignTestUTF.completedThisRound}
 											</c:otherwise>
 										</c:choose>
 										
@@ -127,55 +127,56 @@
 							</c:forEach>
 							
                             <div class="col-12 text-center mt-5">
-                                <p><i class="fa fa-warning text-warning mr-2"></i> Read the instructions below before starting the assessment</p>
+                                <p><i class="fa fa-warning text-warning mr-2"></i> ${campaignTestUTF.readTheInstruction}</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12 col-md-6 mb-3">
                                 <div class="card">
                                     <div class="card-header">
-                                        INSTRUCTIONS
+<!--                                         INSTRUCTIONS -->
+							${footerUTF.instructions}
                                     </div>
                                     <div class="card-body">
-                                        <p>Test Results will be sent to you on Completion</p>
-                                        <p>Click Submit for Submission of your Test</p>
-                                        <p>System will auto Submit Test if Timer Expires</p>
+                                        <p>		${footerUTF.instruct1}</p>
+                                        <p>		${footerUTF.instruct2}</p>
+                                        <p>		${footerUTF.instruct3}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6 mb-3">
                                 <div class="card">
                                     <div class="card-header">
-                                        WEB PROCTORING
+                                       	${footerUTF.webProctoring}
                                     </div>
                                     <div class="card-body">
-                                        <p>Do not move mouse pointer to a different tab</p>
-                                        <p>Use F11 windows for Test if required</p>
-                                        <p>Non Compliance can result in your Test Declared Invalid</p>
+                                        <p>${footerUTF.webProctor1}</p>
+                                        <p>${footerUTF.webProctor2}</p>
+                                        <p>${footerUTF.webProctor3}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6 mb-3">
                                 <div class="card">
                                     <div class="card-header">
-                                        TENANTS
+                                     ${footerUTF.tenants}
                                     </div>
                                     <div class="card-body">
-                                        <p>Domain specific Users are advise to login using Corporate Credentials</p>
-                                        <p>Every User is directed to provide Login data for Individual Reporting</p>
-                                        <p>Tenant Admin will see Tenant specfic data only</p>
+                                        <p>${footerUTF.tenants1}</p>
+                                        <p>${footerUTF.tenants2}</p>
+                                        <p>${footerUTF.tenants3}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6 mb-3">
                                 <div class="card">
                                     <div class="card-header">
-                                        YAKSHA
+                                        EASSESS
                                     </div>
                                     <div class="card-body">
-                                        <p>Multi Technology Assessments</p>
-                                        <p>Test Cases Based Evaluation</p>
-                                        <p>Weighted Adaptive Assessments</p>
+                                        <p>${footerUTF.eassess1}</p>
+                                        <p>${footerUTF.eassess2}</p>
+                                        <p>${footerUTF.eassess3}</p>
                                     </div>
                                 </div>
                             </div>
@@ -186,13 +187,13 @@
             <footer>
                 <div class="container-fluid text-right">
                     <span class="copyright">
-                        &copy; Copyright 2020-2021 - Yaksha
+                        &copy; Copyright 2020-2021 - eAssess
                     </span>
                     <a href="#">
-                        Terms and Conditions
+                      	${footerUTF.termsAndConditions}
                     </a>
                     <a href="#">
-                        Privacy Policy
+                        ${footerUTF.privacyPolicy}
                     </a>
                 </div>
             </footer>

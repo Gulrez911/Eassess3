@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ import com.assessment.Exceptions.AssessmentGenericException;
 import com.assessment.common.CommonUtil;
 import com.assessment.common.ExcelReader;
 import com.assessment.common.PropertyConfig;
+import com.assessment.data.CandidateProfileParams;
 import com.assessment.data.Company;
 import com.assessment.data.DifficultyLevel;
 import com.assessment.data.FullStackOptions;
@@ -44,6 +46,8 @@ import com.assessment.data.TestCase;
 import com.assessment.data.TestCases;
 import com.assessment.data.User;
 import com.assessment.data.UserType;
+import com.assessment.repositories.CandidateProfileParamsRepository;
+import com.assessment.services.CandidateProfileParamsService;
 import com.assessment.services.CompanyService;
 import com.assessment.services.QuestionService;
 import com.assessment.services.UserService;
@@ -60,6 +64,11 @@ public class QuestionController {
 	
 	@Autowired
 	PropertyConfig propertyConfig;
+	
+	@Autowired
+	CandidateProfileParamsService profileService;
+	@Autowired
+	CandidateProfileParamsRepository profileRepository;
 	
 	Logger logger =LoggerFactory.getLogger(QuestionController.class);
 	
@@ -421,12 +430,50 @@ public class QuestionController {
 				System.out.println("before saving Qu");
 				logger.info("before saving Qu");
 				questionService.updateQuestion(question);
+				
+				CandidateProfileParams params = profileService.findUniqueCandidateProfileParams(user.getCompanyId(), question.getQualifier1(), question.getQualifier2()==null?"NA":question.getQualifier2().isEmpty()?"NA":question.getQualifier2(), question.getQualifier3()==null?"NA":question.getQualifier3().isEmpty()?"NA":question.getQualifier3(), question.getQualifier4()==null?"NA":question.getQualifier4().isEmpty()?"NA":question.getQualifier4(), question.getQualifier5()==null?"NA":question.getQualifier5().isEmpty()?"NA":question.getQualifier5());
+				if(params == null){
+					CandidateProfileParams candidateProfileParam = new CandidateProfileParams();
+					candidateProfileParam.setCompanyId(user.getCompanyId());
+					candidateProfileParam.setCompanyName(user.getCompanyName());
+					candidateProfileParam.setCreateDate(new Date());
+					candidateProfileParam.setLESS_THAN_TWENTY_PERCENT("Need to work a bit. Not good!");
+					candidateProfileParam.setBETWEEN_TWENTY_AND_FIFTY("Knowledge Quotient inadequate for the given topic!!");
+					candidateProfileParam.setBETWEEN_FIFTY_AND_SEVENTYFIVE("Average Grade for a given topic!!");
+					candidateProfileParam.setBETWEEN_SEVENTYFIVE_AND_NINETY("Good knowledge. Potential to be an expert in this area!!");
+					candidateProfileParam.setMORE_THAN_NINETY("Excellent knowledge on the theory behind the topic.");
+					candidateProfileParam.setQualifier1(question.getQualifier1());
+					candidateProfileParam.setQualifier2(question.getQualifier2()==null?"NA":question.getQualifier2().isEmpty()?"NA":question.getQualifier2());
+					candidateProfileParam.setQualifier3(question.getQualifier3()==null?"NA":question.getQualifier3().isEmpty()?"NA":question.getQualifier3());
+					candidateProfileParam.setQualifier4(question.getQualifier4()==null?"NA":question.getQualifier4().isEmpty()?"NA":question.getQualifier4());
+					candidateProfileParam.setQualifier5(question.getQualifier5()==null?"NA":question.getQualifier5().isEmpty()?"NA":question.getQualifier5());
+					profileRepository.save(candidateProfileParam);
+				}
 				System.out.println("before saving Qu");
+				
 				logger.info("before saving Qu");
 			}
 			else {
 				logger.info("before saving Q");
 				questionService.createQuestion(question);
+				CandidateProfileParams params = profileService.findUniqueCandidateProfileParams(user.getCompanyId(), question.getQualifier1(), question.getQualifier2()==null?"NA":question.getQualifier2().isEmpty()?"NA":question.getQualifier2(), question.getQualifier3()==null?"NA":question.getQualifier3().isEmpty()?"NA":question.getQualifier3(), question.getQualifier4()==null?"NA":question.getQualifier4().isEmpty()?"NA":question.getQualifier4(), question.getQualifier5()==null?"NA":question.getQualifier5().isEmpty()?"NA":question.getQualifier5());
+				if(params == null){
+					CandidateProfileParams candidateProfileParam = new CandidateProfileParams();
+					candidateProfileParam.setCompanyId(user.getCompanyId());
+					candidateProfileParam.setCompanyName(user.getCompanyName());
+					candidateProfileParam.setCreateDate(new Date());
+					candidateProfileParam.setLESS_THAN_TWENTY_PERCENT("Need to work a bit. Not good!");
+					candidateProfileParam.setBETWEEN_TWENTY_AND_FIFTY("Knowledge Quotient inadequate for the given topic!!");
+					candidateProfileParam.setBETWEEN_FIFTY_AND_SEVENTYFIVE("Average Grade for a given topic!!");
+					candidateProfileParam.setBETWEEN_SEVENTYFIVE_AND_NINETY("Good knowledge. Potential to be an expert in this area!!");
+					candidateProfileParam.setMORE_THAN_NINETY("Excellent knowledge on the theory behind the topic.");
+					candidateProfileParam.setQualifier1(question.getQualifier1());
+					candidateProfileParam.setQualifier2(question.getQualifier2()==null?"NA":question.getQualifier2().isEmpty()?"NA":question.getQualifier2());
+					candidateProfileParam.setQualifier3(question.getQualifier3()==null?"NA":question.getQualifier3().isEmpty()?"NA":question.getQualifier3());
+					candidateProfileParam.setQualifier4(question.getQualifier4()==null?"NA":question.getQualifier4().isEmpty()?"NA":question.getQualifier4());
+					candidateProfileParam.setQualifier5(question.getQualifier5()==null?"NA":question.getQualifier5().isEmpty()?"NA":question.getQualifier5());
+					profileRepository.save(candidateProfileParam);
+				}
 				logger.info("after saving Q");
 			}
 		
@@ -898,7 +945,27 @@ public class QuestionController {
 				q.setChoice6(q.getChoice6() == null ?"":q.getChoice6().trim());
 				q.setRightChoices(q.getRightChoices().trim());
 				questionService.createQuestion(q);
+				
+				CandidateProfileParams params = profileService.findUniqueCandidateProfileParams(company.getCompanyId(), q.getQualifier1(), q.getQualifier2()==null?"NA":q.getQualifier2().isEmpty()?"NA":q.getQualifier2(), q.getQualifier3()==null?"NA":q.getQualifier3().isEmpty()?"NA":q.getQualifier3(), q.getQualifier4()==null?"NA":q.getQualifier4().isEmpty()?"NA":q.getQualifier4(), q.getQualifier5()==null?"NA":q.getQualifier5().isEmpty()?"NA":q.getQualifier5());
+				if(params == null){
+					CandidateProfileParams candidateProfileParam = new CandidateProfileParams();
+					candidateProfileParam.setCompanyId(company.getCompanyId());
+					candidateProfileParam.setCompanyName(company.getCompanyName());
+					candidateProfileParam.setCreateDate(new Date());
+					candidateProfileParam.setLESS_THAN_TWENTY_PERCENT("Need to work a bit. Not good!");
+					candidateProfileParam.setBETWEEN_TWENTY_AND_FIFTY("Knowledge Quotient inadequate for the given topic!!");
+					candidateProfileParam.setBETWEEN_FIFTY_AND_SEVENTYFIVE("Average Grade for a given topic!!");
+					candidateProfileParam.setBETWEEN_SEVENTYFIVE_AND_NINETY("Good knowledge. Potential to be an expert in this area!!");
+					candidateProfileParam.setMORE_THAN_NINETY("Excellent knowledge on the theory behind the topic.");
+					candidateProfileParam.setQualifier1(q.getQualifier1());
+					candidateProfileParam.setQualifier2(q.getQualifier2()==null?"NA":q.getQualifier2().isEmpty()?"NA":q.getQualifier2());
+					candidateProfileParam.setQualifier3(q.getQualifier3()==null?"NA":q.getQualifier3().isEmpty()?"NA":q.getQualifier3());
+					candidateProfileParam.setQualifier4(q.getQualifier4()==null?"NA":q.getQualifier4().isEmpty()?"NA":q.getQualifier4());
+					candidateProfileParam.setQualifier5(q.getQualifier5()==null?"NA":q.getQualifier5().isEmpty()?"NA":q.getQualifier5());
+					profileRepository.save(candidateProfileParam);
+				}
 			}
+			
 			logger.info("upload qs in db complete");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

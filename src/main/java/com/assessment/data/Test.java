@@ -118,6 +118,14 @@ public class Test extends Base {
 	
 	Boolean webProctoring=false;
 	
+	String testLanguage;
+	
+	public String getTestLanguage() {
+		return testLanguage;
+	}
+	public void setTestLanguage(String testLanguage) {
+		this.testLanguage = testLanguage;
+	}
 	public Boolean getWebProctoring() {
 		return webProctoring;
 	}

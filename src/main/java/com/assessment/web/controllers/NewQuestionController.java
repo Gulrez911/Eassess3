@@ -65,8 +65,7 @@ public class NewQuestionController {
 		logger.info("in save Q q.getconstr " + question.getConstrnt());
 		ModelAndView mav = null;
 		User user = (User) request.getSession().getAttribute("user");
-		List<Question> questions = new ArrayList<Question>();
-
+ 
 		if (addtestcases != null && addtestcases.getSize() != 0) {
 			String error = "";
 			try {

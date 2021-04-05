@@ -36,7 +36,7 @@
                             <a href="#" class="yaksha-logo">
                                 E<span>ASSESS</span>
                             </a>
-                             is ready to ask what you already know best.
+                            ${publicTestUTF.isReadyTOask } 
                         </h1>
                     </div>
                     <div class="container">
@@ -53,60 +53,64 @@
 							<form:hidden path="testUserData.endTime" value="${endTime}" />
                             <div class="col-xs-12 col-md-6 col-xl-3 mb-3">
                                 <div class="form-group">
-                                    <label>Email address</label>
+<!--                                     <label>Email address</label> -->
+                                         <label>${publicTestUTF.email}</label>
                                    <!-- <input type="email" class="form-control" placeholder="Email"> -->
-								   <form:input class="form-control"  type="email" path="testUserData.user.email" name="email" id="userName" required="true" placeholder="Email" />
-                                    <small class="form-text text-danger">We'll never share your email with anyone else.</small>
+								   <form:input class="form-control"  type="email" path="testUserData.user.email" name="email" id="userName" required="true" placeholder="${publicTestUTF.email}" />
+<!--                                     <small class="form-text text-danger">We'll never share your email with anyone else.</small> -->
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6 col-xl-3 mb-3">
                                 <div class="form-group">
-                                    <label>First Name</label>
+<!--                                     <label>First Name</label> -->
+                                    <label>${publicTestUTF.firstName}</label>
                                    <!--  <input type="text" class="form-control" placeholder="First Name"> -->
-								   <form:input class="form-control" path="testUserData.user.firstName" name="firstName" id="firstName" required="true" placeholder="First Name" />
+								   <form:input class="form-control" path="testUserData.user.firstName" name="firstName" id="firstName" required="true" placeholder="${publicTestUTF.firstName}" />
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6 col-xl-3 mb-3">
                                 <div class="form-group">
-                                    <label>Last Name</label>
+                                    <label>${publicTestUTF.lastName}</label>
                                    <!-- <input type="text" class="form-control" placeholder="Last Name"> -->
-								   <form:input class="form-control" path="testUserData.user.lastName" name="lastName" id="lastName" required="true" placeholder="Last Name"/>
+								   <form:input class="form-control" path="testUserData.user.lastName" name="lastName" id="lastName" required="true" placeholder="${publicTestUTF.lastName}"/>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6 col-xl-3 mb-3">
                                 <div class="form-group">
-                                    <label>Candidate ID</label>
+                                    <label>${publicTestUTF.candidateId}</label>
                                    <!-- <input type="text" class="form-control" placeholder="Candidate ID"> -->
-								   <form:input class="form-control"  path="testUserData.user.candidateId" name="candidateId" id="candidateId" required="true" placeholder="Candidate ID"/>
+								   <form:input class="form-control"  path="testUserData.user.candidateId" name="candidateId" id="candidateId" required="true" placeholder="${publicTestUTF.candidateId}"/>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6 col-xl-3 mb-3">
                                 <div class="form-group">
-                                    <label>Degree</label>
+                                    <label>${publicTestUTF.degree}</label>
                                    <!-- <input type="text" class="form-control" placeholder="Candidate ID"> -->
-								   <form:input class="form-control"  path="testUserData.user.degree" name="degree" id="degree"  />
+								   <form:input class="form-control"  path="testUserData.user.degree" name="degree" id="degree"  placeholder="${publicTestUTF.degree}" />
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6 col-xl-3 mb-3">
                                 <div class="form-group">
-                                    <label>Passing Year</label>
+                                    <label>${publicTestUTF.passingYear}</label>
                                    <!-- <input type="text" class="form-control" placeholder="Candidate ID"> -->
-								   <form:input class="form-control"  path="testUserData.user.passingYear" name="passingYear" id="passingYear" />
+								   <form:input class="form-control"  path="testUserData.user.passingYear" name="passingYear" id="passingYear" placeholder="${publicTestUTF.passingYear}"/>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6 col-xl-3 mb-3">
                                 <div class="form-group">
-                                    <label>Mobile</label>
+                                    <label>${publicTestUTF.mobile}</label>
                                    <!-- <input type="text" class="form-control" placeholder="Candidate ID"> -->
-								   <form:input class="form-control"  path="testUserData.user.mobileNumber" name="mobileNumber" id="mobileNumber" />
+								   <form:input class="form-control"  path="testUserData.user.mobileNumber" name="mobileNumber" id="mobileNumber" placeholder="${publicTestUTF.mobile}"/>
                                 </div>
                             </div>
                             <div class="col-12 text-center">
                                 <button class="btn btn-primary" type="button" id="submitFormButton">
-                                    Submit
+<!--                                     Submit -->
+					${publicTestUTF.signIn}
                                 </button>
                                 <div class="mt-3">
-                                    If you need any assistance please contact us at
+                                	${publicTestUTF.ifYouNeedAny}
+<!--                                     If you need any assistance please contact us at -->
                                     <a href="mailto:reachus@eassess.com">reachus@eassess.com</a>
                                 </div>
                             </div>
@@ -116,36 +120,36 @@
                             <div class="col-xs-12 col-md-6 mb-3">
                                 <div class="card">
                                     <div class="card-header">
-                                        INSTRUCTIONS
+                                       ${footerUTF.instructions}
                                     </div>
                                     <div class="card-body">
-                                        <p>Test Results will be sent to you on Completion</p>
-                                        <p>Click Submit for Submission of your Test</p>
-                                        <p>System will auto Submit Test if Timer Expires</p>
+                                        <p>${footerUTF.instruct1}</p>
+                                        <p>${footerUTF.instruct2}</p>
+                                        <p>${footerUTF.instruct3}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6 mb-3">
                                 <div class="card">
                                     <div class="card-header">
-                                        WEB PROCTORING
+                                       ${footerUTF.webProctoring}
                                     </div>
                                     <div class="card-body">
-                                        <p>Do not move mouse pointer to a different tab</p>
-                                        <p>Use F11 windows for Test if required</p>
-                                        <p>Non Compliance can result in your Test Declared Invalid</p>
+                                        <p>${footerUTF.webProctor1}</p>
+                                        <p>${footerUTF.webProctor2}</p>
+                                        <p>${footerUTF.webProctor3}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6 mb-3">
                                 <div class="card">
                                     <div class="card-header">
-                                        TENANTS
+                                       ${footerUTF.tenants}
                                     </div>
                                     <div class="card-body">
-                                        <p>Domain specific Users are advise to login using Corporate Credentials</p>
-                                        <p>Every User is directed to provide Login data for Individual Reporting</p>
-                                        <p>Tenant Admin will see Tenant specfic data only</p>
+                                        <p>${footerUTF.tenants1}</p>
+                                        <p>${footerUTF.tenants2}</p>
+                                        <p>${footerUTF.tenants3}</p>
                                     </div>
                                 </div>
                             </div>
@@ -155,9 +159,9 @@
                                         EASSESS
                                     </div>
                                     <div class="card-body">
-                                        <p>Multi Technology Assessments</p>
-                                        <p>Test Cases Based Evaluation</p>
-                                        <p>Weighted Adaptive Assessments</p>
+                                        <p>${footerUTF.eassess1}</p>
+                                        <p>${footerUTF.eassess2}</p>
+                                        <p>${footerUTF.eassess3}</p>
                                     </div>
                                 </div>
                             </div>
@@ -172,10 +176,10 @@
                         &copy; Copyright 2020-2021 - eAssess
                     </span>
                     <a href="#">
-                        Terms and Conditions
+                        ${footerUTF.termsAndConditions}
                     </a>
                     <a href="#">
-                        Privacy Policy
+                        ${footerUTF.privacyPolicy}
                     </a>
                 </div>
             </footer>

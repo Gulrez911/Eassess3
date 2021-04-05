@@ -36,12 +36,14 @@ import com.assessment.common.SchedulerTask;
 import com.assessment.common.util.EmailGenericMessageThread;
 import com.assessment.data.Company;
 import com.assessment.data.DifficultyLevel;
+import com.assessment.data.FooterUTF;
 import com.assessment.data.JobDescription;
 import com.assessment.data.JobDescriptionRecruiter;
 import com.assessment.data.LMSUserModuleMapping;
 import com.assessment.data.License;
 import com.assessment.data.Module;
 import com.assessment.data.ModuleItem;
+import com.assessment.data.PublicTestUTF;
 import com.assessment.data.Question;
 import com.assessment.data.QuestionMapperInstance;
 import com.assessment.data.Test;
@@ -51,6 +53,8 @@ import com.assessment.data.User;
 import com.assessment.data.UserOtp;
 import com.assessment.data.UserTestSession;
 import com.assessment.data.UserType;
+import com.assessment.repositories.FooterUTFRepository;
+import com.assessment.repositories.PublicTestUTFRepository;
 import com.assessment.repositories.TestLinkTimeRepository;
 import com.assessment.repositories.TestSchedulerRepository;
 import com.assessment.repositories.UserTestSessionRepository;
@@ -128,6 +132,12 @@ JobDescriptionRecruiterService descriptionRecruiterService;
 @Autowired
 JobDescriptionService descriptionService;
 static Logger logger = LoggerFactory.getLogger(LoginController.class);
+
+@Autowired
+PublicTestUTFRepository publicTestUTFRepository;
+
+@Autowired
+FooterUTFRepository footerUTFRepository;
 
 @Autowired
 NewLoginController newLoginController;
@@ -241,7 +251,7 @@ NewLoginController newLoginController;
 	  
 	  //it shows public data
 	  @RequestMapping(value = "/publicTest", method = RequestMethod.GET)
-	  public ModelAndView showPublicTest(HttpServletRequest request, HttpServletResponse response) {
+	  public ModelAndView showPublicTest(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="lang", required = false) String lang ){
 	    //ModelAndView mav = new ModelAndView("publicTest");
 		ModelAndView mav = new ModelAndView("publicTest_new");
 	    User user = new User();
@@ -337,9 +347,46 @@ NewLoginController newLoginController;
 	    mav.addObject("testUserData", testUserData);
 	    mav.addObject("startTime", startTime);
 	    mav.addObject("endTime", endTime);
+
+	    if(lang==null) {
+		    if(test.getTestLanguage().equalsIgnoreCase("eng")) {
+			    lang="eng";        
+		    }else if(test.getTestLanguage().equalsIgnoreCase("arabic")) {
+			    lang="arabic";    
+		    }
+	    }
+	    request.getSession().setAttribute("lang", lang);
+	    PublicTestUTF publicTestUTF= publicTestUTFRepository.findByLanguage(lang);
+	    mav.addObject("publicTestUTF", publicTestUTF);
 	    
+	    FooterUTF footerUTF= footerUTFRepository.findByLanguage(lang);
+	    mav.addObject("footerUTF", footerUTF);
+//	    getLang(mav, lang);
 	    return mav;
 	  }
+	  
+	  
+//	  public void getLang(ModelAndView mav, String lang) {
+//		  if(lang==null||lang.equalsIgnoreCase("eng")) {
+//			  mav.addObject("firstName", "First Name");
+//			  mav.addObject("email", "Email");
+//			  mav.addObject("lastName","Last Name");
+//			  mav.addObject("candidateId", "Candidate Id");
+//			  mav.addObject("degree","Degree");
+//			  mav.addObject("passingYear","Passing Year");
+//			  mav.addObject("mobile","Mobile");
+//			  mav.addObject("submit", "Submit");
+//		  }else {
+//			  mav.addObject("firstName", "الاسم الاول");
+//			  mav.addObject("email", "عنوان بريد الكتروني");
+//			  mav.addObject("lastName", "الكنية");
+//			  mav.addObject("candidateId", "معرف المرشح");
+//			  mav.addObject("degree", "درجة");
+//			  mav.addObject("passingYear", "مرور عام");
+//			  mav.addObject("mobile", "متحرك");
+//			  mav.addObject("submit", "يقدم");
+//		  }
+//	  }
 	  
 	  @RequestMapping(value = "/publicTestAuthenticate", method = RequestMethod.POST)
 	  public ModelAndView publicTestAuthenticate(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("testUserData") TestUserData testUserData) {
@@ -396,7 +443,8 @@ NewLoginController newLoginController;
 	  
 	   request.getSession().setAttribute("test", test);
 	  	if(testUserData.getUser() == null) {
-	  		return showPublicTest(request, response);
+	  		String lang="";
+	  		return showPublicTest(request, response, lang);
 	  	}
 	  	String userId = URLEncoder.encode(Base64.getEncoder().encodeToString(testUserData.getUser().getEmail().getBytes()));
 	  	String companyId = URLEncoder.encode(test.getCompanyId());

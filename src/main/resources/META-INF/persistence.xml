@@ -15,6 +15,10 @@ Persistence unit for the JPA tutorial of the Hibernate Getting Started Guide
 	<property name="hibernate.show_sql" value="true" />
 	<property name="hibernate.hbm2ddl.auto" value="update" />
 	
+	<!--  new for unicode-->
+	<property name="hibernate.connection.CharSet" value="utf8"/>
+<property name="hibernate.connection.characterEncoding" value="utf8"/>
+<property name="hibernate.connection.useUnicode" value="true"/>
 	<!-- Important -->
         <property name="hibernate.c3p0.max_size" value="300" />
         <property name="hibernate.c3p0.min_size" value="1" />

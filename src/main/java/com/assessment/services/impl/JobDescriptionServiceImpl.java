@@ -1,5 +1,6 @@
 package com.assessment.services.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class JobDescriptionServiceImpl implements JobDescriptionService{
 		// TODO Auto-generated method stub
 		JobDescription description2 = findbyPrimaryKey(description.getName(), description.getCompanyId());
 		if(description2 == null){
+			description.setCreateDate(new Date());
 			rep.save(description);
 		}
 		else{
@@ -39,6 +41,7 @@ public class JobDescriptionServiceImpl implements JobDescriptionService{
 			description3.setDescription(description.getDescription());
 			description3.setSkills(description.getSkills());
 			description3.setTestName(description.getTestName());
+			description3.setUpdateDate(new Date());
 			rep.deleteById(description2.getId());
 			rep.save(description3);
 		}

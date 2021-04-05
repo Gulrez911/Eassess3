@@ -276,7 +276,18 @@
                                                     </select> -->
                                                 </div>
                                             </div>
+                                            
+                                            
                                             <div class="col-xs-12 col-md-4 mb-2">
+                                            <div class="form-group mb-3">
+                                             <label for="">Select Test Language</label>
+                                                   <form:select path="test.testLanguage" class="form-control">
+										<form:options items="${langs}" />
+<!-- 											<option value="eng">English</option> -->
+<!-- 											<option value="arabic">Arabic</option> -->
+											</form:select> 
+											  </div>
+                                            
                                                 <div class="form-group mb-3">
                                                     <label for="">Duration</label>
                                                     <form:input path="test.testTimeInMinutes" name="testTimeInMinutes" id="testTimeInMinutes"    placeholder="Enter time in minutes" class="form-control" required="true"/>

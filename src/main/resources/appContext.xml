@@ -64,8 +64,8 @@
 		<property name="campaignInviteHtmlLocation" value="D:/templates/sendCampaignLink.html" ></property>
 		<property name="jasperServerBaseUrl" value="https://stg-reporting.yaksha.online:8443/jasperserver/rest_v2/reports/Yaksha/" ></property>
 		<property name="campaignStatusLinkLocation" value="D:/templates/sendCampaignReviewComments.html" ></property>
-<!-- 		<property name="profileBaseLocation" value="D:/EclipseTomcat/Deploy/Files" ></property> -->
-		<property name="profileBaseLocation" value="C:/apache-tomcat-8.5.61/webapps/Files" ></property>
+		<property name="profileBaseLocation" value="D:/EclipseTomcat/Deploy/Files" ></property>
+<!-- 		<property name="profileBaseLocation" value="C:/apache-tomcat-8.5.61/webapps/Files" ></property> -->
 
 
 	</bean>
@@ -86,11 +86,11 @@
 <!--         <property name="user" value="utf8_user" />  -->
 <!--         <property name="password" value="Welcome@123" />   -->
 
-    <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/assessment" />  
+    <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/assessment5?characterEncoding=UTF-8" />  
         <property name="user" value="root" /> 
         <property name="password" value="" /> 
         
-<!--          <property name="jdbcUrl" value="jdbc:mysql://159.65.148.176:3306/eassessBackup?createDatabaseIfNotExist=true" /> -->
+<!--          <property name="jdbcUrl" value="jdbc:mysql://159.65.148.176:3306/eassessintl?characterEncoding=UTF-8" /> -->
 <!-- 				<property name="user" value="digital_user" /> -->
 <!-- 				<property name="password" value="Welcome@123" /> -->
         

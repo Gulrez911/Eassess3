@@ -157,6 +157,21 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
+	public synchronized void saveOrUpdateUser(User user) {
+		User user2= findByPrimaryKey(user.getEmail(), user.getCompanyId());
+		if( user2 != null) {
+			user.setUpdateDate(new Date());
+			user.setId(user2.getId());
+			Mapper mapper = new DozerBeanMapper();
+			mapper.map(user, user2);
+			userRepository.save(user2);
+		}
+		else {
+			user.setCreateDate(new Date());
+			userRepository.save(user);
+		}
+	}
+	
 	public List<User> findByCompany(  String companyId){
 		return userRepository.findByCompany(companyId);
 	}

@@ -607,10 +607,9 @@ public class JasperReportController {
 //		map1.put("msg", "Done");
 //		return map1;
 		String jasper = propertConfig.getJasperServerBaseUrl();
-		mav.addObject("url", jasper + "CampaignProfilePie.html?user=" + candEmail + "&campName=" + campName);
-		mav.addObject("url2", jasper + "subCampaignReport.html?user=" + candEmail + "&campName=" + campName);
-
-		mav.addObject("url3", jasper + "CampaignProfilePie_Pie.html?user=" + candEmail + "&campName=" + campName);
+		mav.addObject("url", jasper + "CampaignProfilePie2.html?user=" + candEmail + "&campName=" + campName);
+		mav.addObject("url2", jasper + "subCampaignReport2.html?user=" + candEmail + "&campName=" + campName);
+		mav.addObject("url3", jasper + "CampaignProfilePie_Pie2.html?user=" + candEmail + "&campName=" + campName);
 		return mav;
 	}
 

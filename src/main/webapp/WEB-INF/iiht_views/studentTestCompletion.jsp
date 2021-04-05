@@ -154,7 +154,7 @@ parent.closeFullScreen();
 	<div class="container" id="dom">
                 <div class="testinformation">
                     <div class="text-center">
-                        <img src="images/process_complete.png">
+                        <img src="./resources/images/process_complete.png">
                         <h1 style="color: #7ac142;text-align: center;margin-top: 0;font-weight: bold;">
 						<%
 							Integer noOfAttempts = (Integer) request.getSession().getAttribute("noOfAttempts");
@@ -168,22 +168,28 @@ parent.closeFullScreen();
 								}
 								
 								if(noOfAttempts == 1){
-									att =  "attempt";
+// 									att =  "attempt";
+// 									att = ${completionUTF.attempt};
+									
 								}
 								else{
-								att =  "attempts";
+// 								att =  "attempts";
+// 								att = ${completionUTF.attempt};
 								}
 						%>
-						${studentTestForm.firstName} ${studentTestForm.lastName} - You have completed the test</h1>
+<%-- 						${studentTestForm.firstName} ${studentTestForm.lastName} - You have completed the test</h1> --%>
+						
+							${studentTestForm.firstName} ${studentTestForm.lastName} - ${completionUTF.completeTest }</h1>
                     </div>
                
 <!--<h3 style="text-align: center;">You completed the test in ${studentTestForm.noOfAttempts == null?1:(studentTestForm.noOfAttempts==0?1:(studentTestForm.noOfAttempts))}  ${(studentTestForm.noOfAttempts == null || studentTestForm.noOfAttempts == 0 || studentTestForm.noOfAttempts == 1)?"attempt":"attempts"} </h3>
 				   <h3 style="text-align: center;" id="currtime">  </h3> -->
-				   <h3 style="text-align: center;">You completed the test in <%= noOfAttempts %> <%= att %> </h3>
+<%-- 				   <h3 style="text-align: center;"> ${completionUTF.completeTestIn } <%= noOfAttempts %> <%= att %> </h3> --%>
+				     <h3 style="text-align: center;"> ${completionUTF.completeTestIn } <%= noOfAttempts %>  ${completionUTF.attempt} </h3>
 				   <h3 style="text-align: center;" id="currtime">  </h3>
 				   
 				   
-                    <h3 style="text-align: center;padding-bottom: 20px;">Your results have been shared by email to the Test Administrator - ${studentTestForm.testCreatedBy}</h3>
+                    <h3 style="text-align: center;padding-bottom: 20px;">${completionUTF.sharedTest } - ${studentTestForm.testCreatedBy}</h3>
 	
 	
 	
@@ -191,20 +197,20 @@ parent.closeFullScreen();
 					<div class="row">
 
                         <div class="resultinformation">
-                            <h3><i class="fa fa-bar-chart-o"></i> Result</h3>
+                            <h3><i class="fa fa-bar-chart-o"></i> ${completionUTF.result }</h3>
                         </div>
                         <div class="col-md-5 text-center">
-                            <img style="width: 250px;" src="images/result.png">
+                            <img style="width: 250px;" src="./resources/images/result.png">
                         </div>
                         <div class="col-md-4">
                             <ul>
-                                <li><b>Total Questions</b> : ${TOTAL_QUESTIONS}</li>
-                                <li><b>Total Marks</b> : ${TOTAL_MARKS}</li>
-                                <li><b>Pass Percentage</b> : ${PASS_PERCENTAGE}</li>
-                                <li><b>Result Percentage</b> : ${RESULT_PERCENTAGE}</li>
-                                <li><b>Status</b> : ${STATUS}</li>
+                                <li><b>${completionUTF.totalQuestions }</b> : ${TOTAL_QUESTIONS}</li>
+                                <li><b>${completionUTF.totalMarks }</b> : ${TOTAL_MARKS}</li>
+                                <li><b>${completionUTF.passPercentage }</b> : ${PASS_PERCENTAGE}</li>
+                                <li><b>${completionUTF.resultPercentage }</b> : ${RESULT_PERCENTAGE}</li>
+                                <li><b>${completionUTF.status }</b> : ${STATUS}</li>
 								<c:if test="${confidencePercent != null}">
-								<li><b>Overall Confidence Percentage</b> : ${confidencePercent}
+								<li><b>${completionUTF.overAllPercentage}</b> : ${confidencePercent}
 								</li>
 								</c:if>
                             </ul>
@@ -237,14 +243,14 @@ parent.closeFullScreen();
 			
 					<div class="row">
 					<c:if test="${showTraits}">			
-						<h3 style="font-weight: bold;background-color: rgb(0,108,255);padding: 10px;color: #fff;margin-bottom: 0;">Some Learner Traits</h3>
+						<h3 style="font-weight: bold;background-color: rgb(0,108,255);padding: 10px;color: #fff;margin-bottom: 0;">${completionUTF.learnerTraits}</h3>
 						<c:forEach var="trait"  items="${traits}" >
 						<div>
 						
 					
 							<div>
 								<ul type="circle" class="table">
-									<li> ${trait.trait}</li>
+									<li style="color:#3b6cff"> ${trait.trait}</li>
 									<li> ${trait.description} </li>
 									
 									
@@ -294,13 +300,13 @@ parent.closeFullScreen();
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="${ins.codeCompilationErrors == true? "color:red":"color:green"}">${ins.codeCompilationErrors == true?"NO":"YES"}</td>
+                                    <td class="${ins.codeCompilationErrors == true? "color:red":"color:green"}">${ins.codeCompilationErrors == true?"${completionUTF.yes}":"${completionUTF.no}"}</td>
                                     <!--<td class="${ins.codeRunTimeErrors == true? "color:red":"color:green"}">${ins.codeRunTimeErrors == true?"YES":"NO"}</td> -->
-                                    <td class="${ins.testCaseInputPositive == true? "color:green":"color:red"}">${ins.testCaseInputPositive == true?"YES":"NO"}</td>
-                                    <td class="${ins.testCaseInputNegative == true? "color:green":"color:red"}">${ins.testCaseInputNegative == true?"YES":"NO"}</td>
-                                    <td class="${ins.testCaseMinimalValue == true? "color:green":"color:red"}">${ins.testCaseMinimalValue == true?"YES":"NO"}</td>
-                                    <td class="${ins.testCaseMaximumValue == true? "color:green":"color:red"}">${ins.testCaseMaximumValue == true?"YES":"NO"}</td>
-                                    <td class="${ins.testCaseInvalidData == true? "color:green":"color:red"}">${ins.testCaseInvalidData == true?"YES":"NO"}</td>
+                                    <td class="${ins.testCaseInputPositive == true? "color:green":"color:red"}">${ins.testCaseInputPositive == true?"${completionUTF.yes}":"${completionUTF.no}"}</td>
+                                    <td class="${ins.testCaseInputNegative == true? "color:green":"color:red"}">${ins.testCaseInputNegative == true?"${completionUTF.yes}":"${completionUTF.no}"}</td>
+                                    <td class="${ins.testCaseMinimalValue == true? "color:green":"color:red"}">${ins.testCaseMinimalValue == true?"${completionUTF.yes}":"${completionUTF.no}"}</td>
+                                    <td class="${ins.testCaseMaximumValue == true? "color:green":"color:red"}">${ins.testCaseMaximumValue == true?"${completionUTF.yes}":"${completionUTF.no}"}</td>
+                                    <td class="${ins.testCaseInvalidData == true? "color:green":"color:red"}">${ins.testCaseInvalidData == true?"${completionUTF.yes}":"${completionUTF.no}"}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -416,7 +422,7 @@ parent.closeFullScreen();
 	
 	
 	
-	var disp = '<b>Test  - <%= testName %> completed by you at ';
+	var disp = '<b>Test  - <%= testName %> ${completionUTF.completeByYouAt} ';
 	disp += date_format_str +'</b>';
 	document.getElementById("currtime").innerHTML =disp ;	
 	

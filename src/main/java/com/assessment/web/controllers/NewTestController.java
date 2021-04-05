@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -133,6 +134,10 @@ public class NewTestController {
 		// mav.addObject("qs", questions);
 		List<Skill> skills = skillService.getSkillsByCompanyId(user.getCompanyId());
 		mav.addObject("skls", skills);
+		LinkedHashMap<String,String> langs = new LinkedHashMap<>();
+		langs.put("eng", "English");
+		langs.put("arabic", "Arabic");
+		mav.addObject("langs", langs);
 		List<String> levels = Stream.of(DifficultyLevel.values()).map(DifficultyLevel::name)
 				.collect(Collectors.toList());
 		mav.addObject("levels", levels);
@@ -151,6 +156,10 @@ public class NewTestController {
 		mav.addObject("user", user);
 		List<Skill> skills = skillService.getSkillsByCompanyId(user.getCompanyId());
 		mav.addObject("skls", skills);
+		LinkedHashMap<String,String> langs = new LinkedHashMap<>();
+		langs.put("eng", "English");
+		langs.put("arabic", "Arabic");
+		mav.addObject("langs", langs);
 		String testTypes[] = { "Java", "Microsoft technologies", "C/C++", "Python", "General Knowledge",
 				"Composite Test" };
 		mav.addObject("testTypes", testTypes);
@@ -240,7 +249,10 @@ public class NewTestController {
 			mav.addObject("user", user);
 			return mav;
 		}
-
+		LinkedHashMap<String,String> langs = new LinkedHashMap<>();
+		    langs.put("eng", "English");
+			langs.put("arabic", "Arabic");
+			mav.addObject("langs", langs);
 		Test test2 = (Test) request.getSession().getAttribute("test");
 		if (test2.getId() != null) {
 			test.setId(test2.getId());
@@ -778,6 +790,10 @@ public class NewTestController {
 		mav.addObject("skls", skills);
 		 String testTypes[] = {"Java", "Microsoft technologies", "C/C++", "Python", "General Knowledge", "Composite Test"};
 		    mav.addObject("testTypes", testTypes);
+		    LinkedHashMap<String,String> langs = new LinkedHashMap<>();
+		    langs.put("eng", "English");
+			langs.put("arabic", "Arabic");
+			mav.addObject("langs", langs);
 		return mav;
 	  }
 	 
@@ -955,7 +971,7 @@ public class NewTestController {
 				welcomeMailData = welcomeMailData.replace("{FULL_NAME}", firstName+" "+lastName);
 				welcomeMailData = welcomeMailData.replace("{TEST_NAME}", testName);
 				welcomeMailData = welcomeMailData.replace("{URL}", url);
-				EmailGenericMessageThread client = new EmailGenericMessageThread(email, "Test Link - "+testName+" Sent by IIHT", welcomeMailData, propertyConfig);
+				EmailGenericMessageThread client = new EmailGenericMessageThread(email, "Test Link - "+testName+" Sent by eAssess", welcomeMailData, propertyConfig);
 				//client.setEmailSentCC(emailSentCC);
 				//client.setSetStatus(true);
 				Thread th = new Thread(client);

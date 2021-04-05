@@ -26,7 +26,8 @@ public class Question extends Base{
 	 * This is the identity right now. Think of some thing else
 	 */
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	String questionText;
 	
 	//@OneToMany(targetEntity=Options.class, mappedBy="Question", fetch=FetchType.EAGER)
@@ -69,7 +70,8 @@ public class Question extends Base{
 	
 	//Possible value - choice2-choice4
 	//@ExcelCell(7)   
-	@Column(length=200)
+//	@Column(length=200)
+	@Column(columnDefinition = "TEXT")
 	String rightChoices = "";
 	
 //	@ExcelCell(8)   
@@ -114,13 +116,15 @@ public class Question extends Base{
 	@Transient
 	private String type;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	private String constrnt;
 	
 	
 	
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	private String stackProblemDetails;
 	
 	
@@ -128,49 +132,61 @@ public class Question extends Base{
 	@Transient
 	private String level;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	private String inputCode;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	private String hiddenInputPositive;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	private String hiddenInputNegative;
 	
 	
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	private String hiddenOutputPositive;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	private String hiddenOutputNegative;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	private String hiddenInputExtremeMinimalValue;
 	
 	
 	
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	private String hiddenInputExtremePositiveValue;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	private String hiddenOutputExtremeMinimalValue;
 	
 	
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	private String hiddenOutputExtremePositiveValue;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	private String hiddenInputInvalidDataValue;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	private String hiddenOutputInvalidDataValue;
 	
 	
 	
-	@Column(length=2000) 
+//	@Column(length=2000) 
+	@Column(columnDefinition = "TEXT")
 	String instructionsIfAny;
 	
 	@Transient
@@ -196,26 +212,32 @@ public class Question extends Base{
 	
 	
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	String imageUrl;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	String videoURL;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	String audioURL;
 	
 	String reviewerEmail;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	String justification;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	String courseContext;
 	
 	Integer courseWeight = 1;
 	
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	String fullStackGitHupCodeUrl;
 	
 	Integer questionWeight;
@@ -226,7 +248,8 @@ public class Question extends Base{
 	Integer noOfFillBlanks;
 	
 	//comma, separated
-	@Column(length=2000)
+//	@Column(length=2000)
+	@Column(columnDefinition = "TEXT")
 	String fillInBlankOptions;
 	
 	
@@ -262,6 +285,7 @@ public class Question extends Base{
 	
 	Integer weightInputPositive;
 	
+	
 	Integer weightInputNegative;
 	
 	Integer weightExtremeMinimalValue;
@@ -280,7 +304,8 @@ public class Question extends Base{
 	
 	Boolean mmlFullStack;
 	
-	@Column(length=1000)
+//	@Column(length=1000)
+	@Column(columnDefinition = "TEXT")
 	String mmlStackUrl;
 	
 	

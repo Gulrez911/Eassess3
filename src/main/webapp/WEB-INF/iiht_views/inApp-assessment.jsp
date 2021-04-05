@@ -348,7 +348,7 @@ QuestionInstanceDto dto = (QuestionInstanceDto)request.getAttribute("currentQues
                             ${studentTestForm.testName}
                         </h1>
                         <div class="quick-actions my-auto">
-                            <span class="my-auto mr-2">Time Remaining</span>
+                            <span class="my-auto mr-2">${journeyUTF.timeRemaining}</span>
                             <span class="times" id="hours">
                                 00
                             </span>
@@ -730,7 +730,7 @@ QuestionInstanceDto dto = (QuestionInstanceDto)request.getAttribute("currentQues
 									<c:when test="${currentSection.first==true}"></c:when>
 									<c:otherwise>
 										<button type="button" class="btn btn-outline-secondary" onClick="prev()">
-											PREV
+											${journeyUTF.prev}
 										</button>
 									</c:otherwise>
 									</c:choose>
@@ -755,21 +755,21 @@ QuestionInstanceDto dto = (QuestionInstanceDto)request.getAttribute("currentQues
 								<c:choose>
 									<c:when test="${currentSection.last==true}">
 										<button id="next" type="button" class="btn btn-primary" onClick="submitTestCheckNoAnswer();" >
-											SUBMIT
+											${journeyUTF.submit}
 										</button>
 									</c:when>
 									<c:otherwise>
 										<button id="next" type="button" class="btn btn-primary" onClick="eerrtt()">
-											NEXT
+											${journeyUTF.next}
 										</button>
 									</c:otherwise>
 								</c:choose>		
                             </div>
                         </div>
                         <div class="quick-info">
-                            <a href="#">Review Instructions</a>
+                            <a href="#">${journeyUTF.reviewInstructions}</a>
                             <div class="test-stats mt-4">
-                                <h3 class="mb-3">Questions <!-- <small>(25)</small> --></h3>
+                                <h3 class="mb-3">${journeyUTF.questions} <!-- <small>(25)</small> --></h3>
                                 <ul class="questionbookmark">
 								<c:forEach var="instance" varStatus="loop" items="${currentSection.questionInstanceDtos}">
                                     <li>
@@ -785,18 +785,18 @@ QuestionInstanceDto dto = (QuestionInstanceDto)request.getAttribute("currentQues
 								</c:forEach>
                                     
                                 </ul>
-                                <h3 class="mt-3">Test Stats</h3>
+                                <h3 class="mt-3"> ${journeyUTF.testStats}</h3>
                                 <div class="stats mt-2">
                                     <div class="completed">
                                         
                                     </div>
-                                    <div class="my-auto ml-3">Answered</div>
+                                    <div class="my-auto ml-3">${journeyUTF.answered}</div>
                                 </div>
                                 <div class="stats mt-2">
                                     <div class="skipped">
                                         
                                     </div>
-                                    <div class="my-auto ml-3">Not Answered</div>
+                                    <div class="my-auto ml-3">${journeyUTF.notAnswered}</div>
                                 </div>
                             </div>
                         </div>
@@ -810,10 +810,10 @@ QuestionInstanceDto dto = (QuestionInstanceDto)request.getAttribute("currentQues
                         &copy; Copyright 2020-2021 - eAssess
                     </span>
                     <a href="#">
-                        Terms and Conditions
+                        ${journeyUTF.termsAndConditions}
                     </a>
                     <a href="#">
-                        Privacy Policy
+						${journeyUTF.privacyPolicy}
                     </a>
                 </div>
             </footer>
